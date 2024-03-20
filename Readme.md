@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Иван Моничев](https://up.htmlacademy.ru/nodejs-2/6/user/1338701).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Наумов](https://htmlacademy.ru/profile/naumov_evg).
 
 ---
 
