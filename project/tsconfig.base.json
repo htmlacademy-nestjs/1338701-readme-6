@@ -15,6 +15,8 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@project/blog-user": ["libs/user/blog-user/src/index.ts"],
