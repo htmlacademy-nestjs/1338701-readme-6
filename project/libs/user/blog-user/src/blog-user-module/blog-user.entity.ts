@@ -1,15 +1,16 @@
-import { Entity, IAuthUser, StorableEntity } from '@project/shared/core';
+import { Entity, IAuthUser, StorableEntity } from '@project/shared/core'
+import { compare, genSalt, hash } from 'bcrypt'
+import { SALT_ROUNDS } from 'libs/user/blog-user/src/blog-user-module/blog-user.constant'
 
-export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser>{
-
+export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> {
   public email: string
   public username: string
-  public passwordHash: string
+  public passwordHash: string | null
   public avatarId?: string
 
   constructor(user?: IAuthUser) {
-    super();
-    this.populate()
+    super()
+    this.populate(user)
   }
 
   public populate(user?: IAuthUser) {
@@ -23,7 +24,6 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser>{
     this.avatarId = user.avatarId
   }
 
-
   toPOJO(): IAuthUser {
     return {
       id: this.id,
@@ -31,7 +31,11 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser>{
       username: this.username,
       avatarId: this.avatarId,
       passwordHash: this.passwordHash
-    };
+    }
   }
 
+  public async setPassword(passwordHash: string): Promise<BlogUserEntity> {
+    this.passwordHash = passwordHash
+    return this
+  }
 }

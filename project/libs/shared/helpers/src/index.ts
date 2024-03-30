@@ -1,1 +1,1 @@
-export * from './lib/common'
+export * from 'libs/shared/helpers/src/common/dto.helper'
