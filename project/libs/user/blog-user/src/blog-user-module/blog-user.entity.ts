@@ -1,6 +1,4 @@
 import { Entity, IAuthUser, StorableEntity } from '@project/shared/core'
-import { compare, genSalt, hash } from 'bcrypt'
-import { SALT_ROUNDS } from 'libs/user/blog-user/src/blog-user-module/blog-user.constant'
 
 export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> {
   public email: string

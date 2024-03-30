@@ -1,4 +1,4 @@
-import { IPost } from 'shared/core/src/lib/types/post/post.interface'
+import { IPost } from 'libs/shared/core/src/types/post/post.interface'
 
 export interface IPostQuote extends IPost {
   quoteContent: string
