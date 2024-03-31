@@ -10,6 +10,7 @@ export { ITag } from './types/tag/tag.interface'
 export { IPhoto } from './types/photo/photo.inerface'
 export { IComment } from './types/comment/comment.interface'
 export { EntityFactory } from './types/common/entity-factory.interface'
+export { PostType } from './types/post/post-type.enum'
 
 export { StorableEntity } from './types/common/storable-entity.interface'
 
