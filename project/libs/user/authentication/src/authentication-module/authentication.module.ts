@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common'
 import { BlogUserModule } from '@project/blog-user'
-import { BcryptHasher } from 'libs/shared/helpers/src/hasher/bcrypt.hasher'
-import { SALT_ROUNDS } from 'libs/user/authentication/src/authentication-module/authentication.constant'
-import { AuthenticationController } from './authentication.controller'
-import { AuthenticationService } from './authentication.service'
+import { AuthenticationController, AuthenticationService, SALT_ROUNDS } from '@project/authentication'
+import { BcryptHasher } from '@project/shared/helpers'
 
 @Module({
   imports: [BlogUserModule],

@@ -1,1 +1,2 @@
-export * from 'libs/shared/data-access/src/repository/data-access'
+export { BaseMemoryRepository } from './repository/base-memory.repository'
+export { Repository } from './repository/repository.interface'

@@ -1,4 +1,7 @@
 export { BlogUserModule } from 'libs/user/blog-user/src/blog-user-module/blog-user.module'
 export { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
+export { BlogUserFactory } from 'libs/user/blog-user/src/blog-user-module/blog-user.factory'
 export { BlogUserRepository } from 'libs/user/blog-user/src/blog-user-module/blog-user.repository'
-
+export { BlogUserService } from 'libs/user/blog-user/src/blog-user-module/blog-user.service'
+export { BlogUserController } from 'libs/user/blog-user/src/blog-user-module/blog-user.controller'
+export { USER_NOT_FOUND } from 'libs/user/blog-user/src/blog-user-module/blog-user.constant'

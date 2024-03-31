@@ -1,18 +1,9 @@
 import { Module } from '@nestjs/common'
-import { BlogUserFactory } from 'libs/user/blog-user/src/blog-user-module/blog-user.factory'
-import { BlogUserRepository } from 'libs/user/blog-user/src/blog-user-module/blog-user.repository'
+import { BlogUserService, BlogUserRepository, BlogUserFactory, BlogUserController } from '@project/blog-user'
 
 @Module({
-  providers: [
-    {
-      provide: BlogUserRepository,
-      useClass: BlogUserRepository
-    },
-    {
-      provide: BlogUserFactory,
-      useClass: BlogUserFactory
-    }
-  ],
-  exports: [BlogUserRepository]
+  providers: [BlogUserService, BlogUserRepository, BlogUserFactory],
+  exports: [BlogUserRepository],
+  controllers: [BlogUserController]
 })
 export class BlogUserModule {}
