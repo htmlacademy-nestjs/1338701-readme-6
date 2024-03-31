@@ -64,13 +64,4 @@ export class AuthenticationService {
 
     return existUser
   }
-
-  public async getUser(id: string): Promise<BlogUserEntity> {
-    const existUser = await this.blogUserRepository.findById(id)
-    if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND)
-    }
-
-    return existUser
-  }
 }

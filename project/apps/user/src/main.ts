@@ -15,7 +15,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix)
   const port = process.env.PORT || 3000
 
-  const config = new DocumentBuilder().setTitle('User Application').setVersion('1.0').addTag('user').build()
+  const config = new DocumentBuilder().setTitle('User Service').setVersion('1.0.0').build()
 
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup(globalPrefix, app, document)
