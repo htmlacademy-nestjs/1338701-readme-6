@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
-import { BlogUserEntity, BlogUserRepository } from '@project/blog-user'
+import { BlogUserRepository } from '@project/blog-user'
 import { IAuthUser } from '@project/shared/core'
 import dayjs from 'dayjs'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
@@ -11,6 +11,7 @@ import {
 } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
+import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
 
 @Injectable()
 export class AuthenticationService {
@@ -59,6 +60,15 @@ export class AuthenticationService {
 
     if (isWrongPassword) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG)
+    }
+
+    return existUser
+  }
+
+  public async getUser(id: string): Promise<BlogUserEntity> {
+    const existUser = await this.blogUserRepository.findById(id)
+    if (!existUser) {
+      throw new NotFoundException(AUTH_USER_NOT_FOUND)
     }
 
     return existUser

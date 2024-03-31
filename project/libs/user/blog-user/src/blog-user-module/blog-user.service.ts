@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { BlogUserEntity, BlogUserRepository, USER_NOT_FOUND } from '@project/blog-user'
+import { BlogUserRepository } from './blog-user.repository'
+
+import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
 
 @Injectable()
 export class BlogUserService {
@@ -8,7 +10,7 @@ export class BlogUserService {
   public async getUser(id: string): Promise<BlogUserEntity> {
     const existUser = await this.blogUserRepository.findById(id)
     if (!existUser) {
-      throw new NotFoundException(USER_NOT_FOUND)
+      throw new NotFoundException('User not found')
     }
 
     return existUser

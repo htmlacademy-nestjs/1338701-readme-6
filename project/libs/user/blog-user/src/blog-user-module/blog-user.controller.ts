@@ -1,12 +1,12 @@
 import { Controller, Get, Param } from '@nestjs/common'
-import { BlogUserService } from '@project/blog-user'
+
+import { BlogUserService } from 'libs/user/blog-user/src/blog-user-module/blog-user.service'
 
 @Controller('users')
 export class BlogUserController {
   constructor(private readonly blogUserService: BlogUserService) {}
-
-  @Get(':id')
-  public async show(@Param('id') id: string) {
+  @Get(':userId')
+  public async show(@Param('userId') id: string) {
     const existUser = await this.blogUserService.getUser(id)
     return existUser.toPOJO()
   }

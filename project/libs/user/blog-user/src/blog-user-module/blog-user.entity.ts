@@ -1,4 +1,4 @@
-import { Entity, IAuthUser, IUser, StorableEntity } from '@project/shared/core'
+import { Entity, IUser, StorableEntity } from '@project/shared/core'
 
 export class BlogUserEntity extends Entity implements StorableEntity<IUser> {
   public email: string
@@ -8,19 +8,18 @@ export class BlogUserEntity extends Entity implements StorableEntity<IUser> {
   public createdAt: string
   public updatedAt: string
 
-  constructor(user?: IAuthUser) {
+  constructor(user?: IUser) {
     super()
     this.populate(user)
   }
 
-  public populate(user?: IAuthUser) {
+  public populate(user?: IUser) {
     if (!user) {
       return
     }
     this.id = user.id
     this.email = user.email
     this.username = user.username
-    this.passwordHash = user.passwordHash
     this.avatarId = user.avatarId
     this.createdAt = user.createdAt
     this.updatedAt = user.updatedAt

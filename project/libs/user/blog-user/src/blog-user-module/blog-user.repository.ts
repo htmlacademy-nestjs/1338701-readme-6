@@ -5,7 +5,7 @@ import { BlogUserFactory } from 'libs/user/blog-user/src/blog-user-module/blog-u
 
 @Injectable()
 export class BlogUserRepository extends BaseMemoryRepository<BlogUserEntity> {
-  constructor(entityFactory: BlogUserFactory) {
+  constructor(protected readonly entityFactory: BlogUserFactory) {
     super(entityFactory)
   }
 
