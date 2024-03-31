@@ -1,6 +1,6 @@
-import { Entity, IAuthUser, StorableEntity } from '@project/shared/core'
+import { Entity, IAuthUser, IUser, StorableEntity } from '@project/shared/core'
 
-export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> {
+export class BlogUserEntity extends Entity implements StorableEntity<IUser> {
   public email: string
   public username: string
   public passwordHash: string | null
@@ -26,13 +26,12 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
     this.updatedAt = user.updatedAt
   }
 
-  toPOJO(): IAuthUser {
+  toPOJO(): IUser {
     return {
       id: this.id,
       email: this.email,
       username: this.username,
       avatarId: this.avatarId,
-      passwordHash: this.passwordHash,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
