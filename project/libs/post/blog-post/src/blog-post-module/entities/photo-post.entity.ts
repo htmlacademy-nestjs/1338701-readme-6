@@ -1,7 +1,7 @@
 import { IPhoto, IPost, IPostPhoto, IPostText, IPostVideo, StorableEntity } from '@project/shared/core'
 import { BasePostEntity } from './base-post.entity'
 
-export class VideoPostEntity extends BasePostEntity implements StorableEntity<IPost> {
+export class PhotoPostEntity extends BasePostEntity implements StorableEntity<IPost> {
   public post: IPost
   public photoId: IPhoto['id']
 
