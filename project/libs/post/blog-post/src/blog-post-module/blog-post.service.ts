@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { BaseMemoryRepository } from '@project/data-access'
-import { Entity, EntityFactory, IPost } from '@project/shared/core'
+import { EntityFactory, IPost } from '@project/shared/core'
 import dayjs from 'dayjs'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
@@ -13,6 +13,7 @@ import { randomUUID } from 'node:crypto'
 
 @Injectable()
 export class BlogPostService {
+  // TODO: Решить проблему с Any. Возможное решение через абстрактные классы.
   private postFactory?: EntityFactory<any>
   private postRepository?: BaseMemoryRepository<any>
   constructor(
