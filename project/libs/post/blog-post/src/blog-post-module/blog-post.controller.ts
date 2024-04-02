@@ -9,7 +9,7 @@ import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
 @Controller('posts')
 export class BlogPostController {
   constructor(private readonly blogPostService: BlogPostService) {}
-
+  private test: any
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.CREATED,
@@ -21,7 +21,7 @@ export class BlogPostController {
     return newPost.toPOJO()
   }
 
-  @ApiResponse({
+  /*  @ApiResponse({
     type: PostRdo,
     status: HttpStatus.OK,
     description: 'Post found'
@@ -34,5 +34,5 @@ export class BlogPostController {
   public async show(@Param('postId') id: string) {
     const existPost = await this.blogPostService.getPost(id)
     return existPost.toPOJO()
-  }
+  }*/
 }

@@ -41,7 +41,7 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
     this.updatedAt = post.updatedAt
   }
 
-  toPOJO(): IPost {
+  public toPOJO(): IPost {
     return {
       id: this.id,
       title: this.title,

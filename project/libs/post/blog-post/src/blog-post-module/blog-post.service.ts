@@ -1,26 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { IPost } from '@project/shared/core'
+import { BaseMemoryRepository } from '@project/data-access'
+import { Entity, EntityFactory, IPost } from '@project/shared/core'
 import dayjs from 'dayjs'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
-import { BlogPostRepository } from 'libs/post/blog-post/src/blog-post-module/blog-post.repository'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
-import { PostContentFactory } from 'libs/post/blog-post/src/blog-post-module/factories/post-content.factory'
+import { BasePostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/base-post.entity'
+import { FactoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/factory-type.factory'
+import { LinkPostFactory } from 'libs/post/blog-post/src/blog-post-module/factories/link-post.factory'
+import { RepositoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/repository-type.factory'
 import { DATE_FORMAT } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { randomUUID } from 'node:crypto'
 
 @Injectable()
 export class BlogPostService {
+  private postFactory?: EntityFactory<any>
+  private postRepository?: BaseMemoryRepository<any>
   constructor(
-    private readonly blogPostRepository: BlogPostRepository,
-    private readonly postContentFactory: PostContentFactory
+    private readonly factoryTypeFactory: FactoryTypeFactory,
+    private readonly repositoriesTypeFactory: RepositoryTypeFactory
   ) {}
 
   public async createPost(dto: CreatePostDto) {
     const currentTime = dayjs().format(DATE_FORMAT)
 
-    const contentRepository = this.postContentFactory.create(dto.type)
+    this.postFactory = this.factoryTypeFactory.create(dto.type)
+    this.postRepository = this.repositoriesTypeFactory.create(dto.type)
 
-    if (!contentRepository) {
+    if (!this.postFactory || !this.postRepository) {
       return
     }
 
@@ -35,21 +41,15 @@ export class BlogPostService {
       isDraft: false,
       isRepost: false,
       postLink: dto.postLink,
+      postVideo: dto.postVideo,
       publishedAt: currentTime,
       createdAt: currentTime,
       updatedAt: currentTime
     }
 
-    contentRepository.save()
-  }
+    const entityPost = this.postFactory.create(blogPost)
+    await this.postRepository.save(entityPost)
 
-  public async getPost(id: string) {
-    const existUser = await this.blogPostRepository.findById(id)
-
-    if (!existUser) {
-      throw new NotFoundException(POST_NOT_FOUND)
-    }
-
-    return existUser
+    return entityPost
   }
 }

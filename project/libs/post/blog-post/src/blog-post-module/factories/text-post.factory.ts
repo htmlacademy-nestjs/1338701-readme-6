@@ -1,4 +1,4 @@
-import { EntityFactory, IPost, IPostText } from '@project/shared/core'
+import { EntityFactory, IPost, IPostText, PostType } from '@project/shared/core'
 import { TextPostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/text-post.entity'
 
 export class TextPostFactory implements EntityFactory<TextPostEntity> {
