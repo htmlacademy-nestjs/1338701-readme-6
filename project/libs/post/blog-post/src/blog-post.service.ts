@@ -8,7 +8,7 @@ import { BasePostEntity } from 'libs/post/blog-post/src/blog-post-module/entitie
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/factory-type.factory'
 import { LinkPostFactory } from 'libs/post/blog-post/src/blog-post-module/factories/link-post.factory'
 import { RepositoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/repository-type.factory'
-import { DATE_FORMAT } from 'libs/user/authentication/src/authentication-module/authentication.constant'
+import { DATE_FORMAT } from 'libs/user/authentication/src/authentication.constant'
 import { randomUUID } from 'node:crypto'
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 
-import { BlogUserService } from 'libs/user/blog-user/src/blog-user-module/blog-user.service'
-import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
+import { BlogUserService } from 'libs/user/blog-user/src/blog-user.service'
+import { UserRdo } from 'libs/user/blog-user/src/rdo/user.rdo'
 
 @ApiTags('Users')
 @Controller('users')

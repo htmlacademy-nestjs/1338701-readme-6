@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { BlogUserRepository } from './blog-user.repository'
+import { BlogUserRepository } from 'libs/user/blog-user/src/blog-user.repository'
 
-import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
+import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user.entity'
 
 @Injectable()
 export class BlogUserService {

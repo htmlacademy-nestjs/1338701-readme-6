@@ -1,5 +1,7 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { ConfigService, ConfigType } from '@nestjs/config'
 import { BlogUserRepository } from '@project/blog-user'
+import { dbConfig } from '@project/config'
 import { IAuthUser } from '@project/shared/core'
 import dayjs from 'dayjs'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
@@ -8,17 +10,21 @@ import {
   AUTH_USER_NOT_FOUND,
   AUTH_USER_PASSWORD_WRONG,
   DATE_FORMAT
-} from 'libs/user/authentication/src/authentication-module/authentication.constant'
-import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
-import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
-import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
+} from 'libs/user/authentication/src/authentication.constant'
+import { CreateUserDto } from 'libs/user/authentication/src/dto/create-user.dto'
+import { LoginUserDto } from 'libs/user/authentication/src/dto/login-user.dto'
+import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user.entity'
 
 @Injectable()
 export class AuthenticationService {
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
-    @Inject('Hasher') private readonly hasher: IHasher
-  ) {}
+    @Inject('Hasher') private readonly hasher: IHasher,
+    private readonly configService: ConfigService
+  ) {
+    console.log(configService.get<string>('db.host'))
+    console.log(configService.get<string>('db.user'))
+  }
 
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
     const { email, username, password } = dto

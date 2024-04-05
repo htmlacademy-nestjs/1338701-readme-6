@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { BaseMemoryRepository } from '@project/data-access'
-import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
-import { BlogUserFactory } from 'libs/user/blog-user/src/blog-user-module/blog-user.factory'
+import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user.entity'
+import { BlogUserFactory } from 'libs/user/blog-user/src/blog-user.factory'
 
 @Injectable()
 export class BlogUserRepository extends BaseMemoryRepository<BlogUserEntity> {

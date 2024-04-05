@@ -1,14 +1,11 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
-import {
-  AUTH_USER_EXISTS,
-  AUTH_USER_PASSWORD_WRONG
-} from 'libs/user/authentication/src/authentication-module/authentication.constant'
-import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
-import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
-import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
-import { LoggedUserRdo } from 'libs/user/authentication/src/authentication-module/rdo/logged-user.rdo'
-import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
+import { AUTH_USER_EXISTS, AUTH_USER_PASSWORD_WRONG } from 'libs/user/authentication/src/authentication.constant'
+import { AuthenticationService } from 'libs/user/authentication/src/authentication.service'
+import { CreateUserDto } from 'libs/user/authentication/src/dto/create-user.dto'
+import { LoginUserDto } from 'libs/user/authentication/src/dto/login-user.dto'
+import { LoggedUserRdo } from 'libs/user/authentication/src/rdo/logged-user.rdo'
+import { UserRdo } from 'libs/user/blog-user/src/rdo/user.rdo'
 
 @ApiTags('Authentication')
 @Controller('auth')
