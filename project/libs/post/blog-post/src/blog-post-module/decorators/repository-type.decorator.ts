@@ -9,7 +9,6 @@ export const RepositoryType = (type: PostType) => (constructor: Constructor<any>
   if (!definedRepositories) {
     definedRepositories = new Map()
   }
-  console.log(constructor)
   definedRepositories.set(type, constructor)
   Reflect.defineMetadata(REPOSITORIES_METADATA_KEY, definedRepositories, RepositoryType)
 }

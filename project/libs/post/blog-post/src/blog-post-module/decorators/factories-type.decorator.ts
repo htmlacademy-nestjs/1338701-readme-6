@@ -12,7 +12,6 @@ export const FactoriesType = (type: PostType) => (constructor: Constructor<any>)
   if (!definedFactories) {
     definedFactories = new Map()
   }
-  console.log(constructor)
   definedFactories.set(type, constructor)
   Reflect.defineMetadata(FACTORIES_METADATA_KEY, definedFactories, FactoriesType)
 }
