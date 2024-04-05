@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  typoteka.account.mongo:
+  readme.account.mongo:
     image: mongo:4.4
     restart: always
     container_name: typoteka.account.mongo
@@ -16,7 +16,7 @@ services:
     volumes:
       - typoteka.mongo.account:/data/db
 
-  typeoteka.user.mongo.ui:
+  readme.user.mongo.ui:
     image: mongo-express:1.0.2-20
     restart: always
     container_name: typeoteka.user.mongo.ui
