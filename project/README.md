@@ -15,5 +15,5 @@
 ```bash
 docker compose --file ./apps/user/docker-compose.dev.yml \
 > --project-name "readme-user" \
-> --env-file ./apps/account.env up -d
+> --env-file ./apps/user.env up -d
 ```
