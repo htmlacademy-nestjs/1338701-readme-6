@@ -3,7 +3,7 @@ services:
   readme.account.mongo:
     image: mongo:4.4
     restart: always
-    container_name: typoteka.account.mongo
+    container_name: readme.account.mongo
 
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -14,12 +14,12 @@ services:
       - 27017:27017
 
     volumes:
-      - typoteka.mongo.account:/data/db
+      - readme.mongo.account:/data/db
 
   readme.user.mongo.ui:
     image: mongo-express:1.0.2-20
     restart: always
-    container_name: typeoteka.user.mongo.ui
+    container_name: readme.user.mongo.ui
     ports:
       - 8081:8081
     environment:
@@ -30,4 +30,4 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_DB}.mongo:${MONGO_PORT}/
 
 volumes:
-  typoteka.mongo.account:
+  readme.mongo.account:
