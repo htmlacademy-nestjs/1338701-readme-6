@@ -14,7 +14,7 @@
 Поднять Docker-контейнер MongoDB для сервиса.
 
 ```bash
-docker compose --file ./apps/user/docker-compose.dev.yml \
-> --project-name "readme-user" \
-> --env-file ./apps/user.env up -d
+ docker compose --file ./apps/user/docker-compose.dev.yml \
+--project-name "readme-user" \
+--env-file ./apps/user/user.env up -d
 ```
