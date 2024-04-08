@@ -27,8 +27,7 @@ export class AuthenticationService {
 
     const blogUser: IAuthUser = {
       email,
-      username,
-      passwordHash: ''
+      username
     }
 
     const existUser = await this.blogUserRepository.findByEmail(email)
@@ -39,7 +38,6 @@ export class AuthenticationService {
 
     const passwordHash = await this.hasher.hash(password)
     const userEntity = await new BlogUserEntity(blogUser).setPassword(passwordHash)
-
     await this.blogUserRepository.save(userEntity)
     return userEntity
   }
@@ -53,7 +51,9 @@ export class AuthenticationService {
     }
     console.log('password:', password)
     console.log('existUser.passwordHash:', existUser.passwordHash)
-    const isCorrectPassword = await this.hasher.compareHash(password, existUser.passwordHash)
+    const isCorrectPassword = existUser.passwordHash
+      ? await this.hasher.compareHash(password, existUser.passwordHash)
+      : false
 
     if (!isCorrectPassword) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG)
