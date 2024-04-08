@@ -16,7 +16,6 @@ export abstract class BaseMongoRepository<
       return null
     }
     const plainObject = document.toObject({ versionKey: false }) as ReturnType<T['toPOJO']>
-    console.log('plainObject', plainObject)
     return this.entityFactory.create(plainObject)
   }
 
@@ -31,7 +30,6 @@ export abstract class BaseMongoRepository<
 
   public async save(entity: T): Promise<void> {
     const newEntity = new this.model(entity.toPOJO())
-    console.log(newEntity)
     await newEntity.save()
 
     entity.id = newEntity._id.toString()

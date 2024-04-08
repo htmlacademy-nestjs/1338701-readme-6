@@ -3,7 +3,7 @@ import { Entity, IAuthUser, StorableEntity } from '@project/shared/core'
 export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> {
   public email: string
   public username: string
-  public passwordHash?: string
+  public passwordHash: string
   public avatarId?: string
   public createdAt?: Date
   public updatedAt?: Date
@@ -32,6 +32,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
       email: this.email,
       username: this.username,
       avatarId: this.avatarId,
+      passwordHash: this.passwordHash, // TODO: Необходимо решить проблему с возвратом хэша.
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

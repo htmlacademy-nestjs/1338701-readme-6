@@ -4,6 +4,6 @@ Content-Type: application/json
 Content-Length: 87
 
 {
-  "email": "test-06@domain.ru",
+  "email": "test-13@domain.ru",
   "password": "qwerty123456"
 }

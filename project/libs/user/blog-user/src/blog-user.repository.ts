@@ -20,6 +20,7 @@ export class BlogUserRepository extends BaseMongoRepository<BlogUserEntity, Blog
     if (!document) {
       return null
     }
+    console.log(this.createEntityFromDocument(document))
     return this.createEntityFromDocument(document)
   }
 }
