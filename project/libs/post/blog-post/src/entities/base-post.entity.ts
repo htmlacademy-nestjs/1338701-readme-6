@@ -5,11 +5,11 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
   public type: PostType
   public tags: ITag['id'][]
   public authorId: string | null
-  public likes: IUser['id'][]
+  public likes: IUser['_id'][]
   public comments: IComment['id'][]
   public isDraft: boolean
   public isRepost: boolean
-  public sourceAuthorId?: IUser['id']
+  public sourceAuthorId?: IUser['_id']
   public sourceId?: IPost['id']
   public publishedAt: string
   public createdAt: string

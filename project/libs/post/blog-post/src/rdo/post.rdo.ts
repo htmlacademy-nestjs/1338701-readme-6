@@ -35,13 +35,13 @@ export class PostRdo {
     example: '507f1f77bcf86cd799432323'
   })
   @Expose()
-  public authorId: IUser['id']
+  public authorId: IUser['_id']
 
   @ApiProperty({
     description: 'List of IDs who liked it'
   })
   @Expose()
-  public likes: IUser['id'][]
+  public likes: IUser['_id'][]
 
   @ApiProperty({
     description: 'Post comments'

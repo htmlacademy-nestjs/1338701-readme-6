@@ -4,7 +4,6 @@ import { BlogUserModule } from '@project/blog-user'
 import { AuthenticationModule } from '@project/authentication'
 import { getMongooseOptions, AccountConfigModule } from '@project/config'
 
-console.log(getMongooseOptions())
 @Module({
   imports: [
     BlogUserModule,

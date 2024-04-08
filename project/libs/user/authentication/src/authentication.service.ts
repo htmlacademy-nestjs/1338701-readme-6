@@ -19,18 +19,13 @@ import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user.entity'
 export class AuthenticationService {
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
-    @Inject('Hasher') private readonly hasher: IHasher,
-    private readonly configService: ConfigService
-  ) {
-    console.log(configService.get<string>('db.host'))
-    console.log(configService.get<string>('db.user'))
-  }
+    @Inject('Hasher') private readonly hasher: IHasher
+  ) {}
 
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
     const { email, username, password } = dto
 
     const blogUser: IAuthUser = {
-      passwordHash: '',
       email,
       username
     }
