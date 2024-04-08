@@ -21,8 +21,6 @@ export class BlogUserEntity extends Entity implements StorableEntity<IUser> {
     this.email = user.email
     this.username = user.username
     this.avatarId = user.avatarId
-    this.createdAt = user.createdAt
-    this.updatedAt = user.updatedAt
   }
 
   toPOJO(): IUser {
@@ -30,9 +28,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IUser> {
       id: this.id,
       email: this.email,
       username: this.username,
-      avatarId: this.avatarId,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      avatarId: this.avatarId
     }
   }
 

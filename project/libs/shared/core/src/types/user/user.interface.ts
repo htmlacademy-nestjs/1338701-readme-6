@@ -1,8 +1,6 @@
 export interface IUser {
-  id: string | null
+  id?: string
   email: string
   username: string
   avatarId?: string
-  createdAt: string
-  updatedAt: string
 }

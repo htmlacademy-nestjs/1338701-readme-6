@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common'
+import { MongooseModule } from '@nestjs/mongoose'
 import { BlogUserModule } from '@project/blog-user'
 import { AuthenticationModule } from '@project/authentication'
-import { AccountConfigModule } from 'libs/user/config/src/account-config.module'
+import { getMongooseOptions, AccountConfigModule } from '@project/config'
 
+console.log(getMongooseOptions())
 @Module({
-  imports: [BlogUserModule, AuthenticationModule, AccountConfigModule],
+  imports: [
+    BlogUserModule,
+    AuthenticationModule,
+    AccountConfigModule,
+    MongooseModule.forRootAsync(getMongooseOptions())
+  ],
   controllers: [],
   providers: []
 })

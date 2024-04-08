@@ -29,14 +29,10 @@ export class AuthenticationService {
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
     const { email, username, password } = dto
 
-    const currentTime = dayjs()
     const blogUser: IAuthUser = {
-      id: null,
+      passwordHash: '',
       email,
-      username,
-      passwordHash: null,
-      createdAt: currentTime.format(DATE_FORMAT),
-      updatedAt: currentTime.format(DATE_FORMAT)
+      username
     }
 
     const existUser = await this.blogUserRepository.findByEmail(email)
