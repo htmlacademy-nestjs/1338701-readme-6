@@ -13,12 +13,12 @@ export interface IPost {
   title: string
   type: PostType
   tags: ITag['id'][]
-  authorId: IUser['id']
-  likes: IUser['id'][]
+  authorId: IUser['_id']
+  likes: IUser['_id'][]
   comments: IComment['id'][]
   isDraft: boolean
   isRepost: boolean
-  sourceAuthorId?: IUser['id']
+  sourceAuthorId?: IUser['_id']
   sourceId?: IPost['id']
   postVideo?: IPostVideo
   postLink?: IPostLink

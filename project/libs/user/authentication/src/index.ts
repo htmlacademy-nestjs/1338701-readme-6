@@ -1,1 +1,1 @@
-export { AuthenticationModule } from './authentication-module/authentication.module'
+export { AuthenticationModule } from 'libs/user/authentication/src/authentication.module'

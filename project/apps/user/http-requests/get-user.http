@@ -1,0 +1,10 @@
+GET /api/users/66144989dac773777514c261 HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+Content-Length: 87
+
+{
+  "email": "test2@test.ru",
+  "username": "test-user",
+  "password": "qwerty"
+}

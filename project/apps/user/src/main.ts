@@ -4,6 +4,7 @@
  */
 
 import { Logger } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
@@ -13,7 +14,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const globalPrefix = 'api'
   app.setGlobalPrefix(globalPrefix)
-  const port = process.env.PORT || 3000
+  const configService = app.get(ConfigService)
+  const port = configService.get('application.port')
 
   const config = new DocumentBuilder().setTitle('User Service').setVersion('1.0.0').build()
 
