@@ -17,7 +17,6 @@ export class BlogUserRepository extends BaseMongoRepository<BlogUserEntity, Blog
 
   public async findByEmail(email: string): Promise<BlogUserEntity | null> {
     const document = await this.model.findOne({ email }).exec()
-    console.log(document)
     if (!document) {
       return null
     }

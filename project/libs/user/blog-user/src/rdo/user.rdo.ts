@@ -32,14 +32,14 @@ export class UserRdo {
 
   @ApiProperty({
     description: 'User create date',
-    example: '2024-03-31 19:58:37'
+    example: 'string'
   })
   @Expose()
   public createdAt: Date
 
   @ApiProperty({
     description: 'User update date',
-    example: '2024-03-31 19:58:37'
+    example: 'string'
   })
   @Expose()
   public updatedAt: Date

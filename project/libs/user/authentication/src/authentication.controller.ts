@@ -4,7 +4,6 @@ import { AUTH_USER_EXISTS, AUTH_USER_PASSWORD_WRONG } from 'libs/user/authentica
 import { AuthenticationService } from 'libs/user/authentication/src/authentication.service'
 import { CreateUserDto } from 'libs/user/authentication/src/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/dto/login-user.dto'
-import { LoggedUserRdo } from 'libs/user/authentication/src/rdo/logged-user.rdo'
 import { UserRdo } from 'libs/user/blog-user/src/rdo/user.rdo'
 
 @ApiTags('Authentication')
