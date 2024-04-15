@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -21,27 +22,10 @@ enum PostType {
   PHOTO
 }
 
-model Post {
-  id        String     @id @default(uuid())
-  type      PostType
-  title     String
-  tag       Tag[]
-  authorId  String     @map("author_id")
-  likes     String[]
-  comments  Comment[]
-  postVideo PostVideo?
-  postLink  PostLink?
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
-
-  @@map("posts")
-}
-
 model PostVideo {
   id         String @id @default(uuid())
   urlYoutube String @map("url_youtube")
-  postId     String @unique @map("post_id")
-  post       Post   @relation(fields: [postId], references: [id])
+  Post       Post?
 
   @@map("posts_video")
 }
@@ -50,10 +34,58 @@ model PostLink {
   id          String @id @default(uuid())
   url         String
   description String
-  postId      String @unique @map("post_id")
-  post        Post   @relation(fields: [postId], references: [id])
+  Post        Post?
 
   @@map("posts_link")
+}
+
+model PostQuote {
+  id           String @id @default(uuid())
+  quoteContent String @map("quote_content")
+  Post         Post?
+
+  @@map("posts_quote")
+}
+
+model PostPhoto {
+  id      String @id @default(uuid())
+  photoId String @map("photo_id")
+  Post    Post?
+
+  @@map("posts_photo")
+}
+
+model PostText {
+  id           String @id @default(uuid())
+  announcement String
+  content      String
+  Post         Post?
+
+  @@map("posts_text")
+}
+
+model Post {
+  id          String     @id @default(uuid())
+  type        PostType
+  title       String
+  tag         Tag[]
+  authorId    String     @map("author_id")
+  likes       String[]
+  comments    Comment[]
+  postVideo   PostVideo? @relation(fields: [postVideoId], references: [id])
+  postVideoId String?    @unique @map("post_video_id")
+  postLink    PostLink?  @relation(fields: [postLinkId], references: [id])
+  postLinkId  String?    @unique @map("post_link_id")
+  postQuote   PostQuote? @relation(fields: [postQuoteId], references: [id])
+  postQuoteId String?    @unique @map("post_quote_id")
+  postPhoto   PostPhoto? @relation(fields: [postPhotoId], references: [id])
+  postPhotoId String?    @unique @map("post_photo_id")
+  postText    PostText?  @relation(fields: [postTextId], references: [id])
+  postTextId  String?    @unique @map("post_text_id")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@map("posts")
 }
 
 model Tag {
