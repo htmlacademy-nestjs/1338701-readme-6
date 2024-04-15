@@ -31,9 +31,9 @@ model PostVideo {
 }
 
 model PostLink {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   url         String
-  description String
+  description String?
   Post        Post?
 
   @@map("posts_link")

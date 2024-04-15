@@ -9,15 +9,13 @@ import { ITag } from 'libs/shared/core/src/types/tag/tag.interface'
 import { IUser } from 'libs/shared/core/src/types/user/user.interface'
 
 export interface IPost {
-  id: string | null
-  title: string
+  id?: string
   type: PostType
-  tags: ITag['id'][]
+  title: string
   authorId: IUser['_id']
-  likes: IUser['_id'][]
-  comments: IComment['id'][]
-  isDraft: boolean
-  isRepost: boolean
+  likes?: IUser['_id'][]
+  tags?: ITag['id'][]
+  comments?: IComment['id'][]
   sourceAuthorId?: IUser['_id']
   sourceId?: IPost['id']
   postVideo?: IPostVideo
@@ -25,7 +23,6 @@ export interface IPost {
   postQuote?: IPostQuote
   postPhoto?: IPostPhoto
   postText?: IPostText
-  publishedAt: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
