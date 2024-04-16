@@ -9,11 +9,7 @@ export abstract class BasePostgresRepository<
 {
   constructor(protected entityFactory: EntityFactory<T>, protected readonly client: PrismaClientService) {}
 
-  protected createEntityFromDocument(document: DocumentType): T | null {
-    if (!document) {
-      return null
-    }
-
+  protected createEntityFromDocument(document: unknown): T {
     return this.entityFactory.create(document as ReturnType<T['toPOJO']>)
   }
 

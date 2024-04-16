@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { BasePostgresRepository } from '@project/data-access'
 import { PrismaClientService } from '@project/post-models'
 import { IPostVideo, PostType } from '@project/shared/core'
@@ -28,5 +28,22 @@ export class VideoPostRepository extends BasePostgresRepository<VideoPostEntity,
     })
 
     entity.id = record.id
+  }
+
+  public async findById(id: string): Promise<VideoPostEntity> {
+    const document = await this.client.post.findFirst({
+      where: {
+        id
+      },
+      include: {
+        postVideo: true
+      }
+    })
+
+    if (!document) {
+      throw new NotFoundException(`Post with id ${id} not found.`)
+    }
+
+    return this.createEntityFromDocument(document)
   }
 }

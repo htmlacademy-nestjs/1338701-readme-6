@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common'
 import { IPost } from '@project/shared/core'
 import { CreatePostDto } from 'libs/post/blog-post/src/dto/create-post.dto'
+import { VideoPostEntity } from 'libs/post/blog-post/src/entities/video-post.entity'
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/factories/factory-type.factory'
 import { RepositoryTypeFactory } from 'libs/post/blog-post/src/factories/repository-type.factory'
+import { VideoPostRepository } from 'libs/post/blog-post/src/repositories/video-post.repository'
 import { randomUUID } from 'node:crypto'
 
 @Injectable()
 export class BlogPostService {
   constructor(
     private readonly factoryTypeFactory: FactoryTypeFactory,
-    private readonly repositoriesTypeFactory: RepositoryTypeFactory
+    private readonly repositoriesTypeFactory: RepositoryTypeFactory,
+    private readonly videoPostRepository: VideoPostRepository
   ) {}
 
   public async createPost(dto: CreatePostDto) {
@@ -38,5 +41,9 @@ export class BlogPostService {
     await postRepository.save(entityPost)
 
     return entityPost
+  }
+
+  public async getPost(id: string): Promise<VideoPostEntity> {
+    return this.videoPostRepository.findById(id)
   }
 }
