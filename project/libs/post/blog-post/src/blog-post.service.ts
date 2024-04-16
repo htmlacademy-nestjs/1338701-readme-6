@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { IPost } from '@project/shared/core'
 import { CreatePostDto } from 'libs/post/blog-post/src/dto/create-post.dto'
-import { VideoPostEntity } from 'libs/post/blog-post/src/entities/video-post.entity'
+import { CommonPostEntity } from 'libs/post/blog-post/src/entities/common-post.entity'
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/factories/factory-type.factory'
 import { RepositoryTypeFactory } from 'libs/post/blog-post/src/factories/repository-type.factory'
-import { VideoPostRepository } from 'libs/post/blog-post/src/repositories/video-post.repository'
+import { CommonPostRepository } from 'libs/post/blog-post/src/repositories/common-post.repository'
 import { randomUUID } from 'node:crypto'
 
 @Injectable()
@@ -12,7 +12,7 @@ export class BlogPostService {
   constructor(
     private readonly factoryTypeFactory: FactoryTypeFactory,
     private readonly repositoriesTypeFactory: RepositoryTypeFactory,
-    private readonly videoPostRepository: VideoPostRepository
+    private readonly commonPostRepository: CommonPostRepository
   ) {}
 
   public async createPost(dto: CreatePostDto) {
@@ -37,13 +37,17 @@ export class BlogPostService {
       postText: dto.postText
     }
 
-    const entityPost = postFactory.create(blogPost)
+    const entityPost = postFactory.create(dto)
     await postRepository.save(entityPost)
 
     return entityPost
   }
 
-  public async getPost(id: string): Promise<VideoPostEntity> {
-    return this.videoPostRepository.findById(id)
+  public async getPost(id: string): Promise<CommonPostEntity> {
+    return await this.commonPostRepository.findById(id)
+  }
+
+  public async getAllPosts(): Promise<CommonPostEntity[]> {
+    return await this.commonPostRepository.findAll()
   }
 }

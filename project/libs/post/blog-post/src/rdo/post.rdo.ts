@@ -1,5 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IComment, ITag, IUser, PostType } from '@project/shared/core'
+import {
+  IComment,
+  IPostLink,
+  IPostPhoto,
+  IPostQuote,
+  IPostText,
+  IPostVideo,
+  ITag,
+  IUser,
+  PostType
+} from '@project/shared/core'
 import { Expose } from 'class-transformer'
 
 export class PostRdo {
@@ -27,60 +37,54 @@ export class PostRdo {
   @ApiProperty({
     description: 'Post tags'
   })
-  @Expose()
-  public tags: ITag[]
-
   @ApiProperty({
     description: 'Post Author ID',
     example: '507f1f77bcf86cd799432323'
   })
   @Expose()
-  public authorId: IUser['_id']
+  public authorId: string
 
   @ApiProperty({
-    description: 'List of IDs who liked it'
+    description: 'List of IDs who liked it',
+    example: ['String', 'String']
   })
   @Expose()
-  public likes: IUser['_id'][]
+  public likes: string[]
 
   @ApiProperty({
-    description: 'Post comments'
+    description: 'Post comments',
+    example: ['String', 'String']
   })
   @Expose()
-  public comment: IComment[]
+  public comments: string[]
 
-  @ApiProperty({
-    description: 'Is the post a draft?',
-    example: false
-  })
+  //TODO: Заполнить документацию по объектам
   @Expose()
-  public isDraft: boolean
+  postVideo?: IPostVideo
 
-  @ApiProperty({
-    description: 'Is the post a repost?',
-    example: false
-  })
   @Expose()
-  public isRepost: boolean
+  postLink?: IPostLink
 
-  @ApiProperty({
-    description: 'Post publication date',
-    example: '2024-03-31 19:58:37'
-  })
   @Expose()
-  public publishedAt: string
+  postQuote?: IPostQuote
+
+  @Expose()
+  postPhoto?: IPostPhoto
+
+  @Expose()
+  postText?: IPostText
 
   @ApiProperty({
     description: 'Post create date',
     example: '2024-03-31 19:58:37'
   })
   @Expose()
-  public createdAt: string
+  public createdAt: Date
 
   @ApiProperty({
     description: 'Post update date',
     example: '2024-03-31 19:58:37'
   })
   @Expose()
-  public updatedAt: string
+  public updatedAt: Date
 }

@@ -8,7 +8,7 @@ import { VideoPostFactory } from 'libs/post/blog-post/src/factories/video-post.f
 
 @Injectable()
 @RepositoryType(PostType.Video)
-export class VideoPostRepository extends BasePostgresRepository<VideoPostEntity, IPostVideo> {
+export class VideoPostRepository extends BasePostgresRepository<VideoPostEntity> {
   constructor(protected readonly entityFactory: VideoPostFactory, readonly client: PrismaClientService) {
     super(entityFactory, client)
   }
@@ -28,22 +28,5 @@ export class VideoPostRepository extends BasePostgresRepository<VideoPostEntity,
     })
 
     entity.id = record.id
-  }
-
-  public async findById(id: string): Promise<VideoPostEntity> {
-    const document = await this.client.post.findFirst({
-      where: {
-        id
-      },
-      include: {
-        postVideo: true
-      }
-    })
-
-    if (!document) {
-      throw new NotFoundException(`Post with id ${id} not found.`)
-    }
-
-    return this.createEntityFromDocument(document)
   }
 }

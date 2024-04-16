@@ -1,4 +1,5 @@
 import { Entity, IPost, ITag, PostType, StorableEntity } from '@project/shared/core'
+import { randomUUID } from 'node:crypto'
 
 export abstract class BasePostEntity extends Entity implements StorableEntity<IPost> {
   public type: PostType
@@ -23,9 +24,9 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
     this.id = post.id
     this.type = post.type
     this.title = post.title
-    this.authorId = post.authorId
-    this.likes = post.likes
-    this.comments = post.comments
+    this.authorId = randomUUID()
+    this.likes = []
+    this.comments = []
     this.createdAt = post.createdAt
     this.updatedAt = post.updatedAt
   }
