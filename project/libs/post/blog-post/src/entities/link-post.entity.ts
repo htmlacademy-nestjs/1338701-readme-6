@@ -1,5 +1,6 @@
 import { IPost, IPostLink, StorableEntity } from '@project/shared/core'
-import { BasePostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/base-post.entity'
+import { CreatePostDto } from 'libs/post/blog-post/src/dto/create-post.dto'
+import { BasePostEntity } from 'libs/post/blog-post/src/entities/base-post.entity'
 
 export class LinkPostEntity extends BasePostEntity implements StorableEntity<IPost> {
   private postLink?: IPostLink
@@ -7,7 +8,6 @@ export class LinkPostEntity extends BasePostEntity implements StorableEntity<IPo
   constructor(post: IPost) {
     super(post)
     this.postLink = post.postLink
-    this.populate(post)
   }
 
   toPOJO(): IPost {

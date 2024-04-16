@@ -4,50 +4,50 @@ import { IPostLink, IPostPhoto, IPostQuote, IPostText, IPostVideo, ITag, IUser, 
 export class CreatePostDto {
   @ApiProperty({
     description: 'Post title',
-    example: 'Some Post'
+    example: 'String'
   })
   title: string
 
   @ApiProperty({
     description: 'Post Type',
-    example: 'video',
+    example: 'String',
     enum: PostType
   })
   type: PostType
 
   @ApiProperty({
     description: 'Post tags',
-    example: ['507f1f77bcf86cd799439011', '507f1f77bcf86cd799439022']
+    example: ['String', 'String']
   })
   tags: ITag['id'][]
 
   @ApiPropertyOptional({
     description: 'Properties of post of type link',
-    example: { url: 'https://example.com', description: 'This is a link to an example website' }
+    example: { url: 'String', description: 'String' }
   })
   postLink?: IPostLink
 
   @ApiPropertyOptional({
     description: 'Properties of post of type photo',
-    example: { photoId: 'photo_id_example' }
+    example: { photoId: 'String' }
   })
   postPhoto?: IPostPhoto
 
   @ApiPropertyOptional({
     description: 'Properties of post of type quote',
-    example: { quoteContent: 'This is a quote.' }
+    example: { quoteContent: 'String' }
   })
   postQuote?: IPostQuote
 
   @ApiPropertyOptional({
     description: 'Properties of post of type text',
-    example: { announcement: 'Announcement for the text post', content: 'Text content of the post' }
+    example: { announcement: 'String', content: 'String' }
   })
   postText?: IPostText
 
   @ApiPropertyOptional({
     description: 'Properties of post of type video',
-    example: { urlYoutube: 'https://www.youtube.com/watch?v=example_video_id' }
+    example: { urlYoutube: 'String' }
   })
   postVideo?: IPostVideo
 }

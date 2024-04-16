@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { Constructor } from '@nestjs/common/utils/merge-with-values.util'
 import { ModuleRef } from '@nestjs/core'
 import { EntityFactory, PostType } from '@project/shared/core'
-import { FACTORIES_METADATA_KEY } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
-import { FactoriesType } from 'libs/post/blog-post/src/blog-post-module/decorators/factories-type.decorator'
+import { FACTORIES_METADATA_KEY } from 'libs/post/blog-post/src/blog-post.constant'
+import { FactoriesType } from 'libs/post/blog-post/src/decorators/factories-type.decorator'
 
 @Injectable()
 export class FactoryTypeFactory {

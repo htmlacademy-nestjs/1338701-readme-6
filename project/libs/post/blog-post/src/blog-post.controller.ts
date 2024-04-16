@@ -1,9 +1,8 @@
-import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common'
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
-import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
-import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
-import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
-import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
+import { BlogPostService } from 'libs/post/blog-post/src/blog-post.service'
+import { CreatePostDto } from 'libs/post/blog-post/src/dto/create-post.dto'
+import { PostRdo } from 'libs/post/blog-post/src/rdo/post.rdo'
 
 @ApiTags('Posts')
 @Controller('posts')
