@@ -57,4 +57,13 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
       }
     })
   }
+
+  public async update(entity: CommonPostEntity): Promise<void> {
+    await this.client.post.update({
+      where: { id: entity.id },
+      data: {
+        title: entity.title
+      }
+    })
+  }
 }
