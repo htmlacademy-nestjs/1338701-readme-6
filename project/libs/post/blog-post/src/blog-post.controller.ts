@@ -1,10 +1,11 @@
-import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Res } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { fillDto } from '@project/shared/helpers'
-import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post.constant'
+import { POST_NOT_FOUND, POST_SUCCESSFULLY_DELETED } from 'libs/post/blog-post/src/blog-post.constant'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post.service'
 import { CreatePostDto } from 'libs/post/blog-post/src/dto/create-post.dto'
 import { PostRdo } from 'libs/post/blog-post/src/rdo/post.rdo'
+import { Response } from 'express'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -51,5 +52,12 @@ export class BlogPostController {
     const commonPostEntities = await this.blogPostService.getAllPosts()
     const posts = commonPostEntities.map((post) => post.toPOJO())
     return fillDto(PostRdo, posts)
+  }
+
+  @Delete('/:postId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async destroy(@Param('postId') id: string, @Res() res: Response) {
+    await this.blogPostService.deleteCategory(id)
+    return res.status(HttpStatus.OK).json({ message: POST_SUCCESSFULLY_DELETED })
   }
 }

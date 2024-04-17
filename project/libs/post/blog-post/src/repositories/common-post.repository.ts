@@ -49,4 +49,12 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
 
     return documents.map((document) => this.createEntityFromDocument(document))
   }
+
+  public async deleteById(id: string): Promise<void> {
+    await this.client.post.delete({
+      where: {
+        id
+      }
+    })
+  }
 }

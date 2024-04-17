@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { IPost } from '@project/shared/core'
 import { CreatePostDto } from 'libs/post/blog-post/src/dto/create-post.dto'
 import { CommonPostEntity } from 'libs/post/blog-post/src/entities/common-post.entity'
@@ -49,5 +49,13 @@ export class BlogPostService {
 
   public async getAllPosts(): Promise<CommonPostEntity[]> {
     return await this.commonPostRepository.findAll()
+  }
+
+  public async deleteCategory(id: string): Promise<void> {
+    try {
+      await this.commonPostRepository.deleteById(id)
+    } catch {
+      throw new NotFoundException(`Category with ID ${id} not found`)
+    }
   }
 }
