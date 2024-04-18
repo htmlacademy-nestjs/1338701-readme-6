@@ -5,7 +5,7 @@ import { CreateTagDto } from 'libs/post/blog-tag/src/dto/create-tag.dto'
 import { UpdateTagDto } from 'libs/post/blog-tag/src/dto/update-tag.dto'
 
 @Injectable()
-export class BlogCategoryService {
+export class BlogTagService {
   constructor(private readonly blogTagRepository: BlogTagRepository) {}
 
   public async getTag(id: string): Promise<BlogTagEntity> {
@@ -37,10 +37,11 @@ export class BlogCategoryService {
   }
 
   public async updateTag(id: string, dto: UpdateTagDto): Promise<BlogTagEntity> {
-    const blogTagEntity = new BlogTagEntity(dto)
+    const blogTagEntity = await this.getTag(id)
+    const newBloTagEntity = Object.assign(blogTagEntity, { ...dto })
 
     try {
-      await this.blogTagRepository.update(blogTagEntity)
+      await this.blogTagRepository.update(newBloTagEntity)
       return blogTagEntity
     } catch {
       throw new NotFoundException(`Tag with ID ${id} not found`)

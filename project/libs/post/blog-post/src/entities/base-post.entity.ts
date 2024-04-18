@@ -27,7 +27,6 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
     this.authorId = post.authorId
     this.likes = []
     this.comments = []
-    this.tags = []
     this.createdAt = post.createdAt
     this.updatedAt = post.updatedAt
   }
@@ -37,7 +36,6 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
       id: this.id,
       title: this.title,
       type: this.type,
-      tags: this.tags,
       authorId: this.authorId,
       likes: this.likes,
       comments: this.comments,

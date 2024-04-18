@@ -19,6 +19,7 @@ export class TextPostRepository extends BasePostgresRepository<TextPostEntity> {
     const record = await this.client.post.create({
       data: {
         ...pojoEntity,
+        tags: undefined,
         comments: { connect: [] },
         postText: { create: pojoEntity.postText },
         postVideo: undefined,

@@ -18,6 +18,7 @@ export class VideoPostRepository extends BasePostgresRepository<VideoPostEntity>
     const record = await this.client.post.create({
       data: {
         ...pojoEntity,
+        tags: undefined,
         comments: { connect: [] },
         postVideo: { create: pojoEntity.postVideo },
         postLink: undefined,
