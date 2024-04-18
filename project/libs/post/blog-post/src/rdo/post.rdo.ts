@@ -15,21 +15,21 @@ import { Expose } from 'class-transformer'
 export class PostRdo {
   @ApiProperty({
     description: 'Post ID',
-    example: '507f1f77bcf86cd799439011'
+    example: 'String'
   })
   @Expose()
   public id: string
 
   @ApiProperty({
     description: 'Post title',
-    example: 'Some Post'
+    example: 'String'
   })
   @Expose()
   public title: string
 
   @ApiProperty({
     description: 'Post Type',
-    example: 'video'
+    example: 'String'
   })
   @Expose()
   public type: PostType
@@ -39,24 +39,31 @@ export class PostRdo {
   })
   @ApiProperty({
     description: 'Post Author ID',
-    example: '507f1f77bcf86cd799432323'
+    example: 'String'
   })
   @Expose()
   public authorId: string
 
   @ApiProperty({
     description: 'List of IDs who liked it',
-    example: ['String', 'String']
+    example: []
   })
   @Expose()
   public likes: string[]
 
   @ApiProperty({
     description: 'Post comments',
-    example: ['String', 'String']
+    example: []
   })
   @Expose()
   public comments: string[]
+
+  @ApiProperty({
+    description: 'Post tags',
+    example: []
+  })
+  @Expose()
+  public tags: string[]
 
   //TODO: Заполнить документацию по объектам
   @Expose()

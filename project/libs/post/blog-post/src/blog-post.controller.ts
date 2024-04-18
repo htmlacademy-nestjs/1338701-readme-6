@@ -11,7 +11,6 @@ import { Response } from 'express'
 @Controller('posts')
 export class BlogPostController {
   constructor(private readonly blogPostService: BlogPostService) {}
-  private test: any
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.CREATED,
@@ -54,10 +53,12 @@ export class BlogPostController {
     return fillDto(PostRdo, posts)
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK
+  })
   @Delete('/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async destroy(@Param('postId') id: string, @Res() res: Response) {
+  public async destroy(@Param('postId') id: string) {
     await this.blogPostService.deleteCategory(id)
-    return res.status(HttpStatus.OK).json({ message: POST_SUCCESSFULLY_DELETED })
   }
 }

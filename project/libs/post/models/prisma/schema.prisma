@@ -68,7 +68,7 @@ model Post {
   id          String     @id @default(uuid())
   type        PostType
   title       String
-  tag         Tag[]
+  tags        Tag[]
   authorId    String     @map("author_id")
   likes       String[]
   comments    Comment[]

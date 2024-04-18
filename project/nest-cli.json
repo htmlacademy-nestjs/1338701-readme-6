@@ -1,0 +1,25 @@
+{
+  "projects": {
+    "blog-tag": {
+      "type": "library",
+      "root": "libs/blog-tag",
+      "entryFile": "index",
+      "sourceRoot": "libs/blog-tag/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/blog-tag/tsconfig.lib.json"
+      }
+    },
+    "post/blog-tag": {
+      "type": "library",
+      "root": "libs/post/blog-tag",
+      "entryFile": "index",
+      "sourceRoot": "libs/post/blog-tag/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/post/blog-tag/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}

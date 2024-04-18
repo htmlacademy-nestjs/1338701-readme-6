@@ -24,9 +24,10 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
     this.id = post.id
     this.type = post.type
     this.title = post.title
-    this.authorId = randomUUID()
+    this.authorId = post.authorId
     this.likes = []
     this.comments = []
+    this.tags = []
     this.createdAt = post.createdAt
     this.updatedAt = post.updatedAt
   }

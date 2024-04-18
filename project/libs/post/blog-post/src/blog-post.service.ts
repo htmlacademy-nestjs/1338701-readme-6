@@ -23,20 +23,6 @@ export class BlogPostService {
       return
     }
 
-    const blogPost: IPost = {
-      type: dto.type,
-      title: dto.title,
-      tags: dto.tags,
-      authorId: randomUUID(),
-      comments: [],
-      likes: [],
-      postLink: dto.postLink,
-      postVideo: dto.postVideo,
-      postPhoto: dto.postPhoto,
-      postQuote: dto.postQuote,
-      postText: dto.postText
-    }
-
     const entityPost = postFactory.create(dto)
     await postRepository.save(entityPost)
 
