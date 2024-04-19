@@ -2,7 +2,6 @@ import { Controller, Get, Param, Post, Body, Delete, Patch, HttpCode, HttpStatus
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 
 import { fillDto } from '@project/shared/helpers'
-import { PostRdo } from 'libs/post/blog-post/src/rdo/post.rdo'
 import { BlogTagService } from 'libs/post/blog-tag/src/blog-tag.service'
 import { CreateTagDto } from 'libs/post/blog-tag/src/dto/create-tag.dto'
 import { UpdateTagDto } from 'libs/post/blog-tag/src/dto/update-tag.dto'
@@ -10,7 +9,7 @@ import { UpdateTagDto } from 'libs/post/blog-tag/src/dto/update-tag.dto'
 import { TagRdo } from 'libs/post/blog-tag/src/rdo/tag.rdo'
 
 @ApiTags('Tags')
-@Controller('tag')
+@Controller('tags')
 export class BlogTagController {
   constructor(private readonly blogTagService: BlogTagService) {}
 
