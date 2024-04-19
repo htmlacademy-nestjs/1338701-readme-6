@@ -14,7 +14,7 @@ export class BlogPostController {
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.CREATED,
-    description: 'The new post  has been successfully created.'
+    description: 'The new post has been successfully created.'
   })
   @Post('create')
   public async create(@Body() dto: CreatePostDto) {

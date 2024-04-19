@@ -1,22 +1,35 @@
 import { Controller, Get, Param, Post, Body, Delete, Patch, HttpCode, HttpStatus } from '@nestjs/common'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 
 import { fillDto } from '@project/shared/helpers'
+import { PostRdo } from 'libs/post/blog-post/src/rdo/post.rdo'
 import { BlogTagService } from 'libs/post/blog-tag/src/blog-tag.service'
 import { CreateTagDto } from 'libs/post/blog-tag/src/dto/create-tag.dto'
 import { UpdateTagDto } from 'libs/post/blog-tag/src/dto/update-tag.dto'
 
 import { TagRdo } from 'libs/post/blog-tag/src/rdo/tag.rdo'
 
+@ApiTags('Tags')
 @Controller('tag')
 export class BlogTagController {
   constructor(private readonly blogTagService: BlogTagService) {}
 
+  @ApiResponse({
+    type: TagRdo,
+    status: HttpStatus.OK,
+    description: 'Tag found'
+  })
   @Get('/:tagId')
   public async show(@Param('tagId') tagId: string) {
     const tagEntity = await this.blogTagService.getTag(tagId)
     return fillDto(TagRdo, tagEntity.toPOJO())
   }
 
+  @ApiResponse({
+    type: [TagRdo],
+    status: HttpStatus.OK,
+    description: 'Tags found'
+  })
   @Get('/')
   public async index() {
     const blogTagEntities = await this.blogTagService.getAllTags()
