@@ -1,5 +1,5 @@
-export { AccountConfigModule } from './account-config.module'
+export { AccountConfigModule } from 'libs/user/config/src/acctoun-config-module/account-config.module'
 
-export { default as applicationConfig } from './configurations/app.config'
-export { default as dbConfig } from './configurations/mongo.config'
-export { getMongooseOptions } from './configurations/mongodb/get-mongoose-options'
+export { default as applicationConfig } from 'libs/user/config/src/acctoun-config-module/configurations/app.config'
+export { default as dbConfig } from 'libs/user/config/src/acctoun-config-module/configurations/mongo.config'
+export { getMongooseOptions } from 'libs/user/config/src/acctoun-config-module/configurations/mongodb/get-mongoose-options'
