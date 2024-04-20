@@ -1,12 +1,28 @@
 import { Injectable } from '@nestjs/common'
-import { EntityFactory, IPost, PostType } from '@project/shared/core'
+import { BlogTagEntity } from '@project/blog-tag'
+import { IPost, PostType } from '@project/shared/core'
 import { FactoriesType } from 'libs/post/blog-post/src/blog-post-module/decorators/factories-type.decorator'
+import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { VideoPostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/video-post.entity'
+import { IPostFactory } from 'libs/post/blog-post/src/blog-post-module/factories/types/post-factory.interface'
 
 @Injectable()
 @FactoriesType(PostType.Video)
-export class VideoPostFactory implements EntityFactory<VideoPostEntity> {
+export class VideoPostFactory implements IPostFactory<VideoPostEntity> {
   create(entityPlainData: IPost): VideoPostEntity {
     return new VideoPostEntity(entityPlainData)
+  }
+
+  createFromCreatePostDto(dto: CreatePostDto, tags: BlogTagEntity[]): VideoPostEntity {
+    const entity = new VideoPostEntity()
+    entity.tags = tags
+    entity.type = dto.type
+    entity.title = dto.title
+    entity.authorId = dto.authorId
+    entity.comments = []
+    entity.likes = []
+    entity.postVideo = dto.postVideo
+
+    return entity
   }
 }

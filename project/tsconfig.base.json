@@ -27,7 +27,7 @@
       "@project/data-access": ["libs/shared/data-access/src/index.ts"],
       "@project/post-models": ["libs/post/models/src/index.ts"],
       "@project/shared/core": ["libs/shared/core/src/index.ts"],
-      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"]
+      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]

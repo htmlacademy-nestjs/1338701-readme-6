@@ -4,12 +4,15 @@ import { CommonPostEntity } from 'libs/post/blog-post/src/blog-post-module/entit
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/factory-type.factory'
 import { RepositoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/repository-type.factory'
 import { CommonPostRepository } from 'libs/post/blog-post/src/blog-post-module/repositories/common-post.repository'
+import { BlogTagRepository } from 'libs/post/blog-tag/src/blog-tag-module/blog-tag.repository'
+import { BlogTagService } from 'libs/post/blog-tag/src/blog-tag-module/blog-tag.service'
 
 @Injectable()
 export class BlogPostService {
   constructor(
     private readonly factoryTypeFactory: FactoryTypeFactory,
     private readonly repositoriesTypeFactory: RepositoryTypeFactory,
+    private readonly blogTagService: BlogTagService,
     private readonly commonPostRepository: CommonPostRepository
   ) {}
 
@@ -21,10 +24,10 @@ export class BlogPostService {
       return
     }
 
-    const entityPost = postFactory.create(dto)
-    await postRepository.save(entityPost)
-
-    return entityPost
+    const tags = await this.blogTagService.getTagsByIds(dto.tags)
+    const newPost = postFactory.createFromCreatePostDto(dto, tags)
+    await postRepository.save(newPost)
+    return newPost
   }
 
   public async getPost(id: string): Promise<CommonPostEntity> {

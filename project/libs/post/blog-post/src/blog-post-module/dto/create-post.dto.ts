@@ -1,6 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IPostLink, IPostPhoto, IPostQuote, IPostText, IPostVideo, ITag, PostType } from '@project/shared/core'
-import { IsEnum, IsMongoId, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator'
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsEnum,
+  IsMongoId,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUUID
+} from 'class-validator'
 
 export class CreatePostDto {
   @ApiProperty({
@@ -23,6 +33,11 @@ export class CreatePostDto {
   @IsString()
   @IsMongoId()
   public authorId: string
+
+  @IsUUID('all', { each: true })
+  @IsArray()
+  @ArrayNotEmpty()
+  public tags: string[]
 
   @ApiPropertyOptional({
     description: 'Properties of post of type link',

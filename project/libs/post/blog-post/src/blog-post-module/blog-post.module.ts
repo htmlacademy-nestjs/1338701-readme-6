@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common'
+import { BlogCommentModule } from '@project/blog-comment'
+import { BlogTagModule } from '@project/blog-tag'
 import { PrismaClientModule } from '@project/post-models'
 import { BlogPostController } from 'libs/post/blog-post/src/blog-post-module/blog-post.controller'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
@@ -18,7 +20,7 @@ import { TextPostRepository } from 'libs/post/blog-post/src/blog-post-module/rep
 import { VideoPostRepository } from 'libs/post/blog-post/src/blog-post-module/repositories/video-post.repository'
 
 @Module({
-  imports: [PrismaClientModule],
+  imports: [PrismaClientModule, BlogCommentModule, BlogTagModule],
   providers: [
     RepositoryTypeFactory,
     FactoryTypeFactory,

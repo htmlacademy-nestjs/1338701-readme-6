@@ -1,11 +1,11 @@
 import { PrismaClientService } from '@project/post-models'
-import { Entity, StorableEntity, EntityFactory } from '@project/shared/core'
+import { Entity, StorableEntity, IEntityFactory } from '@project/shared/core'
 import { Repository } from './repository.interface'
 
 export abstract class BasePostgresRepository<T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>>
   implements Repository<T>
 {
-  constructor(protected entityFactory: EntityFactory<T>, protected readonly client: PrismaClientService) {}
+  constructor(protected entityFactory: IEntityFactory<T>, protected readonly client: PrismaClientService) {}
 
   protected createEntityFromDocument(document: unknown): T {
     return this.entityFactory.create(document as ReturnType<T['toPOJO']>)

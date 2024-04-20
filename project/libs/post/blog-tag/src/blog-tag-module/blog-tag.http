@@ -13,7 +13,7 @@ POST http://localhost:3000/api/tags/create HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Dogs"
+  "name": "Animals"
 }
 
 ###
