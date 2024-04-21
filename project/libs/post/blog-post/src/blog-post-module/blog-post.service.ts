@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { BlogCommentEntity } from '@project/blog-comment'
+import { BlogCommentEntity, BlogCommentFactory, CreateCommentDto } from '@project/blog-comment'
 import { PaginationResult } from '@project/shared/core'
+import { BlogCommentRepository } from 'libs/post/blog-comment/src/blog-comment-module/blog-comment.repository'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { UpdatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/update-post.dto'
@@ -8,7 +9,6 @@ import { CommonPostEntity } from 'libs/post/blog-post/src/blog-post-module/entit
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/factory-type.factory'
 import { RepositoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/repository-type.factory'
 import { CommonPostRepository } from 'libs/post/blog-post/src/blog-post-module/repositories/common-post.repository'
-import { BlogTagRepository } from 'libs/post/blog-tag/src/blog-tag-module/blog-tag.repository'
 import { BlogTagService } from 'libs/post/blog-tag/src/blog-tag-module/blog-tag.service'
 
 @Injectable()
@@ -17,7 +17,9 @@ export class BlogPostService {
     private readonly factoryTypeFactory: FactoryTypeFactory,
     private readonly repositoriesTypeFactory: RepositoryTypeFactory,
     private readonly blogTagService: BlogTagService,
-    private readonly commonPostRepository: CommonPostRepository
+    private readonly commonPostRepository: CommonPostRepository,
+    private readonly blogCommentFactory: BlogCommentFactory,
+    private readonly blogCommentRepository: BlogCommentRepository
   ) {}
 
   public async createPost(dto: CreatePostDto) {
@@ -52,7 +54,6 @@ export class BlogPostService {
 
   public async updatePost(id: string, dto: UpdatePostDto): Promise<CommonPostEntity> {
     const existsPost = await this.commonPostRepository.findById(id)
-    console.log(existsPost)
     let isSameTags = true
     let hasChanges = false
 
@@ -79,5 +80,13 @@ export class BlogPostService {
     await this.commonPostRepository.update(existsPost)
 
     return existsPost
+  }
+
+  public async addComment(postId: string, dto: CreateCommentDto): Promise<BlogCommentEntity> {
+    const { id } = await this.getPost(postId)
+    const newComment = this.blogCommentFactory.createFromDto(dto, id as string)
+    await this.blogCommentRepository.save(newComment)
+
+    return newComment
   }
 }

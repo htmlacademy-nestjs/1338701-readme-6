@@ -118,22 +118,26 @@ DELETE http://localhost:3000/api/posts/3334c986-c033-4a56-8e56-61e2d0ac82b3 HTTP
 ###
 
 # Update post by id
-PATCH http://localhost:3000/api/posts/3411449c-2c81-4e73-b511-274389db3f52 HTTP/1.1
+PATCH http://localhost:3000/api/posts/5ad61f46-3107-420f-b6a0-cf8ada0f780f HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Обновлённый пост"
+  "title": "Обновлённый пост",
+  "type": "LINK",
+  "postLink": {
+    "url": "some-link"
+  }
 }
 
 ###
 
 # Create a new comment for post
-POST http://localhost:3000/api/posts/ab04593b-da99-4fe3-8b4b-e06d82e2efdd/comments HTTP/1.1
+POST http://localhost:3000/api/posts/5ad61f46-3107-420f-b6a0-cf8ada0f780f/comments HTTP/1.1
 Content-Type: application/json
 
 {
-  "message": "This is text",
-  "userId": "65990102bb965b742900ba59"
+  "content": "This is text",
+  "authorId": "65990102bb965b742900ba59"
 }
 
 ###

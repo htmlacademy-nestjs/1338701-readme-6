@@ -20,7 +20,7 @@ import { TextPostRepository } from 'libs/post/blog-post/src/blog-post-module/rep
 import { VideoPostRepository } from 'libs/post/blog-post/src/blog-post-module/repositories/video-post.repository'
 
 @Module({
-  imports: [PrismaClientModule, BlogCommentModule, BlogTagModule],
+  imports: [PrismaClientModule, BlogCommentModule, BlogTagModule, BlogCommentModule],
   providers: [
     RepositoryTypeFactory,
     FactoryTypeFactory,

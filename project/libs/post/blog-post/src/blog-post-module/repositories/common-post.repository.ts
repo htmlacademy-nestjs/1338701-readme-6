@@ -31,6 +31,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
         id
       },
       include: {
+        tags: true,
         comments: true,
         postVideo: true,
         postLink: true,
@@ -43,7 +44,6 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     if (!document) {
       throw new NotFoundException(`Post with id ${id} not found.`)
     }
-
     return this.createEntityFromDocument(document)
   }
 
@@ -105,6 +105,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
 
   public async update(entity: CommonPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO()
+    console.log(pojoEntity)
     await this.client.post.update({
       where: { id: pojoEntity.id },
       data: {
@@ -112,6 +113,11 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
         type: pojoEntity.type,
         authorId: pojoEntity.authorId,
         likes: pojoEntity.likes,
+        postText: { create: pojoEntity.postText },
+        postLink: { create: pojoEntity.postLink },
+        postPhoto: { create: pojoEntity.postPhoto },
+        postVideo: { create: pojoEntity.postVideo },
+        postQuote: { create: pojoEntity.postQuote },
         tags: {
           set: pojoEntity.tags.map((tag) => ({
             id: tag.id

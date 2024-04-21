@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { CommentRdo, CreateCommentDto } from '@project/blog-comment'
 import { fillDto } from '@project/shared/helpers'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
@@ -68,9 +69,16 @@ export class BlogPostController {
     await this.blogPostService.deleteCategory(id)
   }
 
+  // TODO: ВАЖНО! Нужно решить проблему с валидацией типов поста. Сейчас можно записать два типа в один документ, что недопустимо.
   @Patch('/:postId')
   public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(postId, dto)
     return fillDto(PostRdo, updatedPost.toPOJO())
+  }
+
+  @Post('/:postId/comments')
+  public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
+    const newComment = await this.blogPostService.addComment(postId, dto)
+    return fillDto(CommentRdo, newComment.toPOJO())
   }
 }
