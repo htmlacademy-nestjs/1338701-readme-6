@@ -1,16 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
-import {
-  IComment,
-  IPostLink,
-  IPostPhoto,
-  IPostQuote,
-  IPostText,
-  IPostVideo,
-  ITag,
-  IUser,
-  PostType
-} from '@project/shared/core'
+import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostType } from '@project/shared/core'
 import { Expose } from 'class-transformer'
+import { PostVideoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-video.rdo'
 
 export class PostRdo {
   @ApiProperty({
@@ -65,9 +56,11 @@ export class PostRdo {
   @Expose()
   public tags: string[]
 
-  //TODO: Заполнить документацию по объектам
+  @ApiProperty({
+    description: 'Post video'
+  })
   @Expose()
-  postVideo?: IPostVideo
+  postVideo?: PostVideoRdo
 
   @Expose()
   postLink?: IPostLink

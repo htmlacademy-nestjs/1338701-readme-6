@@ -14,15 +14,6 @@ export class VideoPostFactory implements IPostFactory<VideoPostEntity> {
   }
 
   createFromCreatePostDto(dto: CreatePostDto, tags: BlogTagEntity[]): VideoPostEntity {
-    const entity = new VideoPostEntity()
-    entity.tags = tags
-    entity.type = dto.type
-    entity.title = dto.title
-    entity.authorId = dto.authorId
-    entity.comments = []
-    entity.likes = []
-    entity.postVideo = dto.postVideo
-
-    return entity
+    return VideoPostEntity.fromDto(dto, tags)
   }
 }

@@ -1,8 +1,9 @@
 import { BlogCommentEntity, BlogCommentFactory } from '@project/blog-comment'
 import { BlogTagEntity, BlogTagFactory } from '@project/blog-tag'
 import { Entity, IPost, ITag, PostType, StorableEntity } from '@project/shared/core'
+import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 
-export abstract class BasePostEntity extends Entity implements StorableEntity<IPost> {
+export class BasePostEntity extends Entity implements StorableEntity<IPost> {
   public type: PostType
   public title: string
   public authorId: string
@@ -56,5 +57,17 @@ export abstract class BasePostEntity extends Entity implements StorableEntity<IP
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
+  }
+
+  static fromDto(dto: CreatePostDto, tags: BlogTagEntity[]): BasePostEntity {
+    const entity = new BasePostEntity()
+    entity.tags = tags
+    entity.type = dto.type
+    entity.title = dto.title
+    entity.authorId = dto.authorId
+    entity.comments = []
+    entity.likes = []
+
+    return entity
   }
 }
