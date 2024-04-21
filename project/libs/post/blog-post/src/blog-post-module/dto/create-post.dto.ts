@@ -14,6 +14,9 @@ import {
   Validate,
   ValidateNested
 } from 'class-validator'
+import { PostLinkDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-link.dto'
+import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-photo.dto'
+import { PostQouteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-qoute.dto'
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
 import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-props'
@@ -57,17 +60,17 @@ export class CreatePostDto {
   @IsObject()
   @IsNotEmpty()
   @IsOptional()
-  postLink?: IPostLink
+  postLink?: PostLinkDto
 
   @IsObject()
   @IsNotEmpty()
   @IsOptional()
-  postPhoto?: IPostPhoto
+  postPhoto?: PostPhotoDto
 
   @IsObject()
   @IsNotEmpty()
   @IsOptional()
-  postQuote?: IPostQuote
+  postQuote?: PostQouteDto
 
   @Validate(IsValidPostProps)
   @ValidateNested()

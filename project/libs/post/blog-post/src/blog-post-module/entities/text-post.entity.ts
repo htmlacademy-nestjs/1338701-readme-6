@@ -4,7 +4,7 @@ import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/crea
 import { BasePostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/base-post.entity'
 
 export class TextPostEntity extends BasePostEntity implements StorableEntity<IPost> {
-  public postText?: IPostText
+  protected postText?: IPostText
 
   constructor(post?: IPost) {
     super(post)
