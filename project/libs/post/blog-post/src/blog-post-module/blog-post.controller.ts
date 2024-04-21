@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Res } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, Res } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { fillDto } from '@project/shared/helpers'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
+import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
@@ -46,8 +47,8 @@ export class BlogPostController {
     description: POST_NOT_FOUND
   })
   @Get('/')
-  public async showAll() {
-    const commonPostEntities = await this.blogPostService.getAllPosts()
+  public async showAll(@Query() query: BlogPostQuery) {
+    const commonPostEntities = await this.blogPostService.getAllPosts(query)
     const posts = commonPostEntities.map((post) => post.toPOJO())
     return fillDto(PostRdo, posts)
   }

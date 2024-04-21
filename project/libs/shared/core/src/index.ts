@@ -11,6 +11,7 @@ export { IPhoto } from './types/photo/photo.inerface'
 export { IComment } from './types/comment/comment.interface'
 export { IEntityFactory } from './types/common/entity-factory.interface'
 export { PostType } from './types/post/post-type.enum'
+export { SortDirection } from './enums/sort-direction.enum'
 
 export { StorableEntity } from './types/common/storable-entity.interface'
 

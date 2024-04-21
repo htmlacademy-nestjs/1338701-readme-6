@@ -33,7 +33,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     return this.createEntityFromDocument(document)
   }
 
-  public async findAll(): Promise<CommonPostEntity[]> {
+  public async findAll(query?: BlogPostQuery): Promise<CommonPostEntity[]> {
     const documents = await this.client.post.findMany({
       take: MAX_POST_LIMIT,
       include: {

@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { CommonPostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/common-post.entity'
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/factory-type.factory'
@@ -34,7 +35,7 @@ export class BlogPostService {
     return await this.commonPostRepository.findById(id)
   }
 
-  public async getAllPosts(): Promise<CommonPostEntity[]> {
+  public async getAllPosts(query?: BlogPostQuery): Promise<CommonPostEntity[]> {
     return await this.commonPostRepository.findAll()
   }
 
