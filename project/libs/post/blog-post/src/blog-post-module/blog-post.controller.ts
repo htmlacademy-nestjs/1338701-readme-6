@@ -5,6 +5,7 @@ import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-po
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
+import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
 
 @ApiTags('Posts')
@@ -48,9 +49,13 @@ export class BlogPostController {
   })
   @Get('/')
   public async showAll(@Query() query: BlogPostQuery) {
-    const commonPostEntities = await this.blogPostService.getAllPosts(query)
-    const posts = commonPostEntities.map((post) => post.toPOJO())
-    return fillDto(PostRdo, posts)
+    const postWithPagination = await this.blogPostService.getAllPosts(query)
+    const result = {
+      ...postWithPagination,
+      content: postWithPagination.content.map((post) => post.toPOJO())
+    }
+
+    return fillDto(PostWithPaginationRdo, result)
   }
 
   @ApiResponse({

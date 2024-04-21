@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { PaginationResult } from '@project/shared/core'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { CommonPostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/common-post.entity'
@@ -35,8 +36,8 @@ export class BlogPostService {
     return await this.commonPostRepository.findById(id)
   }
 
-  public async getAllPosts(query?: BlogPostQuery): Promise<CommonPostEntity[]> {
-    return await this.commonPostRepository.findAll()
+  public async getAllPosts(query?: BlogPostQuery): Promise<PaginationResult<CommonPostEntity>> {
+    return await this.commonPostRepository.findAll(query)
   }
 
   public async deleteCategory(id: string): Promise<void> {

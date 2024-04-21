@@ -28,6 +28,7 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     this.title = post.title
     this.authorId = post.authorId
     this.likes = []
+    this.tags = []
     this.comments = []
     this.createdAt = post.createdAt
     this.updatedAt = post.updatedAt
@@ -52,8 +53,8 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
       type: this.type,
       authorId: this.authorId,
       likes: this.likes,
-      comments: this.comments,
-      tags: this.tags,
+      comments: this.comments.map((commentEntity) => commentEntity.toPOJO()),
+      tags: this.tags.map((tagEntity) => tagEntity.toPOJO()),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
