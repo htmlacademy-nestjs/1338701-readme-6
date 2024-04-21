@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, Res } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { fillDto } from '@project/shared/helpers'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
+import { UpdatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/update-post.dto'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
 
@@ -65,5 +66,11 @@ export class BlogPostController {
   @HttpCode(HttpStatus.NO_CONTENT)
   public async destroy(@Param('postId') id: string) {
     await this.blogPostService.deleteCategory(id)
+  }
+
+  @Patch('/:postId')
+  public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
+    const updatedPost = await this.blogPostService.updatePost(postId, dto)
+    return fillDto(PostRdo, updatedPost.toPOJO())
   }
 }

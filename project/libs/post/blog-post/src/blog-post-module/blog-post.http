@@ -113,17 +113,16 @@ Content-Type: application/json
 ###
 
 # Delete the post by id
-DELETE http://localhost:3000/api/posts/0549e0e7-ad8c-43b8-aa35-507ba547d743 HTTP/1.1
+DELETE http://localhost:3000/api/posts/3334c986-c033-4a56-8e56-61e2d0ac82b3 HTTP/1.1
 
 ###
 
 # Update post by id
-PATCH http://localhost:3000/api/posts/0eb6c19a-962c-4fc7-9106-7d46b09aaab8 HTTP/1.1
+PATCH http://localhost:3000/api/posts/3411449c-2c81-4e73-b511-274389db3f52 HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Как дела",
-  "description": "И вновь привет"
+  "title": "Обновлённый пост"
 }
 
 ###

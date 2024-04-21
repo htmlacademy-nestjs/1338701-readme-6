@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { BlogCommentEntity } from '@project/blog-comment'
 import { PaginationResult } from '@project/shared/core'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
+import { UpdatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/update-post.dto'
 import { CommonPostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/common-post.entity'
 import { FactoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/factory-type.factory'
 import { RepositoryTypeFactory } from 'libs/post/blog-post/src/blog-post-module/factories/repository-type.factory'
@@ -46,5 +48,36 @@ export class BlogPostService {
     } catch {
       throw new NotFoundException(`Category with ID ${id} not found`)
     }
+  }
+
+  public async updatePost(id: string, dto: UpdatePostDto): Promise<CommonPostEntity> {
+    const existsPost = await this.commonPostRepository.findById(id)
+    console.log(existsPost)
+    let isSameTags = true
+    let hasChanges = false
+
+    for (const [key, value] of Object.entries(dto)) {
+      const typeKey = key as keyof typeof existsPost
+      if (value !== undefined && key !== 'tags' && existsPost[typeKey] !== value) {
+        existsPost[typeKey] = value
+        hasChanges = true
+      }
+
+      if (key === 'tags' && value) {
+        const currentTagIds = existsPost.tags.map((tag) => tag.id)
+        isSameTags = currentTagIds.length === value.length && currentTagIds.some((tagId) => value.includes(tagId))
+
+        if (!isSameTags && dto.tags) {
+          existsPost.tags = await this.blogTagService.getTagsByIds(dto.tags)
+        }
+      }
+    }
+
+    if (isSameTags && !hasChanges) {
+      return existsPost
+    }
+    await this.commonPostRepository.update(existsPost)
+
+    return existsPost
   }
 }
