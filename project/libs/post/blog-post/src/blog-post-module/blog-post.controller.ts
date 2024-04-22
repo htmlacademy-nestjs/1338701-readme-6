@@ -17,7 +17,7 @@ export class BlogPostController {
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.CREATED,
-    description: 'The new post has been successfully created.'
+    description: 'The new post has been successfully created'
   })
   @Post('create')
   public async create(@Body() dto: CreatePostDto) {
@@ -28,7 +28,7 @@ export class BlogPostController {
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.OK,
-    description: 'Post found'
+    description: 'The post has benn successfully founded'
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -69,6 +69,11 @@ export class BlogPostController {
     await this.blogPostService.deleteCategory(id)
   }
 
+  @ApiResponse({
+    type: PostRdo,
+    status: HttpStatus.OK,
+    description: 'The post has been successfully updated'
+  })
   // TODO: ВАЖНО! Нужно решить проблему с валидацией типов поста. Сейчас можно записать два типа в один документ, что недопустимо.
   @Patch('/:postId')
   public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
@@ -76,6 +81,11 @@ export class BlogPostController {
     return fillDto(PostRdo, updatedPost.toPOJO())
   }
 
+  @ApiResponse({
+    type: CommentRdo,
+    status: HttpStatus.CREATED,
+    description: 'The new comment has been successfully created'
+  })
   @Post('/:postId/comments')
   public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const newComment = await this.blogPostService.addComment(postId, dto)

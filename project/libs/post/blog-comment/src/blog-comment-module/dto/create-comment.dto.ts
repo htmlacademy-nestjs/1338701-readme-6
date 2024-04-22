@@ -4,13 +4,17 @@ import { BlogCommentValidateMessage } from 'libs/post/blog-comment/src/blog-comm
 
 export class CreateCommentDto {
   @ApiProperty({
-    description: 'Uniq category name',
+    description: 'Comment content',
     example: 'String'
   })
   @IsString()
   @IsNotEmpty({ message: BlogCommentValidateMessage.MessageIsEmpty })
   public content: string
 
+  @ApiProperty({
+    description: 'Author ID',
+    example: 'String'
+  })
   @IsString()
   @IsMongoId({ message: BlogCommentValidateMessage.InvalidID })
   public authorId: string
