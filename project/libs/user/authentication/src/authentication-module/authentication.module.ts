@@ -1,13 +1,23 @@
 import { Module } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { JwtModule } from '@nestjs/jwt'
 import { BlogUserModule } from '@project/blog-user'
+import { getJwtOptions } from '@project/config'
 
 import { BcryptHasher } from '@project/shared/helpers'
 import { SALT_ROUNDS } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { AuthenticationController } from 'libs/user/authentication/src/authentication-module/authentication.controller'
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
+import { JwtAccessStrategy } from 'libs/user/authentication/src/authentication-module/strategies/jwt-access.strategy'
 
 @Module({
-  imports: [BlogUserModule],
+  imports: [
+    BlogUserModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: getJwtOptions
+    })
+  ],
   controllers: [AuthenticationController],
   providers: [
     AuthenticationService,
@@ -18,7 +28,8 @@ import { AuthenticationService } from 'libs/user/authentication/src/authenticati
     {
       provide: 'Hasher',
       useClass: BcryptHasher
-    }
+    },
+    JwtAccessStrategy
   ]
 })
 export class AuthenticationModule {}
