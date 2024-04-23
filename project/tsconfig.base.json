@@ -19,12 +19,15 @@
     "baseUrl": ".",
     "paths": {
       "@project/authentication": ["libs/user/authentication/src/index.ts"],
+      "@project/blog-comment": ["libs/post/blog-comment/src/index.ts"],
       "@project/blog-post": ["libs/post/blog-post/src/index.ts"],
+      "@project/blog-tag": ["libs/post/blog-tag/src/index.ts"],
       "@project/blog-user": ["libs/user/blog-user/src/index.ts"],
       "@project/config": ["libs/user/config/src/index.ts"],
       "@project/data-access": ["libs/shared/data-access/src/index.ts"],
+      "@project/post-models": ["libs/post/models/src/index.ts"],
       "@project/shared/core": ["libs/shared/core/src/index.ts"],
-      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"]
+      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]

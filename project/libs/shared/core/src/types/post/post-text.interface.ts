@@ -1,6 +1,5 @@
-import { IPost } from 'libs/shared/core/src/types/post/post.interface'
-
 export interface IPostText {
+  id?: string
   announcement: string
   content: string
 }

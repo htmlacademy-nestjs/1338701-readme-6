@@ -1,6 +1,5 @@
-import { IPost } from 'libs/shared/core/src/types/post/post.interface'
-
 export interface IPostLink {
+  id?: string
   url: string
   description?: string
 }

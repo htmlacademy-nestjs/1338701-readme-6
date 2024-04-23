@@ -18,3 +18,14 @@
 --project-name "readme-user" \
 --env-file ./apps/user/user.env up -d
 ```
+
+### Сервис Post
+Создать файл post.env и заполнить переменное окружения для сервиса. Пример необходимых переменных можно найти в файле `.env-example`.
+
+Поднять Docker-контейнер PostgreSQL для сервиса.
+
+```bash
+ docker compose --file ./apps/post/docker-compose.dev.yml \
+--project-name "readme-post" \
+--env-file ./apps/post/post.env up -d
+```
