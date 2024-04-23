@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common'
+import { Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
@@ -21,6 +21,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup(globalPrefix, app, document)
+
+  app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(port)
   Logger.log(`🚀 Application User is running on: http://localhost:${port}/${globalPrefix}`)
