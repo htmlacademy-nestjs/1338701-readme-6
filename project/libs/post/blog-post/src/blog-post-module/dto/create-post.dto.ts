@@ -19,6 +19,7 @@ import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-
 import { PostQouteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-qoute.dto'
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
+import { IsValidPostContent } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-content'
 import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-props'
 
 export class CreatePostDto {
@@ -35,6 +36,7 @@ export class CreatePostDto {
     example: 'VIDEO',
     enum: PostType
   })
+  @Validate(IsValidPostContent)
   @IsEnum(PostType)
   @IsNotEmpty()
   type: PostType
@@ -54,21 +56,23 @@ export class CreatePostDto {
   })
   @IsUUID('all', { each: true })
   @IsArray()
-  @ArrayNotEmpty()
   public tags: string[]
 
-  @IsObject()
-  @IsNotEmpty()
+  @Validate(IsValidPostProps)
+  @ValidateNested()
+  @Type(() => PostLinkDto)
   @IsOptional()
   postLink?: PostLinkDto
 
-  @IsObject()
-  @IsNotEmpty()
+  @Validate(IsValidPostProps)
+  @ValidateNested()
+  @Type(() => PostPhotoDto)
   @IsOptional()
   postPhoto?: PostPhotoDto
 
-  @IsObject()
-  @IsNotEmpty()
+  @Validate(IsValidPostProps)
+  @ValidateNested()
+  @Type(() => PostQouteDto)
   @IsOptional()
   postQuote?: PostQouteDto
 
