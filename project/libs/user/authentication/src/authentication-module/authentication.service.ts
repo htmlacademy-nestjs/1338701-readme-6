@@ -1,6 +1,18 @@
-import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException
+} from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { BlogUserRepository } from '@project/blog-user'
-import { IAuthUser } from '@project/shared/core'
+import { IAuthUser, IToken, ITokenPayload, IUser } from '@project/shared/core'
+import { AST } from 'eslint'
+import { string } from 'joi'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
 import {
   AUTH_USER_EXISTS,
@@ -13,8 +25,11 @@ import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-us
 
 @Injectable()
 export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name)
+
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
+    private readonly jwtService: JwtService,
     @Inject('Hasher') private readonly hasher: IHasher
   ) {}
 
@@ -56,5 +71,22 @@ export class AuthenticationService {
     }
 
     return existUser
+  }
+
+  public async createUserToken(user: BlogUserEntity): Promise<IToken> {
+    const payload: ITokenPayload = {
+      sub: user.id,
+      email: user.email,
+      username: user.username
+    }
+
+    try {
+      const accessToken = await this.jwtService.signAsync(payload)
+      return { accessToken }
+    } catch (error) {
+      const errorType = error as { message: string }
+      this.logger.error('[Token generation error]: ' + errorType.message)
+      throw new HttpException('Ошибка при создании токена.', HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 }

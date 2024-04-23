@@ -1,5 +1,6 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { fillDto } from '@project/shared/helpers'
 import {
   AUTH_USER_EXISTS,
   AUTH_USER_PASSWORD_WRONG
@@ -7,6 +8,7 @@ import {
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
+import { LoggedUserRdo } from 'libs/user/authentication/src/authentication-module/rdo/logged-user.rdo'
 import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
 
 @ApiTags('Authentication')
@@ -41,6 +43,7 @@ export class AuthenticationController {
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto)
-    return verifiedUser.toPOJO()
+    const userToken = await this.authService.createUserToken(verifiedUser)
+    return fillDto(LoggedUserRdo, { ...verifiedUser.toPOJO(), ...userToken })
   }
 }
