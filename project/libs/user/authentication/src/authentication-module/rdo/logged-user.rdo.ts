@@ -1,12 +1,15 @@
-import { Expose } from 'class-transformer';
+import { Expose } from 'class-transformer'
 
 export class LoggedUserRdo {
   @Expose()
-  public id: string;
+  public _id: string
 
   @Expose()
-  public email: string;
+  public username: string
 
   @Expose()
-  public accessToken: string;
+  public email: string
+
+  @Expose()
+  public accessToken: string
 }
