@@ -22,7 +22,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup(globalPrefix, app, document)
 
-  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true
+    })
+  )
 
   await app.listen(port)
   Logger.log(`🚀 Application User is running on: http://localhost:${port}/${globalPrefix}`)

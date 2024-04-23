@@ -1,15 +1,11 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
-import { ConfigService, ConfigType } from '@nestjs/config'
 import { BlogUserRepository } from '@project/blog-user'
-import { dbConfig } from '@project/config'
 import { IAuthUser } from '@project/shared/core'
-import dayjs from 'dayjs'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
 import {
   AUTH_USER_EXISTS,
   AUTH_USER_NOT_FOUND,
-  AUTH_USER_PASSWORD_WRONG,
-  DATE_FORMAT
+  AUTH_USER_PASSWORD_WRONG
 } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
