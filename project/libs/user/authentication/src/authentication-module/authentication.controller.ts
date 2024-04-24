@@ -16,11 +16,11 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.CREATED,
-    description: ApiResponseDescription.USER_CREATED
+    description: ApiResponseDescription.UserCreated
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: ApiResponseDescription.USER_EXISTS
+    description: ApiResponseDescription.UserExists
   })
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
@@ -31,15 +31,15 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: ApiResponseDescription.USER_LOGGED
+    description: ApiResponseDescription.UserLogged
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: ApiResponseDescription.USER_NOT_FOUND
+    description: ApiResponseDescription.UserNotFound
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: ApiResponseDescription.PASSWORD_WRONG
+    description: ApiResponseDescription.PasswordWrong
   })
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {

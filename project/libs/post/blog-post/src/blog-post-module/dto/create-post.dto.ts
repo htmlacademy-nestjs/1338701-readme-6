@@ -1,19 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IPostLink, IPostPhoto, IPostQuote, IPostText, IPostVideo, ITag, PostType } from '@project/shared/core'
+import { PostType } from '@project/shared/core'
 import { Type } from 'class-transformer'
 import {
-  ArrayNotEmpty,
   IsArray,
   IsEnum,
   IsMongoId,
   IsNotEmpty,
-  IsObject,
   IsOptional,
   IsString,
   IsUUID,
   Validate,
   ValidateNested
 } from 'class-validator'
+import { ApiPropertyDescription } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { PostLinkDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-link.dto'
 import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-photo.dto'
 import { PostQouteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-qoute.dto'
@@ -24,7 +23,7 @@ import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/valid
 
 export class CreatePostDto {
   @ApiProperty({
-    description: 'Post title',
+    description: ApiPropertyDescription.Title,
     example: 'String'
   })
   @IsString()

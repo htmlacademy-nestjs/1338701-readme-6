@@ -6,24 +6,24 @@ export const AuthenticationValidateMessage = {
 } as const
 
 export const ApiResponseDescription = {
-  USER_CREATED: 'The new user has been successfully created',
-  USER_EXISTS: 'User with this email exists',
-  USER_LOGGED: 'User has been successfully logged',
-  USER_NOT_FOUND: 'User not found',
-  PASSWORD_WRONG: 'User password is wrong'
+  UserCreated: 'The new user has been successfully created',
+  UserExists: 'User with this email exists',
+  UserLogged: 'User has been successfully logged',
+  UserNotFound: 'User not found',
+  PasswordWrong: 'User password is wrong'
 } as const
 
 export const ApiDescription = {
-  ID: 'User mongo ID',
-  EMAIL: 'Unique email address',
-  PASSWORD: 'Password at account',
-  USERNAME: 'User nickname',
-  ACCESS_TOKEN: 'Access token for access to protected services of application'
+  Id: 'User mongo ID',
+  Email: 'Unique email address',
+  Password: 'Password at account',
+  Username: 'User nickname',
+  AccessToken: 'Access token for access to protected services of application'
 } as const
 
 export const ValidationRule = {
-  MIN_USERNAME_LENGTH: 3,
-  MAX_USERNAME_LENGTH: 50,
-  MIN_PASSWORD_LENGTH: 6,
-  MAX_PASSWORD_LENGTH: 12
+  MinUsernameLength: 3,
+  MaxUsernameLength: 50,
+  MinPasswordLength: 6,
+  MaxPasswordLength: 12
 } as const

@@ -4,28 +4,28 @@ import { ApiDescription } from 'libs/user/authentication/src/authentication-modu
 
 export class LoggedUserRdo {
   @ApiProperty({
-    description: ApiDescription.ID,
+    description: ApiDescription.Id,
     example: 'String'
   })
   @Expose()
   public id: string
 
   @ApiProperty({
-    description: ApiDescription.USERNAME,
+    description: ApiDescription.Username,
     example: 'String'
   })
   @Expose()
   public username: string
 
   @ApiProperty({
-    description: ApiDescription.EMAIL,
+    description: ApiDescription.Email,
     example: 'String'
   })
   @Expose()
   public email: string
 
   @ApiProperty({
-    description: ApiDescription.ACCESS_TOKEN,
+    description: ApiDescription.AccessToken,
     example: 'String'
   })
   @Expose()

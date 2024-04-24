@@ -8,25 +8,25 @@ import {
 
 export class CreateUserDto {
   @ApiProperty({
-    description: ApiDescription.EMAIL,
+    description: ApiDescription.Email,
     example: 'String'
   })
   @IsEmail({}, { message: AuthenticationValidateMessage.EmailNotValid })
   public email: string
 
   @ApiProperty({
-    description: ApiDescription.USERNAME,
+    description: ApiDescription.Username,
     example: 'String'
   })
-  @Length(ValidationRule.MIN_USERNAME_LENGTH, ValidationRule.MAX_USERNAME_LENGTH)
+  @Length(ValidationRule.MinUsernameLength, ValidationRule.MaxUsernameLength)
   @IsString()
   public username: string
 
   @ApiProperty({
-    description: ApiDescription.PASSWORD,
+    description: ApiDescription.Password,
     example: 'String'
   })
-  @Length(ValidationRule.MIN_PASSWORD_LENGTH, ValidationRule.MAX_PASSWORD_LENGTH)
+  @Length(ValidationRule.MinPasswordLength, ValidationRule.MaxPasswordLength)
   @IsString()
   public password: string
 }

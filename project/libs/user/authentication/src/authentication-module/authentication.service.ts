@@ -38,7 +38,7 @@ export class AuthenticationService {
     const existUser = await this.blogUserRepository.findByEmail(email)
 
     if (existUser) {
-      throw new ConflictException(ApiResponseDescription.USER_EXISTS)
+      throw new ConflictException(ApiResponseDescription.UserExists)
     }
 
     const passwordHash = await this.hasher.hash(password)
@@ -52,7 +52,7 @@ export class AuthenticationService {
     const existUser = await this.blogUserRepository.findByEmail(email)
 
     if (!existUser) {
-      throw new NotFoundException(ApiResponseDescription.USER_NOT_FOUND)
+      throw new NotFoundException(ApiResponseDescription.UserNotFound)
     }
     console.log('password:', password)
     console.log('existUser.passwordHash:', existUser.passwordHash)
@@ -61,7 +61,7 @@ export class AuthenticationService {
       : false
 
     if (!isCorrectPassword) {
-      throw new UnauthorizedException(ApiResponseDescription.PASSWORD_WRONG)
+      throw new UnauthorizedException(ApiResponseDescription.PasswordWrong)
     }
 
     return existUser

@@ -7,14 +7,14 @@ import {
 
 export class LoginUserDto {
   @ApiProperty({
-    description: ApiDescription.EMAIL,
+    description: ApiDescription.Email,
     example: 'String'
   })
   @IsEmail({}, { message: AuthenticationValidateMessage.EmailNotValid })
   public email: string
 
   @ApiProperty({
-    description: ApiDescription.PASSWORD,
+    description: ApiDescription.Password,
     example: 'String'
   })
   @IsString()
