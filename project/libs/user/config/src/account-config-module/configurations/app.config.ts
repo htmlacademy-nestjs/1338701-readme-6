@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config'
 import Joi from 'joi'
-import { DEFAULT_PORT, ENVIRONMENTS } from 'libs/user/config/src/acctoun-config-module/account-config.constant'
-import { ApplicationConfig } from 'libs/user/config/src/acctoun-config-module/configurations/app.interface'
+import { DEFAULT_PORT, ENVIRONMENTS } from 'libs/user/config/src/account-config-module/account-config.constant'
+import { ApplicationConfig } from 'libs/user/config/src/account-config-module/configurations/app.interface'
 
 type Environment = (typeof ENVIRONMENTS)[number]
 
@@ -22,7 +22,7 @@ function validateConfig(config: ApplicationConfig): void {
 function getConfig(): ApplicationConfig {
   const config: ApplicationConfig = {
     environment: process.env['NODE_ENV'] as Environment,
-    port: parseInt(process.env['PORT'] || `${DEFAULT_PORT}`, 10)
+    port: parseInt(process.env['SERVICE_PORT'] || `${DEFAULT_PORT}`, 10)
   }
 
   validateConfig(config)
