@@ -10,15 +10,9 @@ import {
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { BlogUserRepository } from '@project/blog-user'
-import { IAuthUser, IToken, ITokenPayload, IUser } from '@project/shared/core'
-import { AST } from 'eslint'
-import { string } from 'joi'
+import { IAuthUser, IToken, ITokenPayload } from '@project/shared/core'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
-import {
-  AUTH_USER_EXISTS,
-  AUTH_USER_NOT_FOUND,
-  AUTH_USER_PASSWORD_WRONG
-} from 'libs/user/authentication/src/authentication-module/authentication.constant'
+import { ApiResponseDescription } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
 import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
@@ -44,7 +38,7 @@ export class AuthenticationService {
     const existUser = await this.blogUserRepository.findByEmail(email)
 
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS)
+      throw new ConflictException(ApiResponseDescription.USER_EXISTS)
     }
 
     const passwordHash = await this.hasher.hash(password)
@@ -58,7 +52,7 @@ export class AuthenticationService {
     const existUser = await this.blogUserRepository.findByEmail(email)
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND)
+      throw new NotFoundException(ApiResponseDescription.USER_NOT_FOUND)
     }
     console.log('password:', password)
     console.log('existUser.passwordHash:', existUser.passwordHash)
@@ -67,7 +61,7 @@ export class AuthenticationService {
       : false
 
     if (!isCorrectPassword) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG)
+      throw new UnauthorizedException(ApiResponseDescription.PASSWORD_WRONG)
     }
 
     return existUser

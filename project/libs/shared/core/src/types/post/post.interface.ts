@@ -6,7 +6,6 @@ import { IPostText } from 'libs/shared/core/src/types/post/post-text.interface'
 import { PostType } from 'libs/shared/core/src/types/post/post-type.enum'
 import { IPostVideo } from 'libs/shared/core/src/types/post/post-video.interface'
 import { ITag } from 'libs/shared/core/src/types/tag/tag.interface'
-import { IUser } from 'libs/shared/core/src/types/user/user.interface'
 
 export interface IPost {
   id?: string
@@ -16,7 +15,7 @@ export interface IPost {
   likes: string[]
   tags: ITag[]
   comments: IComment[]
-  sourceAuthorId?: IUser['_id']
+  sourceAuthorId?: string
   sourceId?: IPost['id']
   postVideo?: IPostVideo
   postLink?: IPostLink

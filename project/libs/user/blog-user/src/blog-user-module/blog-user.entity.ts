@@ -9,6 +9,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
   public updatedAt?: Date
 
   constructor(user?: IAuthUser) {
+    console.log(user)
     super()
     this.populate(user)
   }
@@ -17,7 +18,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
     if (!user) {
       return
     }
-    this.id = user._id
+    this.id = user.id
     this.email = user.email
     this.username = user.username
     this.passwordHash = user.passwordHash
@@ -28,7 +29,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
 
   toPOJO(): IAuthUser {
     return {
-      _id: this.id,
+      id: this.id,
       email: this.email,
       username: this.username,
       avatarId: this.avatarId,

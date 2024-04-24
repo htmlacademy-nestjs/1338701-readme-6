@@ -1,10 +1,7 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { fillDto } from '@project/shared/helpers'
-import {
-  AUTH_USER_EXISTS,
-  AUTH_USER_PASSWORD_WRONG
-} from 'libs/user/authentication/src/authentication-module/authentication.constant'
+import { ApiResponseDescription } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
@@ -19,11 +16,11 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.CREATED,
-    description: 'The new user has been successfully created.'
+    description: ApiResponseDescription.USER_CREATED
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: AUTH_USER_EXISTS
+    description: ApiResponseDescription.USER_EXISTS
   })
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
@@ -34,11 +31,15 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'User has been successfully logged'
+    description: ApiResponseDescription.USER_LOGGED
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: ApiResponseDescription.USER_NOT_FOUND
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: AUTH_USER_PASSWORD_WRONG
+    description: ApiResponseDescription.PASSWORD_WRONG
   })
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
