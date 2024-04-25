@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator'
 
 export class PostVideoRdo {
   @ApiProperty({

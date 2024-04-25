@@ -9,13 +9,14 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  Length,
   Validate,
   ValidateNested
 } from 'class-validator'
-import { ApiPropertyDescription } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
+import { ApiPropertyDescription, validationRule } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { PostLinkDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-link.dto'
 import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-photo.dto'
-import { PostQouteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-qoute.dto'
+import { PostQuoteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-quote.dto'
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
 import { IsValidPostContent } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-content'
@@ -26,12 +27,13 @@ export class CreatePostDto {
     description: ApiPropertyDescription.Title,
     example: 'String'
   })
+  @Length(validationRule.title.minLength, validationRule.title.maxLength)
   @IsString()
   @IsNotEmpty()
   title: string
 
   @ApiProperty({
-    description: 'Post Type',
+    description: ApiPropertyDescription.Type,
     example: 'VIDEO',
     enum: PostType
   })
@@ -41,16 +43,15 @@ export class CreatePostDto {
   type: PostType
 
   @ApiProperty({
-    description: 'ID author',
-    example: 'String',
-    enum: PostType
+    description: ApiPropertyDescription.AuthorId,
+    example: 'String'
   })
   @IsString()
   @IsMongoId()
   public authorId: string
 
   @ApiProperty({
-    description: 'Post tags',
+    description: ApiPropertyDescription.Tag,
     example: []
   })
   @IsUUID('all', { each: true })
@@ -71,9 +72,9 @@ export class CreatePostDto {
 
   @Validate(IsValidPostProps)
   @ValidateNested()
-  @Type(() => PostQouteDto)
+  @Type(() => PostQuoteDto)
   @IsOptional()
-  postQuote?: PostQouteDto
+  postQuote?: PostQuoteDto
 
   @Validate(IsValidPostProps)
   @ValidateNested()

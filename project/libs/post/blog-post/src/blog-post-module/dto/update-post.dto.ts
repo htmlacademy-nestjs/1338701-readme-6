@@ -16,7 +16,7 @@ import {
 } from 'class-validator'
 import { PostLinkDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-link.dto'
 import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-photo.dto'
-import { PostQouteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-qoute.dto'
+import { PostQuoteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-quote.dto'
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
 import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-props'
@@ -74,7 +74,7 @@ export class UpdatePostDto {
   @IsObject()
   @IsNotEmpty()
   @IsOptional()
-  postQuote?: PostQouteDto
+  postQuote?: PostQuoteDto
 
   @Validate(IsValidPostProps)
   @ValidateNested()
