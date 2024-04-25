@@ -5,10 +5,13 @@
 GET http://localhost:{{SERVICE_PORT}}/api/posts HTTP/1.1
 
 ###
-
 # Get posts with filter
+@LIMIT = 10
+@PAGE = 1
+@SORTT_DIRECTION = desc
 
-GET http://localhost:{{SERVICE_PORT}}/api/posts?limit=2&sortDirection=desc&tags[]=6260c22b-870d-49b2-b9fb-e929486bfe0c&page=1 HTTP/1.1
+
+GET http://localhost:{{SERVICE_PORT}}/api/posts?limit={{LIMIT}}&sortDirection={{SORTT_DIRECTION}}&page={{PAGE}} HTTP/1.1
 
 ###
 
