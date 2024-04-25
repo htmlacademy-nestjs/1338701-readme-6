@@ -2,14 +2,18 @@ import { IPost, IPostLink, IPostPhoto, IPostQuote, IPostText, IPostVideo, Storab
 import { BasePostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/base-post.entity'
 
 export class CommonPostEntity extends BasePostEntity implements StorableEntity<IPost> {
-  private readonly postVideo?: IPostVideo
-  private readonly postText?: IPostText
-  private readonly postLink?: IPostLink
-  private readonly postQuote?: IPostQuote
-  private readonly postPhoto?: IPostPhoto
+  public postVideo?: IPostVideo
+  public postText?: IPostText
+  public postLink?: IPostLink
+  public postQuote?: IPostQuote
+  public postPhoto?: IPostPhoto
 
-  constructor(post: IPost) {
+  constructor(post?: IPost) {
     super(post)
+    if (!post) {
+      return
+    }
+
     if (post.postVideo) {
       this.postVideo = post.postVideo
     }

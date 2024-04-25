@@ -105,7 +105,6 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
 
   public async update(entity: CommonPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO()
-    console.log(pojoEntity)
     await this.client.post.update({
       where: { id: pojoEntity.id },
       data: {
@@ -113,11 +112,11 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
         type: pojoEntity.type,
         authorId: pojoEntity.authorId,
         likes: pojoEntity.likes,
-        postText: { create: pojoEntity.postText },
-        postLink: { create: pojoEntity.postLink },
-        postPhoto: { create: pojoEntity.postPhoto },
-        postVideo: { create: pojoEntity.postVideo },
-        postQuote: { create: pojoEntity.postQuote },
+        postText: pojoEntity.postText ? { update: pojoEntity.postText } : undefined,
+        postLink: pojoEntity.postLink ? { update: pojoEntity.postLink } : undefined,
+        postPhoto: pojoEntity.postPhoto ? { update: pojoEntity.postPhoto } : undefined,
+        postVideo: pojoEntity.postVideo ? { update: pojoEntity.postVideo } : undefined,
+        postQuote: pojoEntity.postQuote ? { update: pojoEntity.postQuote } : undefined,
         tags: {
           set: pojoEntity.tags.map((tag) => ({
             id: tag.id

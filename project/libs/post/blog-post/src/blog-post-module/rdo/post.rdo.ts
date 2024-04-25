@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostType } from '@project/shared/core'
+import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostStatus, PostType } from '@project/shared/core'
 import { Expose } from 'class-transformer'
 import { PostVideoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-video.rdo'
 
@@ -24,6 +24,13 @@ export class PostRdo {
   })
   @Expose()
   public type: PostType
+
+  @ApiProperty({
+    description: 'Post Status',
+    example: 'String'
+  })
+  @Expose()
+  public status: PostStatus
 
   @ApiProperty({
     description: 'Post tags'
@@ -87,4 +94,11 @@ export class PostRdo {
   })
   @Expose()
   public updatedAt: Date
+
+  @ApiProperty({
+    description: 'Post published date',
+    example: '2024-03-31 19:58:37'
+  })
+  @Expose()
+  public publishedAt: Date
 }

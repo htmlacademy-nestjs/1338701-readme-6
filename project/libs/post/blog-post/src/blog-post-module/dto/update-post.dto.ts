@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { PostType } from '@project/shared/core'
+import { PostStatus, PostType } from '@project/shared/core'
 import { Type } from 'class-transformer'
 import {
   ArrayNotEmpty,
@@ -38,8 +38,17 @@ export class UpdatePostDto {
   })
   @IsEnum(PostType)
   @IsNotEmpty()
+  type: PostType
+
+  @ApiProperty({
+    description: 'Post Type',
+    example: 'VIDEO',
+    enum: PostType
+  })
+  @IsEnum(PostStatus)
+  @IsNotEmpty()
   @IsOptional()
-  type?: PostType
+  status: PostStatus
 
   @ApiProperty({
     description: 'ID author',
