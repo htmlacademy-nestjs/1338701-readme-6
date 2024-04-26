@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostStatus, PostType } from '@project/shared/core'
-import { Expose } from 'class-transformer'
+import { Expose, Type } from 'class-transformer'
 import { PostVideoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-video.rdo'
 
 export class PostRdo {
@@ -67,8 +67,10 @@ export class PostRdo {
     description: 'Post video'
   })
   @Expose()
+  @Type(() => PostVideoRdo)
   postVideo?: PostVideoRdo
 
+  // TODO: Добавить сериализацию для остальных типов поста.
   @Expose()
   postLink?: IPostLink
 
