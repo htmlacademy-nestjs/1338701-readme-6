@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostStatus, PostType } from '@project/shared/core'
 import { Expose, Type } from 'class-transformer'
+import { PostLinkRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-link.rdo'
+import { PostPhotoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-photo.rdo'
+import { PostQuoteRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-quote.rdo'
+import { PostTextRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-text.rdo'
 import { PostVideoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-video.rdo'
 
 export class PostRdo {
@@ -70,18 +74,21 @@ export class PostRdo {
   @Type(() => PostVideoRdo)
   postVideo?: PostVideoRdo
 
-  // TODO: Добавить сериализацию для остальных типов поста.
   @Expose()
-  postLink?: IPostLink
+  @Type(() => PostLinkRdo)
+  postLink?: PostLinkRdo
 
   @Expose()
-  postQuote?: IPostQuote
+  @Type(() => PostQuoteRdo)
+  postQuote?: PostQuoteRdo
 
   @Expose()
-  postPhoto?: IPostPhoto
+  @Type(() => PostPhotoRdo)
+  postPhoto?: PostPhotoRdo
 
   @Expose()
-  postText?: IPostText
+  @Type(() => PostTextRdo)
+  postText?: PostTextRdo
 
   @ApiProperty({
     description: 'Post create date',

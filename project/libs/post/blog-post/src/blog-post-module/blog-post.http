@@ -74,10 +74,10 @@ POST http://localhost:{{SERVICE_PORT}}/api/posts/create HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Пост фото 001",
+  "title": "Секреты написания заголовков: привлекайте внимание",
   "type": "PHOTO",
   "authorId": "658ede7600f80970fcf9e111",
-  "tags": ["60a40c1a-a844-48d9-9c65-a45aad0b4d80", "9faee213-ff82-4673-a502-a616ac9fdde1"],
+  "tags": [],
   "postPhoto": {
     "photoId": "658ede7600f80970fcf9e231"
   }
@@ -124,14 +124,14 @@ DELETE http://localhost:{{SERVICE_PORT}}/api/posts/3334c986-c033-4a56-8e56-61e2d
 ###
 
 # Update post by id
-PATCH http://localhost:{{SERVICE_PORT}}/api/posts/286f6580-70dd-49a4-9aa7-aef35f19daa3 HTTP/1.1
+PATCH http://localhost:{{SERVICE_PORT}}/api/posts/25b98775-aa0e-4e1f-9afa-a25001774343 HTTP/1.1
 Content-Type: application/json
 
 {
   "title": "Секреты написания заголовков: привлекайте внимание...",
-  "type": "VIDEO",
-  "postVideo": {
-    "urlYoutube": "https://www.youtube.com/live/frgZbKvp4Ec?si=U8t8f0loC5yMDDBz"
+  "type": "PHOTO",
+  "postPhoto": {
+    "photoId": "658ede7600f80970fcf9e232"
   }
 }
 

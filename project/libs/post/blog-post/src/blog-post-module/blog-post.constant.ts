@@ -1,4 +1,5 @@
 import { SortDirection } from '@project/shared/core'
+import { SortField } from 'libs/shared/core/src/enums/sort-field.enum'
 
 export const POST_NOT_FOUND = 'Post not found'
 
@@ -8,6 +9,7 @@ export const FACTORIES_METADATA_KEY = 'factories'
 export const DEFAULT_POST_COUNT_LIMIT = 25
 export const DEFAULT_SORT_DIRECTION = SortDirection.Desc
 export const DEFAULT_PAGE_COUNT = 1
+export const DEFAULT_SORT_BY_FIELD = SortField.PublishedAt
 
 export const ApiPropertyDescription = {
   Title: 'Post title',

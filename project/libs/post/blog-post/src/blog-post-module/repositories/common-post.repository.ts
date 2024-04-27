@@ -63,8 +63,8 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
       }
     }
 
-    if (query?.sortDirection) {
-      orderBy.createdAt = query.sortDirection
+    if (query?.sortDirection && query?.sortByField) {
+      orderBy[query.sortByField] = query.sortDirection
     }
 
     const [records, postCount] = await Promise.all([
