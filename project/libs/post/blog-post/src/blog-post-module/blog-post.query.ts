@@ -2,8 +2,14 @@ import { Transform } from 'class-transformer'
 import { IsArray, IsIn, IsNumber, IsOptional, IsUUID } from 'class-validator'
 
 import { SortDirection } from '@project/shared/core'
+import { SortField } from 'libs/shared/core/src/enums/sort-field.enum'
 
-import { DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, DEFAULT_PAGE_COUNT } from './blog-post.constant'
+import {
+  DEFAULT_POST_COUNT_LIMIT,
+  DEFAULT_SORT_DIRECTION,
+  DEFAULT_PAGE_COUNT,
+  DEFAULT_SORT_BY_FIELD
+} from './blog-post.constant'
 
 export class BlogPostQuery {
   @Transform(({ value }) => +value || DEFAULT_POST_COUNT_LIMIT)
@@ -23,4 +29,7 @@ export class BlogPostQuery {
   @Transform(({ value }) => +value || DEFAULT_PAGE_COUNT)
   @IsOptional()
   public page: number = DEFAULT_PAGE_COUNT
+
+  @IsOptional()
+  public sortByField?: SortField = DEFAULT_SORT_BY_FIELD
 }

@@ -10,14 +10,12 @@ import { RepositoryType } from 'libs/post/blog-post/src/blog-post-module/decorat
 export class RepositoryTypeFactory {
   constructor(private moduleRef: ModuleRef) {}
 
-  public create(type: PostType): BasePostgresRepository<any> | undefined {
+  public create(type: PostType): BasePostgresRepository<any> {
     const definedRepositories: Map<string, Constructor<any>> = Reflect.getOwnMetadata(
       REPOSITORIES_METADATA_KEY,
       RepositoryType
     )
-    const repository = definedRepositories.get(type)
-    if (repository) {
-      return this.moduleRef.get(repository)
-    }
+    const repository = definedRepositories.get(type) as Constructor<any>
+    return this.moduleRef.get(repository)
   }
 }

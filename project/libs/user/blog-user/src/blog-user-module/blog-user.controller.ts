@@ -1,5 +1,6 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { MongoIdValidationPipe } from '@project/pipes'
 
 import { BlogUserService } from 'libs/user/blog-user/src/blog-user-module/blog-user.service'
 import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
@@ -15,7 +16,7 @@ export class BlogUserController {
     description: 'User found'
   })
   @Get(':userId')
-  public async show(@Param('userId') id: string) {
+  public async show(@Param('userId', MongoIdValidationPipe) id: string) {
     const existUser = await this.blogUserService.getUser(id)
     return existUser.toPOJO()
   }

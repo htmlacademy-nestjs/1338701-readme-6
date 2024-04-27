@@ -74,10 +74,10 @@ export class BlogPostController {
     status: HttpStatus.OK,
     description: 'The post has been successfully updated'
   })
-  // TODO: ВАЖНО! Нужно решить проблему с валидацией типов поста. Сейчас можно записать два типа в один документ, что недопустимо.
   @Patch('/:postId')
   public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(postId, dto)
+    console.log(updatedPost.toPOJO())
     return fillDto(PostRdo, updatedPost.toPOJO())
   }
 

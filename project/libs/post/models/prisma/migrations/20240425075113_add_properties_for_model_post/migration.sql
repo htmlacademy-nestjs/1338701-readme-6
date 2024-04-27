@@ -1,0 +1,6 @@
+-- CreateEnum
+CREATE TYPE "PostStatus" AS ENUM ('PUBLISHED', 'DRAFT');
+
+-- AlterTable
+ALTER TABLE "posts" ADD COLUMN     "published_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "status" "PostStatus" NOT NULL DEFAULT 'PUBLISHED';

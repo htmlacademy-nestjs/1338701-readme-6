@@ -17,3 +17,6 @@ export { PaginationResult } from './types/common/pagination.interface'
 export { StorableEntity } from './types/common/storable-entity.interface'
 
 export { Entity } from './base/entity'
+export { IToken } from './types/token/token.interface'
+export { ITokenPayload } from './types/token/token-payload.interface'
+export { PostStatus } from './types/post/post-status.enum'

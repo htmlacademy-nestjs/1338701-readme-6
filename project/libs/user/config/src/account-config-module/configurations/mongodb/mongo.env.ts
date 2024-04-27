@@ -1,11 +1,11 @@
 import { IsNumber, IsOptional, IsString, Max, Min, validateOrReject } from 'class-validator'
 
-import { EnvValidationMessage } from 'libs/user/config/src/acctoun-config-module/configurations/mongodb/mongo.messages'
+import { EnvValidationMessage } from 'libs/user/config/src/account-config-module/configurations/mongodb/mongo.messages'
 import {
   MIN_PORT,
   MAX_PORT,
   DEFAULT_MONGO_PORT
-} from 'libs/user/config/src/acctoun-config-module/configurations/mongodb/mongo.constant'
+} from 'libs/user/config/src/account-config-module/configurations/mongodb/mongo.constant'
 
 export class MongoConfiguration {
   @IsString({ message: EnvValidationMessage.DBNameRequired })

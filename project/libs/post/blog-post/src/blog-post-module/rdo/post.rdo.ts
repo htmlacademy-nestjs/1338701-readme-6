@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostType } from '@project/shared/core'
-import { Expose } from 'class-transformer'
+import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostStatus, PostType } from '@project/shared/core'
+import { Expose, Type } from 'class-transformer'
+import { PostLinkRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-link.rdo'
+import { PostPhotoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-photo.rdo'
+import { PostQuoteRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-quote.rdo'
+import { PostTextRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-text.rdo'
 import { PostVideoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-video.rdo'
 
 export class PostRdo {
@@ -24,6 +28,13 @@ export class PostRdo {
   })
   @Expose()
   public type: PostType
+
+  @ApiProperty({
+    description: 'Post Status',
+    example: 'String'
+  })
+  @Expose()
+  public status: PostStatus
 
   @ApiProperty({
     description: 'Post tags'
@@ -60,19 +71,24 @@ export class PostRdo {
     description: 'Post video'
   })
   @Expose()
+  @Type(() => PostVideoRdo)
   postVideo?: PostVideoRdo
 
   @Expose()
-  postLink?: IPostLink
+  @Type(() => PostLinkRdo)
+  postLink?: PostLinkRdo
 
   @Expose()
-  postQuote?: IPostQuote
+  @Type(() => PostQuoteRdo)
+  postQuote?: PostQuoteRdo
 
   @Expose()
-  postPhoto?: IPostPhoto
+  @Type(() => PostPhotoRdo)
+  postPhoto?: PostPhotoRdo
 
   @Expose()
-  postText?: IPostText
+  @Type(() => PostTextRdo)
+  postText?: PostTextRdo
 
   @ApiProperty({
     description: 'Post create date',
@@ -87,4 +103,11 @@ export class PostRdo {
   })
   @Expose()
   public updatedAt: Date
+
+  @ApiProperty({
+    description: 'Post published date',
+    example: '2024-03-31 19:58:37'
+  })
+  @Expose()
+  public publishedAt: Date
 }

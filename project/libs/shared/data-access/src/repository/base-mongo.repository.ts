@@ -29,9 +29,7 @@ export abstract class BaseMongoRepository<
   }
 
   public async save(entity: T): Promise<void> {
-    console.log('entity', entity)
     const newEntity = new this.model(entity)
-    console.log('newEntity', newEntity)
     await newEntity.save()
 
     entity.id = newEntity._id.toString()

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator'
+import { IsNotEmpty, IsString, Matches } from 'class-validator'
+import { validationRule } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 
 export class PostVideoDto {
   @ApiProperty({
@@ -8,8 +9,8 @@ export class PostVideoDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Matches(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/, {
-    message: 'Invalid YouTube URL format'
+  @Matches(validationRule.postVideo.urlYoutube.formatLink, {
+    message: validationRule.postVideo.urlYoutube.message
   })
   urlYoutube: string
 }

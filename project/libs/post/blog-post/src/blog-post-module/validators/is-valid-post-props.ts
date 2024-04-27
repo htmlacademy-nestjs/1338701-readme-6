@@ -3,7 +3,7 @@ import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface 
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { PostLinkDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-link.dto'
 import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-photo.dto'
-import { PostQouteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-qoute.dto'
+import { PostQuoteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-quote.dto'
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
 
@@ -18,7 +18,7 @@ export class IsValidPostProps implements ValidatorConstraintInterface {
     const validators: Record<PostType, boolean> = {
       [PostType.Video]: postContent instanceof PostVideoDto,
       [PostType.Text]: postContent instanceof PostTextDto,
-      [PostType.Quote]: postContent instanceof PostQouteDto,
+      [PostType.Quote]: postContent instanceof PostQuoteDto,
       [PostType.Link]: postContent instanceof PostLinkDto,
       [PostType.Photo]: postContent instanceof PostPhotoDto
     }

@@ -1,5 +1,5 @@
 import { ConfigType, registerAs } from '@nestjs/config'
-import { MongoConfiguration } from 'libs/user/config/src/acctoun-config-module/configurations/mongodb/mongo.env'
+import { MongoConfiguration } from 'libs/user/config/src/account-config-module/configurations/mongodb/mongo.env'
 import { plainToClass } from 'class-transformer'
 
 const DEFAULT_MONGO_PORT = 27017

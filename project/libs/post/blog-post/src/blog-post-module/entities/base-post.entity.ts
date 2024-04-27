@@ -1,6 +1,6 @@
 import { BlogCommentEntity, BlogCommentFactory } from '@project/blog-comment'
 import { BlogTagEntity, BlogTagFactory } from '@project/blog-tag'
-import { Entity, IPost, ITag, PostType, StorableEntity } from '@project/shared/core'
+import { Entity, IPost, PostStatus, PostType, StorableEntity } from '@project/shared/core'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 
 export class BasePostEntity extends Entity implements StorableEntity<IPost> {
@@ -10,8 +10,10 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
   public likes: string[]
   public comments: BlogCommentEntity[]
   public tags: BlogTagEntity[]
+  public status: PostStatus
   public createdAt?: Date
   public updatedAt?: Date
+  public publishedAt?: Date
 
   constructor(post?: IPost) {
     super()
@@ -30,6 +32,8 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     this.likes = []
     this.tags = []
     this.comments = []
+    this.status = post.status
+    this.publishedAt = post.publishedAt
     this.createdAt = post.createdAt
     this.updatedAt = post.updatedAt
 
@@ -55,8 +59,10 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
       likes: this.likes,
       comments: this.comments.map((commentEntity) => commentEntity.toPOJO()),
       tags: this.tags.map((tagEntity) => tagEntity.toPOJO()),
+      status: this.status,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      publishedAt: this.publishedAt
     }
   }
 
