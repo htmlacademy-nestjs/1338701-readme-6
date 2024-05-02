@@ -2,10 +2,10 @@ version: '3.9'
 name: readme-upload
 
 services:
-  readme.upload.mongo:
+  upload-mongo:
     image: mongo:4.4
     restart: always
-    container_name: readme.upload.mongo
+    container_name: upload-mongo
 
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -28,15 +28,15 @@ services:
     networks:
       - update-service-network
 
-  readme.upload.mongo.ui:
+  upload-mongo-ui:
     image: mongo-express:latest
     restart: always
-    container_name: readme.upload.mongo.ui
+    container_name: upload-mongo-ui
     ports:
       - ${MONGO_UI_PORT}:8081
 
     environment:
-      ME_CONFIG_MONGODB_SERVER: ${MONGO_DB}
+      ME_CONFIG_MONGODB_SERVER: upload-mongo
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_USER}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_MONGODB_PORT: 27017
