@@ -42,4 +42,4 @@ Thumbs.db
 
 # Environments
 *.env
-**/uploads/*
+**/storage/*

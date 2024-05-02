@@ -23,7 +23,6 @@ export class UploaderService {
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath()
       const destinationFile = this.getDestinationFilePath(file.originalname)
-
       await ensureDir(uploadDirectoryPath)
       await writeFile(destinationFile, file.buffer)
 
