@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,
+    "useUnknownInCatchVariables": true,
     "baseUrl": ".",
     "paths": {
       "@project/authentication": ["libs/user/authentication/src/index.ts"],
@@ -29,7 +30,9 @@
       "@project/post-config": ["libs/post/post-config/src/index.ts"],
       "@project/post-models": ["libs/post/models/src/index.ts"],
       "@project/shared/core": ["libs/shared/core/src/index.ts"],
-      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"]
+      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"],
+      "@project/upload-config": ["libs/upload-library/upload-config/src/index.ts"],
+      "@project/uploader": ["libs/upload-library/uploader/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
