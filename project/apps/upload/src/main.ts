@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const globalPrefix = 'api'
   const configService = app.get(ConfigService)
-  const port = configService.get('application.port')
+  const port = configService.get('upload-service.port')
   app.setGlobalPrefix(globalPrefix)
   await app.listen(port)
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`)

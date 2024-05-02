@@ -1,9 +1,11 @@
 version: '3.9'
+name: readme-upload
+
 services:
-  readme-user-mongo:
+  readme.upload.mongo:
     image: mongo:4.4
     restart: always
-    container_name: readme-user-mongo
+    container_name: readme.upload.mongo
 
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -21,34 +23,32 @@ services:
       start_period: 30s
 
     volumes:
-      - readme.mongo.user:/data/db
-    networks:
-      - mongo-compose-network
+      - readme.mongo.upload:/data/db
 
-  readme-user-mongo-ui:
+    networks:
+      - update-service-network
+
+  readme.upload.mongo.ui:
     image: mongo-express:latest
     restart: always
-    container_name: readme-user-mongo-ui
+    container_name: readme.upload.mongo.ui
     ports:
       - ${MONGO_UI_PORT}:8081
+
     environment:
-      ME_CONFIG_MONGODB_SERVER: readme-user-mongo
+      ME_CONFIG_MONGODB_SERVER: ${MONGO_DB}
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_USER}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_MONGODB_PORT: 27017
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
-    links:
-      - readme-user-mongo
-    networks:
-      - mongo-compose-network
 
+    networks:
+      - update-service-network
 
 volumes:
-  readme.mongo.user:
+  readme.mongo.upload:
 
 networks:
-  mongo-compose-network:
+  update-service-network:
     driver: bridge
-
-
