@@ -19,8 +19,8 @@ services:
       - '5672:5672'
 
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_USER: ${MAIL_USER_NAME}
+      RABBITMQ_DEFAULT_PASS: ${MAIL_USER_PASSWORD}
 
     healthcheck:
       test: rabbitmq-diagnostics -q ping
