@@ -11,9 +11,9 @@ export class EmailSubscriberController {
   constructor(private readonly subscriberService: EmailSubscriberService, private readonly mailService: MailService) {}
 
   @RabbitSubscribe({
-    exchange: 'typoteka.notify.income',
+    exchange: 'readme.notification.income',
     routingKey: RabbitRouting.AddSubscriber,
-    queue: 'typoteka.notify.income'
+    queue: 'readme.notification.income'
   })
   public async create(subscriber: CreateSubscriberDto) {
     this.subscriberService.addSubscriber(subscriber)
