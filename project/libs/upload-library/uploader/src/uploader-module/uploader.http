@@ -12,3 +12,8 @@ Content-Disposition: form-data; name="file"; filename="22-600x400.jpg"
 --boundary--
 
 ###
+
+# Get file by ID
+GET http://localhost:{{SERVICE_PORT}}/api/uploader/6634860054612b2a05fa7b0f HTTP/1.1
+
+###
