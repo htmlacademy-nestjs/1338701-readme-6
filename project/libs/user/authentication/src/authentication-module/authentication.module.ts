@@ -5,6 +5,7 @@ import { BlogUserModule } from '@project/blog-user'
 import { getJwtOptions } from '@project/config'
 
 import { BcryptHasher } from '@project/shared/helpers'
+import { UserNotificationModule } from '@project/user-notification'
 import { SALT_ROUNDS } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { AuthenticationController } from 'libs/user/authentication/src/authentication-module/authentication.controller'
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
@@ -16,7 +17,8 @@ import { JwtAccessStrategy } from 'libs/user/authentication/src/authentication-m
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: getJwtOptions
-    })
+    }),
+    UserNotificationModule
   ],
   controllers: [AuthenticationController],
   providers: [

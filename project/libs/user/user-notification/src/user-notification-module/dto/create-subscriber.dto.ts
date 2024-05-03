@@ -1,5 +1,4 @@
 export class CreateSubscriberDto {
-  public email: string;
-  public firstname: string;
-  public lastname: string;
+  public email: string
+  public username: string
 }
