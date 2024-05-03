@@ -9,7 +9,6 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
   public updatedAt?: Date
 
   constructor(user?: IAuthUser) {
-    console.log(user)
     super()
     this.populate(user)
   }

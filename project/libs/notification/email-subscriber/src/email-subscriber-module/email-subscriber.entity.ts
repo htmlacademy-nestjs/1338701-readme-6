@@ -2,8 +2,7 @@ import { Entity, ISubscriber, StorableEntity } from '@project/shared/core'
 
 export class EmailSubscriberEntity extends Entity implements StorableEntity<ISubscriber> {
   public email: string
-  public firstname: string
-  public lastname: string
+  public username: string
 
   constructor(subscriber?: ISubscriber) {
     super()
@@ -17,16 +16,14 @@ export class EmailSubscriberEntity extends Entity implements StorableEntity<ISub
 
     this.id = subscriber.id ?? ''
     this.email = subscriber.email
-    this.firstname = subscriber.firstname
-    this.lastname = subscriber.lastname
+    this.username = subscriber.username
   }
 
   public toPOJO(): ISubscriber {
     return {
       id: this.id,
       email: this.email,
-      firstname: this.firstname,
-      lastname: this.lastname
+      username: this.username
     }
   }
 }

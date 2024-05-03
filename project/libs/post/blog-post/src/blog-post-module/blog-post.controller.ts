@@ -77,7 +77,6 @@ export class BlogPostController {
   @Patch('/:postId')
   public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(postId, dto)
-    console.log(updatedPost.toPOJO())
     return fillDto(PostRdo, updatedPost.toPOJO())
   }
 

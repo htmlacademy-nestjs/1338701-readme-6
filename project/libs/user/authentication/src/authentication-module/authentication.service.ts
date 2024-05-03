@@ -54,8 +54,6 @@ export class AuthenticationService {
     if (!existUser) {
       throw new NotFoundException(ApiResponseDescription.UserNotFound)
     }
-    console.log('password:', password)
-    console.log('existUser.passwordHash:', existUser.passwordHash)
     const isCorrectPassword = existUser.passwordHash
       ? await this.hasher.compareHash(password, existUser.passwordHash)
       : false
