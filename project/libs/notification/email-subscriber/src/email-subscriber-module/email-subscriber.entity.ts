@@ -14,7 +14,7 @@ export class EmailSubscriberEntity extends Entity implements StorableEntity<ISub
       return
     }
 
-    this.id = subscriber.id ?? ''
+    this.id = subscriber.id
     this.email = subscriber.email
     this.username = subscriber.username
   }

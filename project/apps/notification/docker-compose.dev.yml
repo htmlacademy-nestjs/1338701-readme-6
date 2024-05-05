@@ -7,7 +7,7 @@ services:
     container_name: "readme.notification.fakesmtp"
     hostname: "readme.notification.fakesmtp"
     ports:
-      - "8025:8025"
+      - ${MAIL_SMTP_PORT}:8025
       - "1085:8080"
 
   readme.notification.rabbitmq:
