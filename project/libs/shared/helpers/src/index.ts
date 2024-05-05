@@ -1,3 +1,5 @@
 export { BcryptHasher } from './hasher/bcrypt.hasher'
 export { getMongoConnectionString } from './common/mongo.helper'
 export { fillDto } from './common/dto.helper'
+export { getRabbitMQOptions } from './common/brokers.helper'
+export { getMailerAsyncOptions } from './common/mail.helper'

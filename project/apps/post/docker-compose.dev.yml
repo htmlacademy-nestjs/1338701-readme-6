@@ -1,4 +1,6 @@
 version: '3.9'
+name: readme-post
+
 services:
   readme.post.postgres:
     image: postgres:14-alpine

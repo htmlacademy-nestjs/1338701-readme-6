@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список новых публикаций</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .post {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .post h2 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    .post p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+<h1>Список новых публикаций</h1>
+<p>{{username}}, предлагаем ознакомиться со списком наших новых публикаций.</p>
+
+{{#each posts}}
+  <div class="post">
+    <h2>{{title}}</h2>
+    <p><strong>Автор:</strong> {{authorId}}</p>
+    <p><strong>Published At:</strong> {{publishedAt}}</p>
+
+    {{#if postVideo}}
+      <p><strong>Video URL:</strong> {{postVideo.urlYoutube}}</p>
+    {{/if}}
+
+    {{#if postLink}}
+      <p><strong>Link URL:</strong> {{postLink.url}}</p>
+      <p><strong>Description:</strong> {{postLink.description}}</p>
+    {{/if}}
+
+    {{#if postQuote}}
+      <p><strong>Quote:</strong> {{postQuote.quoteContent}}</p>
+    {{/if}}
+
+    {{#if postPhoto}}
+      <p><strong>Photo ID:</strong> {{postPhoto.photoId}}</p>
+    {{/if}}
+
+    {{#if postText}}
+      <p><strong>Announcement:</strong> {{postText.announcement}}</p>
+      <p><strong>Content:</strong> {{postText.content}}</p>
+    {{/if}}
+    <p><strong>Пост опубликован:</strong> {{publishedAt}}</p>
+  </div>
+{{/each}}
+
+<p>Спасибо, что остаётесь с нами!</p>
+</body>
+</html>

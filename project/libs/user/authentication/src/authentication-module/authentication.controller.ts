@@ -7,11 +7,15 @@ import { CreateUserDto } from 'libs/user/authentication/src/authentication-modul
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
 import { LoggedUserRdo } from 'libs/user/authentication/src/authentication-module/rdo/logged-user.rdo'
 import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
+import { UserNotificationService } from 'libs/user/user-notification/src/user-notification-module/user-notification.service'
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthenticationController {
-  constructor(private readonly authService: AuthenticationService) {}
+  constructor(
+    private readonly authService: AuthenticationService,
+    private readonly userNotificationService: UserNotificationService
+  ) {}
 
   @ApiResponse({
     type: UserRdo,
@@ -25,6 +29,9 @@ export class AuthenticationController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto)
+    const { email, username } = newUser
+    await this.userNotificationService.registerSubscriber({ email, username })
+
     return newUser.toPOJO()
   }
 

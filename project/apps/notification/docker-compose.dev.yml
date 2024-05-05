@@ -1,0 +1,69 @@
+version: '3.9'
+name: readme-notification
+
+services:
+  readme.notification.fakesmtp:
+    image: gessnerfl/fake-smtp-server:2.2.0
+    container_name: "readme.notification.fakesmtp"
+    hostname: "readme.notification.fakesmtp"
+    ports:
+      - ${MAIL_SMTP_PORT}:8025
+      - "1085:8080"
+
+  readme.notification.rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: readme.notification.rabbitmq
+
+    ports:
+      - '1088:15672'
+      - '5672:5672'
+
+    environment:
+      RABBITMQ_DEFAULT_USER: ${MAIL_USER_NAME}
+      RABBITMQ_DEFAULT_PASS: ${MAIL_USER_PASSWORD}
+
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notification-mongo:
+    image: mongo:4.4
+    container_name: notification-mongo
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+
+    ports:
+      - ${MONGO_PORT}:27017
+
+    volumes:
+      - readme.notification.mongo:/data/db
+
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/typoteka-notify --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  notification-mongo-ui:
+    image: mongo-express:1.0-20
+    restart: always
+    container_name: notification-mongo-ui
+
+    ports:
+      - ${MONGO_UI_PORT}:8081
+
+    environment:
+      ME_CONFIG_MONGODB_SERVER: notification-mongo
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+
+volumes:
+  readme.notification.mongo:
