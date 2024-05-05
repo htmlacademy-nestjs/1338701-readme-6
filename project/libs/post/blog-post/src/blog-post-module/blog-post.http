@@ -28,7 +28,7 @@ Content-Type: application/json
   "title": "Секреты написания заголовков: привлекайте внимание",
   "type": "VIDEO",
   "authorId": "658ede7600f80970fcf9e111",
-  "tags": ["dbca7781-e730-4fa4-b03a-e49ffb49a04d", "dc46bf2e-130a-4f7d-a8c6-31bef09445b0"],
+  "tags": [],
   "postVideo": {
     "urlYoutube": "https://youtu.be/lwYWMHVwYrs?si=2YnJzt-m7xxa0MTZ"
   }
@@ -147,3 +147,6 @@ Content-Type: application/json
 }
 
 ###
+
+# Norify about posts
+POST http://localhost:{{SERVICE_PORT}}/api/posts/notify HTTP/1.1

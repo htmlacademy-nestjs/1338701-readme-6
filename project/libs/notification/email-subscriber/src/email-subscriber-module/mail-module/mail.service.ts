@@ -27,7 +27,7 @@ export class MailService {
     })
   }
 
-  public async sendPostNotification(subscriber: ISubscriber, post: IPost) {
+  public async sendPostNotification(subscriber: ISubscriber, posts: IPost[]) {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: subscriber.email,
@@ -35,7 +35,7 @@ export class MailService {
       template: './updated-posts',
       context: {
         username: subscriber.username,
-        post: post
+        posts: posts
       }
     })
   }

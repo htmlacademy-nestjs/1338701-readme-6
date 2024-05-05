@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common'
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq'
-import { IPost, RabbitRouting } from '@project/shared/core'
+import { IPost, RabbitExchange, RabbitQueue, RabbitRouting } from '@project/shared/core'
 import { MailService } from 'libs/notification/email-subscriber/src/email-subscriber-module/mail-module/mail.service'
 
 import { EmailSubscriberService } from './email-subscriber.service'
@@ -11,9 +11,9 @@ export class EmailSubscriberController {
   constructor(private readonly subscriberService: EmailSubscriberService, private readonly mailService: MailService) {}
 
   @RabbitSubscribe({
-    exchange: 'readme.notification.income',
+    exchange: RabbitExchange.Income,
     routingKey: RabbitRouting.AddSubscriber,
-    queue: 'readme.notification.income'
+    queue: RabbitQueue.Income
   })
   public async create(subscriber: CreateSubscriberDto) {
     await this.subscriberService.addSubscriber(subscriber)
@@ -21,15 +21,15 @@ export class EmailSubscriberController {
   }
 
   @RabbitSubscribe({
-    exchange: 'readme.notification.income',
+    exchange: RabbitExchange.SendPosts,
     routingKey: RabbitRouting.SendPosts,
-    queue: 'readme.notification.income'
+    queue: RabbitQueue.SendPosts
   })
-  public async sendPostNotifications(post: IPost) {
+  public async sendPostNotifications(posts: IPost[]) {
+    console.log('WORK2')
     const subscribers = await this.subscriberService.getAllSubscribers()
-
     for (const subscriber of subscribers) {
-      await this.mailService.sendPostNotification(subscriber, post)
+      await this.mailService.sendPostNotification(subscriber, posts)
     }
   }
 }

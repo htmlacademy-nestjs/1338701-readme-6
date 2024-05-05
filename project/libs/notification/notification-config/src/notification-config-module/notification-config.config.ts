@@ -24,8 +24,6 @@ export interface NotifyConfig {
     host: string
     password: string
     user: string
-    queue: string
-    exchange: string
     port: number
   }
   mail: {
@@ -54,9 +52,7 @@ const validationSchema = Joi.object({
     host: Joi.string().valid().hostname().required(),
     password: Joi.string().required(),
     port: Joi.number().port().default(DEFAULT_RABBIT_PORT),
-    user: Joi.string().required(),
-    queue: Joi.string().required(),
-    exchange: Joi.string().required()
+    user: Joi.string().required()
   }),
   mail: Joi.object({
     host: Joi.string().valid().hostname().required(),
@@ -90,9 +86,7 @@ function getConfig(): NotifyConfig {
       host: process.env.RABBIT_HOST as string,
       password: process.env.RABBIT_PASSWORD as string,
       port: parseInt(process.env.RABBIT_PORT ?? DEFAULT_RABBIT_PORT.toString(), 10),
-      user: process.env.RABBIT_USER as string,
-      queue: process.env.RABBIT_QUEUE as string,
-      exchange: process.env.RABBIT_EXCHANGE as string
+      user: process.env.RABBIT_USER as string
     },
     mail: {
       host: process.env.MAIL_SMTP_HOST as string,

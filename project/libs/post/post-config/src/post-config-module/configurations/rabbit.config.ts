@@ -36,4 +36,4 @@ function getConfig(): RabbitConfig {
   return config
 }
 
-export default registerAs('rabbit', getConfig)
+export default registerAs('rabbit-post', getConfig)

@@ -1,18 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq'
-import { ConfigType } from '@nestjs/config'
-import { rabbitConfig } from '@project/config'
-import { IPost, RabbitRouting } from '@project/shared/core'
+import { IPost, RabbitExchange, RabbitRouting } from '@project/shared/core'
 
 @Injectable()
 export class PostNotificationService {
-  constructor(
-    private readonly rabbitClient: AmqpConnection,
-    @Inject(rabbitConfig.KEY)
-    private readonly rabbiOptions: ConfigType<typeof rabbitConfig>
-  ) {}
+  constructor(private readonly rabbitClient: AmqpConnection) {}
 
   public async sendPosts(posts: IPost[]) {
-    return this.rabbitClient.publish<IPost[]>(this.rabbiOptions.exchange, RabbitRouting.SendPosts, posts)
+    await this.rabbitClient.publish<IPost[]>(RabbitExchange.SendPosts, RabbitRouting.SendPosts, posts)
   }
 }

@@ -1,8 +1,7 @@
 import { IsEmail, IsNotEmpty } from 'class-validator'
 import {
   EMAIL_NOT_VALID,
-  FIRST_NAME_IS_EMPTY,
-  USER_ID_IS_EMPTY
+  FIRST_NAME_IS_EMPTY
 } from 'libs/notification/email-subscriber/src/email-subscriber-module/email-subscriber.constant'
 
 export class CreateSubscriberDto {
