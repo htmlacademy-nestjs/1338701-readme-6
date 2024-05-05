@@ -1,0 +1,47 @@
+<body>
+<h1>Список новых публикаций</h1>
+<p>Уважаемый пользователь, {{username}}, предлагаем ознакомиться со списком новых публикаций</p>
+
+{{#each posts}}
+  <div>
+    <h2>{{post.title}}</h2>
+    <p>Author: {{post.authorId}}</p>
+    <p>Type: {{post.type}}</p>
+    <p>Likes: {{post.likes.length}}</p>
+    <p>Tags:
+      {{#each post.tags}}
+        {{tag}}
+      {{/each}}
+    </p>
+    <p>Comments: {{post.comments.length}}</p>
+    <p>Status: {{post.status}}</p>
+    <p>Created At: {{post.createdAt}}</p>
+    <p>Updated At: {{post.updatedAt}}</p>
+    <p>Published At: {{post.publishedAt}}</p>
+
+    {{#if post.postVideo}}
+      <p>Video URL: {{post.postVideo.urlYoutube}}</p>
+    {{/if}}
+
+    {{#if post.postLink}}
+      <p>Link URL: {{post.postLink.url}}</p>
+      <p>Description: {{post.postLink.description}}</p>
+    {{/if}}
+
+    {{#if post.postQuote}}
+      <p>Quote: {{post.postQuote.quoteContent}}</p>
+    {{/if}}
+
+    {{#if postPhoto}}
+      <p>Photo ID: {{post.postPhoto.photoId}}</p>
+    {{/if}}
+
+    {{#if post.postText}}
+      <p>Announcement: {{post.postText.announcement}}</p>
+      <p>Content: {{post.postText.content}}</p>
+    {{/if}}
+  </div>
+{{/each}}
+
+<p>Спасибо, что остаётесь с нами!</p>
+</body>

@@ -9,11 +9,15 @@ import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/crea
 import { UpdatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/update-post.dto'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
+import { PostNotificationService } from 'libs/post/post-notification/src/post-notification-module/post-notification.service'
 
 @ApiTags('Posts')
 @Controller('posts')
 export class BlogPostController {
-  constructor(private readonly blogPostService: BlogPostService) {}
+  constructor(
+    private readonly blogPostService: BlogPostService,
+    private readonly postNotificationService: PostNotificationService
+  ) {}
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.CREATED,
@@ -89,5 +93,11 @@ export class BlogPostController {
   public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const newComment = await this.blogPostService.addComment(postId, dto)
     return fillDto(CommentRdo, newComment.toPOJO())
+  }
+
+  @Post('/notify')
+  public async notifyAboutNewPosts() {
+    const posts = await this.blogPostService.getAllPosts()
+    await this.postNotificationService.sendPosts(posts.content)
   }
 }
