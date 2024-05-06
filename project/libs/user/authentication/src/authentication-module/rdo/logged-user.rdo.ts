@@ -30,4 +30,11 @@ export class LoggedUserRdo {
   })
   @Expose()
   public accessToken: string
+
+  @ApiProperty({
+    description: ApiDescription.RefreshToken,
+    example: 'String'
+  })
+  @Expose()
+  public refreshToken: string
 }

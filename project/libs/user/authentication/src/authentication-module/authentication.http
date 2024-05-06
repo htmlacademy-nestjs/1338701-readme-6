@@ -5,7 +5,7 @@ POST http://localhost:{{SERVICE_PORT}}/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user345@notfound.local",
+  "email": "user@notfound.local",
   "username": "Neo",
   "password": "123456"
 }
@@ -13,8 +13,8 @@ Content-Type: application/json
 ###
 
 # Get user by ID
-GET http://localhost:{{SERVICE_PORT}}/api/users/6628e2693a0e1a3b6b254f97 HTTP/1.1
-
+GET http://localhost:{{SERVICE_PORT}}/api/auth/66388b76c01e88f1c8091e5d HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJ1c2VybmFtZSI6Ik5lbyIsImlhdCI6MTcxNTAwMjI2OCwiZXhwIjoxNzE1MDAyNTY4fQ.7UEjUWaqer5f64kCt9vJFS5GmCKC3T3eNBAEEyT4KmM
 ###
 
 # Login user by email and password
@@ -25,3 +25,11 @@ Content-Type: application/json
   "email": "user@notfound.local",
   "password": "123456"
 }
+###
+
+# Get new JWT pair
+POST http://localhost:{{SERVICE_PORT}}/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJ1c2VybmFtZSI6Ik5lbyIsImlhdCI6MTcxNTAwMjU3NSwiZXhwIjoxNzE3NTk0NTc1fQ.nNTZazO1Ud_Q6CmJMfoh6Wo4lA6PRkUgxruW0fNXRtA
+
+
+###

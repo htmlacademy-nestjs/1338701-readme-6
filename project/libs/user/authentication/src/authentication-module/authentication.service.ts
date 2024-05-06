@@ -8,8 +8,10 @@ import {
   NotFoundException,
   UnauthorizedException
 } from '@nestjs/common'
+import { ConfigType } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { BlogUserRepository } from '@project/blog-user'
+import { jwtConfig } from '@project/config'
 import { IAuthUser, IToken, ITokenPayload } from '@project/shared/core'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
 import { ApiResponseDescription } from 'libs/user/authentication/src/authentication-module/authentication.constant'
@@ -24,7 +26,8 @@ export class AuthenticationService {
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
-    @Inject('Hasher') private readonly hasher: IHasher
+    @Inject('Hasher') private readonly hasher: IHasher,
+    @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>
   ) {}
 
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
@@ -74,11 +77,34 @@ export class AuthenticationService {
 
     try {
       const accessToken = await this.jwtService.signAsync(payload)
-      return { accessToken }
+      const refreshToken = await this.jwtService.signAsync(payload, {
+        secret: this.jwtOptions.refreshTokenSecret,
+        expiresIn: this.jwtOptions.refreshTokenExpiresIn
+      })
+      return { accessToken, refreshToken }
     } catch (error) {
       const errorType = error as { message: string }
       this.logger.error('[Token generation error]: ' + errorType.message)
       throw new HttpException('Ошибка при создании токена.', HttpStatus.INTERNAL_SERVER_ERROR)
     }
+  }
+
+  public async getUserByEmail(email: string) {
+    const existUser = await this.blogUserRepository.findByEmail(email)
+
+    if (!existUser) {
+      throw new NotFoundException(`User with email ${email} not found`)
+    }
+
+    return existUser
+  }
+
+  public async getUser(id: string): Promise<BlogUserEntity> {
+    const existUser = await this.blogUserRepository.findById(id)
+    if (!existUser) {
+      throw new NotFoundException('User not found')
+    }
+
+    return existUser
   }
 }

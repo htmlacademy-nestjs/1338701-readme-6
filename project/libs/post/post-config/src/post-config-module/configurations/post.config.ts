@@ -20,7 +20,6 @@ function validateConfig(config: PostConfig): void {
 }
 
 function getConfig(): PostConfig {
-  console.log(process.env)
   const config: PostConfig = {
     environment: process.env['NODE_ENV'] as Environment,
     port: parseInt(process.env['SERVICE_PORT'] || `${DEFAULT_PORT}`, 10)

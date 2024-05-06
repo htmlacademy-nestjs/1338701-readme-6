@@ -1,11 +1,15 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { MongoIdValidationPipe } from '@project/pipes'
 import { fillDto } from '@project/shared/helpers'
 import { ApiResponseDescription } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
-import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
+import { JwtAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/jwt-auth.guard'
+import { JwtRefreshGuard } from 'libs/user/authentication/src/authentication-module/guards/jwt-refresh.guard'
+import { LocalAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/local-auth.guard'
 import { LoggedUserRdo } from 'libs/user/authentication/src/authentication-module/rdo/logged-user.rdo'
+import { RequestWithUser } from 'libs/user/authentication/src/authentication-module/request-with-user.interface'
 import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
 import { UserNotificationService } from 'libs/user/user-notification/src/user-notification-module/user-notification.service'
 
@@ -48,10 +52,33 @@ export class AuthenticationController {
     status: HttpStatus.UNAUTHORIZED,
     description: ApiResponseDescription.PasswordWrong
   })
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  public async login(@Body() dto: LoginUserDto) {
-    const verifiedUser = await this.authService.verifyUser(dto)
-    const userToken = await this.authService.createUserToken(verifiedUser)
-    return fillDto(LoggedUserRdo, { ...verifiedUser.toPOJO(), ...userToken })
+  public async login(@Req() { user }: RequestWithUser) {
+    const userToken = await this.authService.createUserToken(user)
+    return fillDto(LoggedUserRdo, { ...user.toPOJO(), ...userToken })
+  }
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'User found'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(':userId')
+  public async show(@Param('userId', MongoIdValidationPipe) id: string) {
+    const existUser = await this.authService.getUser(id)
+    return existUser.toPOJO()
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ApiResponseDescription.RefreshTokenReceived
+  })
+  public async refreshToken(@Req() { user }: RequestWithUser) {
+    return this.authService.createUserToken(user)
   }
 }
