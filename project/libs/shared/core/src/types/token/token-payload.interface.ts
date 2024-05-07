@@ -1,5 +1,5 @@
 export interface ITokenPayload {
-  sub?: string
+  sub: string
   email: string
   username: string
 }
