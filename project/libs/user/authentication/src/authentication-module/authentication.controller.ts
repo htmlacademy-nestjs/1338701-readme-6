@@ -54,9 +54,9 @@ export class AuthenticationController {
   })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  public async login(@Req() { user }: RequestWithUser) {
-    const userToken = await this.authService.createUserToken(user)
-    return fillDto(LoggedUserRdo, { ...user.toPOJO(), ...userToken })
+  public async login(@Req() req: RequestWithUser) {
+    const userToken = await this.authService.createUserToken(req.user)
+    return fillDto(LoggedUserRdo, { ...req.user.toPOJO(), ...userToken })
   }
 
   @ApiResponse({

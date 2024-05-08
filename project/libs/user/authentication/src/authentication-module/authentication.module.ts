@@ -9,10 +9,10 @@ import { UserNotificationModule } from '@project/user-notification'
 import { SALT_ROUNDS } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { AuthenticationController } from 'libs/user/authentication/src/authentication-module/authentication.controller'
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
-import { JwtAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/jwt-auth.guard'
 import { JwtAccessStrategy } from 'libs/user/authentication/src/authentication-module/strategies/jwt-access.strategy'
 import { JwtRefreshStrategy } from 'libs/user/authentication/src/authentication-module/strategies/jwt-refresh.strategy'
 import { LocalStrategy } from 'libs/user/authentication/src/authentication-module/strategies/local.strategy'
+import { RefreshTokenModule } from 'libs/user/authentication/src/refresh-token-module/refresh-token.module'
 
 @Module({
   imports: [
@@ -21,7 +21,8 @@ import { LocalStrategy } from 'libs/user/authentication/src/authentication-modul
       inject: [ConfigService],
       useFactory: getJwtOptions
     }),
-    UserNotificationModule
+    UserNotificationModule,
+    RefreshTokenModule
   ],
   controllers: [AuthenticationController],
   providers: [

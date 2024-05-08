@@ -12,12 +12,15 @@ import { ConfigType } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { BlogUserRepository } from '@project/blog-user'
 import { jwtConfig } from '@project/config'
-import { IAuthUser, IToken, ITokenPayload } from '@project/shared/core'
+import { IAuthUser, IToken, IUser } from '@project/shared/core'
+import { createJWTPayload } from '@project/shared/helpers'
 import { IHasher } from 'libs/shared/helpers/src/hasher/hasher.interface'
 import { ApiResponseDescription } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
+import { RefreshTokenService } from 'libs/user/authentication/src/refresh-token-module/refresh-token.service'
 import { BlogUserEntity } from 'libs/user/blog-user/src/blog-user-module/blog-user.entity'
+import { randomUUID } from 'node:crypto'
 
 @Injectable()
 export class AuthenticationService {
@@ -26,6 +29,7 @@ export class AuthenticationService {
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
+    private readonly refreshTokenService: RefreshTokenService,
     @Inject('Hasher') private readonly hasher: IHasher,
     @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>
   ) {}
@@ -69,22 +73,21 @@ export class AuthenticationService {
   }
 
   public async createUserToken(user: BlogUserEntity): Promise<IToken> {
-    const payload: ITokenPayload = {
-      sub: user.id,
-      email: user.email,
-      username: user.username
-    }
+    const accessTokenPayload = createJWTPayload(user)
+    const refreshTokenPayload = { ...accessTokenPayload, tokenId: randomUUID() }
+    await this.refreshTokenService.createRefreshSession(refreshTokenPayload)
 
     try {
-      const accessToken = await this.jwtService.signAsync(payload)
-      const refreshToken = await this.jwtService.signAsync(payload, {
+      const accessToken = await this.jwtService.signAsync(accessTokenPayload)
+      const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtOptions.refreshTokenSecret,
         expiresIn: this.jwtOptions.refreshTokenExpiresIn
       })
+
       return { accessToken, refreshToken }
-    } catch (error) {
-      const errorType = error as { message: string }
-      this.logger.error('[Token generation error]: ' + errorType.message)
+    } catch (e) {
+      const error = e as { message: string }
+      this.logger.error('[Token generation error]: ' + error.message)
       throw new HttpException('Ошибка при создании токена.', HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }

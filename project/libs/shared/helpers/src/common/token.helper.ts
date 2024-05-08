@@ -1,3 +1,4 @@
+import { BlogUserEntity } from '@project/blog-user'
 import { ITokenPayload, IUser } from '@project/shared/core'
 
 export type DateTimeUnit = 's' | 'h' | 'd' | 'm' | 'y'
@@ -22,7 +23,7 @@ export function parseTime(time: string): TimeAndUnit {
   return { value, unit }
 }
 
-export function createJWTPayload(user: IUser): ITokenPayload {
+export function createJWTPayload(user: BlogUserEntity): ITokenPayload {
   return {
     sub: user.id,
     email: user.email,

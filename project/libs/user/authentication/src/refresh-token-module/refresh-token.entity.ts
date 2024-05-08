@@ -3,7 +3,7 @@ import { Entity, IJwtToken, StorableEntity } from '@project/shared/core'
 export class RefreshTokenEntity extends Entity implements StorableEntity<IJwtToken> {
   public tokenId: string
   public createdAt: Date
-  public userId: string
+  public userId?: string
   public expiresIn: Date
 
   constructor(token?: IJwtToken) {

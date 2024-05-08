@@ -18,6 +18,7 @@ export class RefreshTokenService {
 
   public async createRefreshSession(payload: IRefreshTokenPayload) {
     const timeValue = parseTime(this.jwtOptions.refreshTokenExpiresIn)
+    console.log(payload)
     const refreshToken = new RefreshTokenEntity({
       tokenId: payload.tokenId,
       createdAt: new Date(),
