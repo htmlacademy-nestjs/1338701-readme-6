@@ -17,7 +17,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
     if (!user) {
       return
     }
-    this.id = user.id
+    this.id = user._id
     this.email = user.email
     this.username = user.username
     this.passwordHash = user.passwordHash
@@ -28,7 +28,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
 
   toPOJO(): IAuthUser {
     return {
-      id: this.id,
+      _id: this.id,
       email: this.email,
       username: this.username,
       avatarId: this.avatarId,
