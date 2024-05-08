@@ -9,6 +9,7 @@ import { JwtAuthGuard } from 'libs/user/authentication/src/authentication-module
 import { JwtRefreshGuard } from 'libs/user/authentication/src/authentication-module/guards/jwt-refresh.guard'
 import { LocalAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/local-auth.guard'
 import { LoggedUserRdo } from 'libs/user/authentication/src/authentication-module/rdo/logged-user.rdo'
+import { IRequestWithTokenPayload } from 'libs/user/authentication/src/authentication-module/request-with-token-payload.interface'
 import { RequestWithUser } from 'libs/user/authentication/src/authentication-module/request-with-user.interface'
 import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
 import { UserNotificationService } from 'libs/user/user-notification/src/user-notification-module/user-notification.service'
@@ -80,5 +81,11 @@ export class AuthenticationController {
   })
   public async refreshToken(@Req() { user }: RequestWithUser) {
     return this.authService.createUserToken(user)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: IRequestWithTokenPayload) {
+    return payload
   }
 }
