@@ -134,4 +134,22 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
       }
     })
   }
+
+  public async likePost(postId: string, userId: string) {
+    await this.client.post.update({
+      where: { id: postId },
+      data: {
+        likes: { push: userId }
+      }
+    })
+  }
+
+  public async dislikePost(postId: string, updatedLikes: string[]) {
+    await this.client.post.update({
+      where: { id: postId },
+      data: {
+        likes: updatedLikes
+      }
+    })
+  }
 }

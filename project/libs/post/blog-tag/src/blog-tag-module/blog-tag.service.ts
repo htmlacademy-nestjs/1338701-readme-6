@@ -48,7 +48,10 @@ export class BlogTagService {
     }
   }
 
-  public async getTagsByIds(tagIds: string[]): Promise<BlogTagEntity[]> {
+  public async getTagsByIds(tagIds?: string[]): Promise<BlogTagEntity[]> {
+    if (!tagIds) {
+      return []
+    }
     const tags = await this.blogTagRepository.findByIds(tagIds)
 
     if (tags.length !== tagIds.length) {

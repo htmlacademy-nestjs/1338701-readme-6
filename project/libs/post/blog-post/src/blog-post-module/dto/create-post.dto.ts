@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { PostType } from '@project/shared/core'
+import { PostStatus, PostType } from '@project/shared/core'
 import { Type } from 'class-transformer'
 import {
   IsArray,
@@ -51,11 +51,22 @@ export class CreatePostDto {
   public authorId: string
 
   @ApiProperty({
+    description: 'Status',
+    example: 'DRAFT',
+    enum: PostStatus
+  })
+  @IsEnum(PostStatus)
+  @IsNotEmpty()
+  @IsOptional()
+  public status: PostStatus
+
+  @ApiProperty({
     description: ApiPropertyDescription.Tag,
     example: []
   })
   @IsUUID('all', { each: true })
   @IsArray()
+  @IsOptional()
   public tags: string[]
 
   @Validate(IsValidPostProps)

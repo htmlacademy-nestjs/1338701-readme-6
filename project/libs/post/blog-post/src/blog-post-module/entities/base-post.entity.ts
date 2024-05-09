@@ -29,7 +29,7 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     this.type = post.type
     this.title = post.title
     this.authorId = post.authorId
-    this.likes = []
+    this.likes = post.likes
     this.tags = []
     this.comments = []
     this.status = post.status
@@ -71,6 +71,7 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     entity.tags = tags
     entity.type = dto.type
     entity.title = dto.title
+    entity.status = dto.status
     entity.authorId = dto.authorId
     entity.comments = []
     entity.likes = []

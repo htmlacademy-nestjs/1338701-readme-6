@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { BlogCommentEntity, BlogCommentFactory, CreateCommentDto } from '@project/blog-comment'
 import { BlogTagEntity } from '@project/blog-tag'
-import { IPost, PaginationResult } from '@project/shared/core'
+import { IPost, PaginationResult, PostStatus } from '@project/shared/core'
 import { BlogCommentRepository } from 'libs/post/blog-comment/src/blog-comment-module/blog-comment.repository'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
@@ -75,5 +75,45 @@ export class BlogPostService {
     await this.blogCommentRepository.save(newComment)
 
     return newComment
+  }
+
+  public async likePost(postId: string, userId: string) {
+    const existsPost = await this.commonPostRepository.findById(postId)
+    if (!existsPost) {
+      throw new NotFoundException(`Post with ID ${postId} not found`)
+    }
+
+    const userAlreadyLiked = existsPost.likes.includes(userId)
+    if (userAlreadyLiked) {
+      throw new ConflictException(`User with ID ${userId} already liked this post`)
+    }
+
+    if (PostStatus.Published !== existsPost.status) {
+      throw new ForbiddenException('Post is not published')
+    }
+
+    await this.commonPostRepository.likePost(postId, userId)
+
+    return { message: 'Post liked successfully' }
+  }
+
+  public async dislikePost(postId: string, userId: string) {
+    const existsPost = await this.commonPostRepository.findById(postId)
+
+    if (!existsPost) {
+      throw new NotFoundException(`Post with ID ${postId} not found`)
+    }
+    console.log(existsPost.likes)
+    const userAlreadyLiked = existsPost.likes.includes(userId)
+
+    if (!userAlreadyLiked) {
+      throw new ConflictException(`User with ID ${userId} has not liked this post`)
+    }
+
+    const updatedLikes = existsPost.likes.filter((id) => id !== userId)
+
+    await this.commonPostRepository.dislikePost(postId, updatedLikes)
+
+    return { message: 'Post disliked successfully' }
   }
 }
