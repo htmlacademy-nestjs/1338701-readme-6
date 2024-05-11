@@ -37,4 +37,12 @@ export class BlogController {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Posts}/${postId}/dislike`, dto)
     return data
   }
+
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @Post('/:postId/repost') // Определим путь для репоста
+  public async repostPost(@Param('postId') postId: string, @Body() dto: ActionWithUserDto) {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Posts}/${postId}/repost`, dto)
+    return data
+  }
 }
