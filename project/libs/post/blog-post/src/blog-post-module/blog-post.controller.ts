@@ -6,7 +6,7 @@ import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-po
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
-import { LikePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/like-post.dto'
+import { ActionWithUserDto } from 'libs/post/blog-post/src/blog-post-module/dto/action-with-user.dto'
 import { UpdatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/update-post.dto'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
@@ -103,13 +103,19 @@ export class BlogPostController {
   }
 
   @Patch('/:postId/like')
-  public async likePost(@Param('postId') postId: string, @Body() { userId }: LikePostDto) {
+  public async likePost(@Param('postId') postId: string, @Body() { userId }: ActionWithUserDto) {
     console.log(postId, userId)
     return await this.blogPostService.likePost(postId, userId)
   }
 
   @Patch('/:postId/dislike')
-  public async dislikePost(@Param('postId') postId: string, @Body() { userId }: LikePostDto) {
+  public async dislikePost(@Param('postId') postId: string, @Body() { userId }: ActionWithUserDto) {
     return await this.blogPostService.dislikePost(postId, userId)
+  }
+
+  @Post('/:postId/repost')
+  public async repostPost(@Param('postId') postId: string, @Body() { userId }: ActionWithUserDto) {
+    const repostedPost = await this.blogPostService.repostPost(postId, userId)
+    return fillDto(PostRdo, repostedPost.toPOJO())
   }
 }

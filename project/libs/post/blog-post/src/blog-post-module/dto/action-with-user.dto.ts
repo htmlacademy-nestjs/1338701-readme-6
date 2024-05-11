@@ -21,7 +21,7 @@ import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-t
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
 import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-props'
 
-export class LikePostDto {
+export class ActionWithUserDto {
   @ApiProperty({
     description: 'User ID',
     example: 'String'

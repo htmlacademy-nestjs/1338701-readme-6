@@ -116,4 +116,20 @@ export class BlogPostService {
 
     return { message: 'Post disliked successfully' }
   }
+
+  public async repostPost(postId: string, userId: string) {
+    const foundPost = await this.commonPostRepository.findById(postId)
+
+    if (!foundPost) {
+      throw new NotFoundException(`Original post with id ${postId} not found.`)
+    }
+
+    const isAlreadyReposted = foundPost.repostedBy.includes(userId)
+
+    if (isAlreadyReposted) {
+      throw new ConflictException(`You have already reposted post with id ${postId}.`)
+    }
+
+    return await this.commonPostRepository.repostPost(foundPost, userId)
+  }
 }

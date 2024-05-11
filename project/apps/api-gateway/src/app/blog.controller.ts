@@ -2,7 +2,7 @@ import { Body, Controller, Param, Patch, Post, UseFilters, UseGuards, UseInterce
 import { HttpService } from '@nestjs/axios'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
-import { LikePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/like-post.dto'
+import { ActionWithUserDto } from 'libs/post/blog-post/src/blog-post-module/dto/action-with-user.dto'
 
 import { AxiosExceptionFilter } from './filters/axios-exception.filter'
 import { CheckAuthGuard } from './guards/check-auth.guard'
@@ -24,7 +24,7 @@ export class BlogController {
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
   @Patch('/:postId/like')
-  public async likePost(@Param('postId') postId: string, @Body() dto: LikePostDto) {
+  public async likePost(@Param('postId') postId: string, @Body() dto: ActionWithUserDto) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Posts}/${postId}/like`, dto)
     return data
   }
@@ -32,7 +32,7 @@ export class BlogController {
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
   @Patch('/:postId/dislike')
-  public async dislikePost(@Param('postId') postId: string, @Body() dto: LikePostDto) {
+  public async dislikePost(@Param('postId') postId: string, @Body() dto: ActionWithUserDto) {
     console.log(dto)
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Posts}/${postId}/dislike`, dto)
     return data

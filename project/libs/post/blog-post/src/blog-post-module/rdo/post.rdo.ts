@@ -46,6 +46,18 @@ export class PostRdo {
   @Expose()
   public authorId: string
 
+  @Expose()
+  originalAuthorId?: string
+
+  @Expose()
+  originalPostId?: string
+
+  @Expose()
+  public isRepost?: boolean
+
+  @Expose()
+  public repostedBy: string[]
+
   @ApiProperty({
     description: 'List of IDs who liked it',
     example: []

@@ -7,6 +7,10 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
   public type: PostType
   public title: string
   public authorId: string
+  public originalAuthorId?: string
+  public originalPostId?: string
+  public isRepost?: boolean
+  public repostedBy: string[]
   public likes: string[]
   public comments: BlogCommentEntity[]
   public tags: BlogTagEntity[]
@@ -30,6 +34,10 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     this.title = post.title
     this.authorId = post.authorId
     this.likes = post.likes
+    this.originalAuthorId = post.originalAuthorId ? post.originalPostId : undefined
+    this.originalPostId = post.originalPostId ? post.originalAuthorId : undefined
+    this.isRepost = post.isRepost ? post.isRepost : undefined
+    this.repostedBy = post.repostedBy
     this.tags = []
     this.comments = []
     this.status = post.status
@@ -57,6 +65,10 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
       type: this.type,
       authorId: this.authorId,
       likes: this.likes,
+      originalAuthorId: this.originalAuthorId,
+      originalPostId: this.originalPostId,
+      isRepost: this.isRepost,
+      repostedBy: this.repostedBy,
       comments: this.comments.map((commentEntity) => commentEntity.toPOJO()),
       tags: this.tags.map((tagEntity) => tagEntity.toPOJO()),
       status: this.status,
@@ -73,8 +85,12 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     entity.title = dto.title
     entity.status = dto.status
     entity.authorId = dto.authorId
+    entity.originalPostId = undefined
+    entity.originalAuthorId = undefined
     entity.comments = []
     entity.likes = []
+    entity.repostedBy = []
+    entity.isRepost = false
 
     return entity
   }

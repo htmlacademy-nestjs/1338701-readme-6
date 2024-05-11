@@ -152,4 +152,47 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
       }
     })
   }
+
+  public async repostPost(originalPost: CommonPostEntity, userId: string) {
+    const repostedPost = await this.client.post.create({
+      data: {
+        type: originalPost.type,
+        title: originalPost.title,
+        authorId: userId, // Изменяем автора на текущего пользователя
+        originalAuthorId: originalPost.authorId, // Сохраняем информацию об оригинальном авторе
+        originalPostId: originalPost.id, // Сохраняем ID оригинальной публикации
+        likes: [],
+        isRepost: true,
+        repostedBy: { set: [userId] },
+        tags: {
+          connect: originalPost.tags.map((tag) => ({
+            id: tag.id
+          }))
+        },
+        comments: { connect: [] }, // Пока нет комментариев
+        status: originalPost.status,
+        createdAt: originalPost.createdAt, // Устанавливаем текущую дату и время
+        updatedAt: originalPost.updatedAt, // Устанавливаем текущую дату и время
+        publishedAt: new Date() // Устанавливаем текущую дату и время
+      },
+      include: {
+        comments: true,
+        tags: true,
+        postVideo: true,
+        postLink: true,
+        postText: true,
+        postQuote: true,
+        postPhoto: true
+      }
+    })
+
+    await this.client.post.update({
+      where: { id: originalPost.id },
+      data: {
+        repostedBy: { push: userId }
+      }
+    })
+
+    return this.createEntityFromDocument(repostedPost)
+  }
 }
