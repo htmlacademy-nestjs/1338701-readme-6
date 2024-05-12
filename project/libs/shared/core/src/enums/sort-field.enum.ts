@@ -1,5 +1,5 @@
 export const enum SortField {
   PublishedAt = 'publishedAt',
-  Comments = 'comments',
-  Likes = 'likes'
+  Comments = 'commentsCount',
+  Likes = 'likesCount'
 }

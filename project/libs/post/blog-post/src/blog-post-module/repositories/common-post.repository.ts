@@ -51,7 +51,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined
     const take = query?.limit || DEFAULT_POST_COUNT_LIMIT
     const where: Prisma.PostWhereInput = {
-      status: PostStatus.Draft
+      status: PostStatus.Published
     }
     const orderBy: Prisma.PostOrderByWithRelationInput = {}
 
@@ -70,6 +70,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     }
 
     if (query?.sortDirection && query?.sortByField) {
+      console.log(query.sortByField)
       orderBy[query.sortByField] = query.sortDirection
     }
 

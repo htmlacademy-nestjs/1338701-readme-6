@@ -89,7 +89,7 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     entity.tags = tags
     entity.type = dto.type
     entity.title = dto.title
-    entity.status = dto.status
+    entity.status = PostStatus.Published
     entity.authorId = dto.authorId
     entity.originalPostId = undefined
     entity.originalAuthorId = undefined
