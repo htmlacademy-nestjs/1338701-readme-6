@@ -2,6 +2,8 @@ import { HttpService } from '@nestjs/axios'
 import {
   Body,
   Controller,
+  Delete,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
@@ -15,11 +17,9 @@ import {
 } from '@nestjs/common'
 import { ActionWithUserDto, BlogPostQuery, CreatePostDto } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
-import { IRequestWithPayload, PostStatus } from '@project/shared/core'
+import { IPost, IRequestWithPayload, PostStatus } from '@project/shared/core'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
-import { LocalAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/local-auth.guard'
-import { RequestWithUser } from 'libs/user/authentication/src/authentication-module/request-with-user.interface'
 import { ApplicationServiceURL } from './app.config'
 
 import { AxiosExceptionFilter } from './filters/axios-exception.filter'
@@ -29,6 +29,12 @@ import { CheckAuthGuard } from './guards/check-auth.guard'
 @UseFilters(AxiosExceptionFilter)
 export class PostController {
   constructor(private readonly httpService: HttpService, private readonly postService: PostService) {}
+
+  @Get(':postId')
+  public async show(@Param('postId') postId: string) {
+    const { data } = await this.httpService.axiosRef.get<IPost>(`${ApplicationServiceURL.Posts}/${postId}`)
+    return data
+  }
 
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectAuthorIdInterceptor)
@@ -93,8 +99,6 @@ export class PostController {
   @UseGuards(CheckAuthGuard)
   @Get('/drafts')
   public async getUserDrafts(@Req() req: IRequestWithPayload) {
-    console.log('work')
-    console.log(req.user)
     const { data: posts } = await this.httpService.axiosRef.get<PostWithPaginationRdo>(
       `${ApplicationServiceURL.Posts}/user/${req.user.sub}`,
       {
@@ -102,5 +106,19 @@ export class PostController {
       }
     )
     return this.postService.getPostsInfoWithAuthors(posts)
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @Delete(':postId')
+  async deletePost(@Param('postId') postId: string, @Req() req: IRequestWithPayload) {
+    const post = await this.show(postId)
+    const userId = req.user.sub
+    const isWrongAuthor = post.authorId !== userId
+
+    if (isWrongAuthor) {
+      throw new ForbiddenException('Only the author can delete this post')
+    }
+
+    await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Posts}/${postId}`)
   }
 }
