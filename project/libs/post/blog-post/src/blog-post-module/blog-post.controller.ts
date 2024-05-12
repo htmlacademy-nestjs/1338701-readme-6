@@ -109,7 +109,6 @@ export class BlogPostController {
 
   @Patch('/:postId/like')
   public async likePost(@Param('postId') postId: string, @Body() { userId }: ActionWithUserDto) {
-    console.log(postId, userId)
     return await this.blogPostService.likePost(postId, userId)
   }
 

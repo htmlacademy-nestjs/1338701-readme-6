@@ -13,13 +13,13 @@ export class UsersController {
 
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/login`, loginUserDto)
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/login`, loginUserDto)
     return data
   }
 
   @Post('refresh')
   public async refreshToken(@Req() req: InternalAxiosRequestConfig) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/refresh`, null, {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/refresh`, null, {
       headers: {
         Authorization: req.headers['authorization']
       }

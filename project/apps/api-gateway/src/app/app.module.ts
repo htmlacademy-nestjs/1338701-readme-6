@@ -1,8 +1,9 @@
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from 'apps/api-gateway/src/app/app.config'
-import { BlogController } from 'apps/api-gateway/src/app/blog.controller'
+import { PostController } from 'apps/api-gateway/src/app/post.controller'
 import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard'
+import { PostService } from 'apps/api-gateway/src/app/post.service'
 import { UsersController } from 'apps/api-gateway/src/app/users.controller'
 
 @Module({
@@ -12,7 +13,7 @@ import { UsersController } from 'apps/api-gateway/src/app/users.controller'
       maxRedirects: HTTP_CLIENT_MAX_REDIRECTS
     })
   ],
-  controllers: [UsersController, BlogController],
-  providers: [CheckAuthGuard]
+  controllers: [UsersController, PostController],
+  providers: [CheckAuthGuard, PostService]
 })
 export class AppModule {}

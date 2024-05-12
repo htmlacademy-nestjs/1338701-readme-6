@@ -111,7 +111,6 @@ export class BlogPostService {
     if (!existsPost) {
       throw new NotFoundException(`Post with ID ${postId} not found`)
     }
-    console.log(existsPost.likes)
     const userAlreadyLiked = existsPost.likes.includes(userId)
 
     if (!userAlreadyLiked) {

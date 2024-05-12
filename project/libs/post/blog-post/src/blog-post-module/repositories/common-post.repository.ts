@@ -51,7 +51,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined
     const take = query?.limit || DEFAULT_POST_COUNT_LIMIT
     const where: Prisma.PostWhereInput = {
-      status: PostStatus.Published
+      status: PostStatus.Draft
     }
     const orderBy: Prisma.PostOrderByWithRelationInput = {}
 
