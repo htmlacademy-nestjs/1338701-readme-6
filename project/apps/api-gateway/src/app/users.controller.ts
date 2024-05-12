@@ -2,8 +2,8 @@ import { HttpService } from '@nestjs/axios'
 import { Body, Controller, Post, Req, UseFilters } from '@nestjs/common'
 import { ApplicationServiceURL } from 'apps/api-gateway/src/app/app.config'
 import { AxiosExceptionFilter } from 'apps/api-gateway/src/app/filters/axios-exception.filter'
-import { InternalAxiosRequestConfig } from 'axios'
 import { LoginUserDto } from 'libs/user/authentication/src/authentication-module/dto/login-user.dto'
+import { Request } from 'express'
 
 @Controller('users')
 @UseFilters(AxiosExceptionFilter)
@@ -18,7 +18,7 @@ export class UsersController {
   }
 
   @Post('refresh')
-  public async refreshToken(@Req() req: InternalAxiosRequestConfig) {
+  public async refreshToken(@Req() req: Request) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/refresh`, null, {
       headers: {
         Authorization: req.headers['authorization']

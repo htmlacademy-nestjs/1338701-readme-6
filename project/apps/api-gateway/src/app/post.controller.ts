@@ -8,14 +8,18 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseFilters,
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
 import { ActionWithUserDto, BlogPostQuery, CreatePostDto } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
+import { IRequestWithPayload, PostStatus } from '@project/shared/core'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
+import { LocalAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/local-auth.guard'
+import { RequestWithUser } from 'libs/user/authentication/src/authentication-module/request-with-user.interface'
 import { ApplicationServiceURL } from './app.config'
 
 import { AxiosExceptionFilter } from './filters/axios-exception.filter'
@@ -75,11 +79,28 @@ export class PostController {
   }
 
   @UseGuards(CheckAuthGuard)
-  @Get('/user/:userId')
+  @Get('user/:userId')
   public async getUserPosts(@Param('userId') userId: string, @Query() query?: BlogPostQuery) {
-    const { data: posts } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Posts}/user/${userId}`, {
-      params: query
-    })
+    const { data: posts } = await this.httpService.axiosRef.get<PostWithPaginationRdo>(
+      `${ApplicationServiceURL.Posts}/user/${userId}`,
+      {
+        params: query
+      }
+    )
+    return this.postService.getPostsInfoWithAuthors(posts)
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @Get('/drafts')
+  public async getUserDrafts(@Req() req: IRequestWithPayload) {
+    console.log('work')
+    console.log(req.user)
+    const { data: posts } = await this.httpService.axiosRef.get<PostWithPaginationRdo>(
+      `${ApplicationServiceURL.Posts}/user/${req.user.sub}`,
+      {
+        params: { filterByStatus: PostStatus.Draft }
+      }
+    )
     return this.postService.getPostsInfoWithAuthors(posts)
   }
 }
