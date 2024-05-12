@@ -16,6 +16,15 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
       data: { ...entity.toPOJO() }
     })
 
+    await this.client.post.update({
+      where: {
+        id: entity.postId
+      },
+      data: {
+        commentsCount: { increment: 1 }
+      }
+    })
+
     entity.id = record.id
   }
 
@@ -34,9 +43,18 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
   }
 
   public async deleteById(id: string): Promise<void> {
-    await this.client.comment.delete({
+    const comment = await this.client.comment.delete({
       where: {
-        id
+        id: id
+      }
+    })
+
+    await this.client.post.update({
+      where: {
+        id: comment.postId
+      },
+      data: {
+        commentsCount: { decrement: 1 }
       }
     })
   }

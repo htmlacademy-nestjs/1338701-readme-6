@@ -82,6 +82,8 @@ model Post {
   repostedBy       String[]   @map("reposted_by")
   likes            String[]
   comments         Comment[]
+  likesCount       Int        @default(0)
+  commentsCount    Int        @default(0)
   postVideo        PostVideo? @relation(fields: [postVideoId], references: [id])
   postVideoId      String?    @unique @map("post_video_id")
   postLink         PostLink?  @relation(fields: [postLinkId], references: [id])

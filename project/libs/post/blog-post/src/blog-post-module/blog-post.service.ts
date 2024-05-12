@@ -44,11 +44,11 @@ export class BlogPostService {
     return await this.commonPostRepository.findAll(query)
   }
 
-  public async deleteCategory(id: string): Promise<void> {
+  public async deletePost(id: string): Promise<void> {
     try {
       await this.commonPostRepository.deleteById(id)
     } catch {
-      throw new NotFoundException(`Category with ID ${id} not found`)
+      throw new NotFoundException(`Post with ID ${id} not found`)
     }
   }
 
@@ -75,6 +75,14 @@ export class BlogPostService {
     await this.blogCommentRepository.save(newComment)
 
     return newComment
+  }
+
+  public async deleteComment(commentId: string) {
+    try {
+      await this.blogCommentRepository.deleteById(commentId)
+    } catch {
+      throw new NotFoundException(`Comment with ID ${commentId} not found`)
+    }
   }
 
   public async likePost(postId: string, userId: string) {

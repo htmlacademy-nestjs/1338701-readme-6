@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { BasePostgresRepository } from '@project/data-access'
 import { PrismaClientService } from '@project/post-models'
-import { PaginationResult } from '@project/shared/core'
+import { PaginationResult, PostStatus } from '@project/shared/core'
 import {
   DEFAULT_PAGE_COUNT,
   DEFAULT_POST_COUNT_LIMIT
@@ -50,7 +50,9 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
   public async findAll(query?: BlogPostQuery, filterByAuthor?: string): Promise<PaginationResult<CommonPostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined
     const take = query?.limit || DEFAULT_POST_COUNT_LIMIT
-    const where: Prisma.PostWhereInput = {}
+    const where: Prisma.PostWhereInput = {
+      status: PostStatus.Published
+    }
     const orderBy: Prisma.PostOrderByWithRelationInput = {}
 
     if (query?.tags) {
@@ -143,7 +145,8 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     await this.client.post.update({
       where: { id: postId },
       data: {
-        likes: { push: userId }
+        likes: { push: userId },
+        likesCount: { increment: 1 }
       }
     })
   }
@@ -152,7 +155,8 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     await this.client.post.update({
       where: { id: postId },
       data: {
-        likes: updatedLikes
+        likes: updatedLikes,
+        likesCount: { decrement: 1 }
       }
     })
   }

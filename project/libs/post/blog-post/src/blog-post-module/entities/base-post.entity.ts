@@ -12,6 +12,8 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
   public isRepost?: boolean
   public repostedBy: string[]
   public likes: string[]
+  public likesCount: number
+  public commentsCount: number
   public comments: BlogCommentEntity[]
   public tags: BlogTagEntity[]
   public status: PostStatus
@@ -38,6 +40,8 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
     this.originalPostId = post.originalPostId ? post.originalAuthorId : undefined
     this.isRepost = post.isRepost ? post.isRepost : undefined
     this.repostedBy = post.repostedBy
+    this.likesCount = post.likesCount
+    this.commentsCount = post.commentsCount
     this.tags = []
     this.comments = []
     this.status = post.status
@@ -69,6 +73,8 @@ export class BasePostEntity extends Entity implements StorableEntity<IPost> {
       originalPostId: this.originalPostId,
       isRepost: this.isRepost,
       repostedBy: this.repostedBy,
+      commentsCount: this.commentsCount,
+      likesCount: this.likesCount,
       comments: this.comments.map((commentEntity) => commentEntity.toPOJO()),
       tags: this.tags.map((tagEntity) => tagEntity.toPOJO()),
       status: this.status,

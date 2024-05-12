@@ -1,22 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Query,
-  UseGuards,
-  UseInterceptors
-} from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment'
-import { InjectUserIdInterceptor } from '@project/interceptors'
 import { fillDto } from '@project/shared/helpers'
-import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
@@ -86,7 +71,7 @@ export class BlogPostController {
   @Delete('/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async destroy(@Param('postId') id: string) {
-    await this.blogPostService.deleteCategory(id)
+    await this.blogPostService.deletePost(id)
   }
 
   @ApiResponse({
@@ -109,6 +94,11 @@ export class BlogPostController {
   public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const newComment = await this.blogPostService.addComment(postId, dto)
     return fillDto(CommentRdo, newComment.toPOJO())
+  }
+
+  @Delete('/:postId/comments/:commentId')
+  public async destroyComment(@Param('commentId') commentId: string) {
+    await this.blogPostService.deleteComment(commentId)
   }
 
   @Post('/notify')

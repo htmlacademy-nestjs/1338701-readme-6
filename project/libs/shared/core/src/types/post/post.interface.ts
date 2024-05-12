@@ -18,6 +18,8 @@ export interface IPost {
   originalPostId?: string
   isRepost?: boolean
   repostedBy: string[]
+  likesCount: number
+  commentsCount: number
   tags: ITag[]
   comments: IComment[]
   status: PostStatus

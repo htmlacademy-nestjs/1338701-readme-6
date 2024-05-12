@@ -58,6 +58,12 @@ export class PostRdo {
   @Expose()
   public repostedBy: string[]
 
+  @Expose()
+  public likesCount: number
+
+  @Expose()
+  public commentsCount: number
+
   @ApiProperty({
     description: 'List of IDs who liked it',
     example: []
