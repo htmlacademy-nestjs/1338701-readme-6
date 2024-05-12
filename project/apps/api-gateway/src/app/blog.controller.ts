@@ -1,8 +1,18 @@
-import { Body, Controller, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseFilters,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common'
 import { HttpService } from '@nestjs/axios'
+import { ActionWithUserDto, BlogPostQuery, CreatePostDto } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
-import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
-import { ActionWithUserDto } from 'libs/post/blog-post/src/blog-post-module/dto/action-with-user.dto'
 
 import { AxiosExceptionFilter } from './filters/axios-exception.filter'
 import { CheckAuthGuard } from './guards/check-auth.guard'
@@ -43,6 +53,23 @@ export class BlogController {
   @Post('/:postId/repost') // Определим путь для репоста
   public async repostPost(@Param('postId') postId: string, @Body() dto: ActionWithUserDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Posts}/${postId}/repost`, dto)
+    return data
+  }
+
+  @Get('/')
+  public async showAll(@Query() query?: BlogPostQuery) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Posts}`, {
+      params: query
+    })
+    return data
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @Get('/user/:userId') // Определим путь для репоста
+  public async getUserPosts(@Param('userId') userId: string, @Query() query?: BlogPostQuery) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Posts}/user/${userId}`, {
+      params: query
+    })
     return data
   }
 }

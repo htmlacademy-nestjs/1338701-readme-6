@@ -132,4 +132,8 @@ export class BlogPostService {
 
     return await this.commonPostRepository.repostPost(foundPost, userId)
   }
+
+  public async getUserPost(userId: string, query?: BlogPostQuery) {
+    return this.commonPostRepository.findUserPosts(userId, query)
+  }
 }

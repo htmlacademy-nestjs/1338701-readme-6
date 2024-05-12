@@ -47,7 +47,7 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     return this.createEntityFromDocument(document)
   }
 
-  public async findAll(query?: BlogPostQuery): Promise<PaginationResult<CommonPostEntity>> {
+  public async findAll(query?: BlogPostQuery, filterByAuthor?: string): Promise<PaginationResult<CommonPostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined
     const take = query?.limit || DEFAULT_POST_COUNT_LIMIT
     const where: Prisma.PostWhereInput = {}
@@ -61,6 +61,10 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
           }
         }
       }
+    }
+
+    if (filterByAuthor) {
+      where.authorId = filterByAuthor
     }
 
     if (query?.sortDirection && query?.sortByField) {
@@ -194,5 +198,9 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
     })
 
     return this.createEntityFromDocument(repostedPost)
+  }
+
+  public async findUserPosts(userId: string, query?: BlogPostQuery): Promise<PaginationResult<CommonPostEntity>> {
+    return await this.findAll(query, userId)
   }
 }

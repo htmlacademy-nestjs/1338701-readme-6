@@ -1,7 +1,22 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment'
+import { InjectUserIdInterceptor } from '@project/interceptors'
 import { fillDto } from '@project/shared/helpers'
+import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-post.service'
@@ -117,5 +132,15 @@ export class BlogPostController {
   public async repostPost(@Param('postId') postId: string, @Body() { userId }: ActionWithUserDto) {
     const repostedPost = await this.blogPostService.repostPost(postId, userId)
     return fillDto(PostRdo, repostedPost.toPOJO())
+  }
+
+  @Get('/user/:userId') // Определим путь для получения постов пользователя
+  public async getUserPosts(@Param('userId') userId: string, @Query() query?: BlogPostQuery) {
+    const postWithPagination = await this.blogPostService.getUserPost(userId, query)
+    const result = {
+      ...postWithPagination,
+      content: postWithPagination.content.map((post) => post.toPOJO())
+    }
+    return fillDto(PostWithPaginationRdo, result)
   }
 }
