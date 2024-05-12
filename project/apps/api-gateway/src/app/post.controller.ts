@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -65,6 +66,11 @@ export class PostController {
         params: query
       }
     )
+
+    if (posts.content.length === 0) {
+      throw new NotFoundException('Posts not found')
+    }
+
     return this.postService.getPostsInfoWithAuthors(posts)
   }
 

@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer'
 import { IsArray, IsIn, IsNumber, IsOptional, IsUUID } from 'class-validator'
 
-import { SortDirection } from '@project/shared/core'
+import { PostType, SortDirection } from '@project/shared/core'
 import { SortField } from 'libs/shared/core/src/enums/sort-field.enum'
 
 import {
@@ -32,4 +32,7 @@ export class BlogPostQuery {
 
   @IsOptional()
   public sortByField?: SortField = DEFAULT_SORT_BY_FIELD
+
+  @IsOptional()
+  public filterByType?: PostType
 }

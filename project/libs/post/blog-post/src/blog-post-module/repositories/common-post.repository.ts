@@ -69,8 +69,12 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
       where.authorId = filterByAuthor
     }
 
+    if (query?.filterByType) {
+      console.log(query.filterByType)
+      where.type = query.filterByType
+    }
+
     if (query?.sortDirection && query?.sortByField) {
-      console.log(query.sortByField)
       orderBy[query.sortByField] = query.sortDirection
     }
 
