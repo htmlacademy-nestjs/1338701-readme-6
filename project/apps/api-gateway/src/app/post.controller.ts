@@ -15,7 +15,7 @@ import {
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
-import { ActionWithUserDto, BlogPostQuery, CreatePostDto } from '@project/blog-post'
+import { ActionWithUserDto, BlogPostQuery, CreatePostDto, PostSearchRdo } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
 import { IPost, IRequestWithPayload, PostStatus } from '@project/shared/core'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
@@ -30,6 +30,18 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 @UseFilters(AxiosExceptionFilter)
 export class PostController {
   constructor(private readonly httpService: HttpService, private readonly postService: PostService) {}
+
+  @Get('/search')
+  async searchByTitle(@Query('title') title: string) {
+    const { data: posts } = await this.httpService.axiosRef.get<PostSearchRdo>(
+      `${ApplicationServiceURL.Posts}/search`,
+      {
+        params: { title }
+      }
+    )
+
+    return this.postService.getPostsInfoWithAuthors(posts)
+  }
 
   @Get(':postId')
   public async show(@Param('postId') postId: string) {

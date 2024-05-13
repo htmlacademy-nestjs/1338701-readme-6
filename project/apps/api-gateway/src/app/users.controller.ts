@@ -31,8 +31,6 @@ export class UsersController {
       formData
     )
 
-    console.log(uploadedAvatar)
-
     const { data: authUser } = await this.httpService.axiosRef.post<IAuthUser>(
       `${ApplicationServiceURL.Auth}/register`,
       { ...createUserDto, avatarId: uploadedAvatar.id }

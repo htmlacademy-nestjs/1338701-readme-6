@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostStatus, PostType } from '@project/shared/core'
+import { PostStatus, PostType } from '@project/shared/core'
 import { Expose, Type } from 'class-transformer'
 import { PostLinkRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-link.rdo'
 import { PostPhotoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-photo.rdo'

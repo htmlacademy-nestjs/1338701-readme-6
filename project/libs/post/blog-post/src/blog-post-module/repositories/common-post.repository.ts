@@ -5,7 +5,8 @@ import { PrismaClientService } from '@project/post-models'
 import { PaginationResult, PostStatus } from '@project/shared/core'
 import {
   DEFAULT_PAGE_COUNT,
-  DEFAULT_POST_COUNT_LIMIT
+  DEFAULT_POST_COUNT_LIMIT,
+  DEFAULT_SEARCH_LIMIT
 } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CommonPostEntity } from 'libs/post/blog-post/src/blog-post-module/entities/common-post.entity'
@@ -210,5 +211,28 @@ export class CommonPostRepository extends BasePostgresRepository<CommonPostEntit
 
   public async findUserPosts(userId: string, query?: BlogPostQuery): Promise<PaginationResult<CommonPostEntity>> {
     return await this.findAll(query, userId)
+  }
+
+  async searchByTitle(title: string) {
+    const foundPosts = await this.client.post.findMany({
+      where: {
+        title: {
+          contains: title,
+          mode: 'insensitive'
+        }
+      },
+      take: DEFAULT_SEARCH_LIMIT,
+      include: {
+        comments: true,
+        tags: true,
+        postVideo: true,
+        postLink: true,
+        postText: true,
+        postQuote: true,
+        postPhoto: true
+      }
+    })
+
+    return foundPosts.map((post) => this.createEntityFromDocument(post))
   }
 }

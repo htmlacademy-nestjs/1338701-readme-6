@@ -9,6 +9,7 @@ import { BlogPostService } from 'libs/post/blog-post/src/blog-post-module/blog-p
 import { ActionWithUserDto } from 'libs/post/blog-post/src/blog-post-module/dto/action-with-user.dto'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
 import { UpdatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/update-post.dto'
+import { PostSearchRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-search.rdo'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { PostRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post.rdo'
 import { PostNotificationService } from 'libs/post/post-notification/src/post-notification-module/post-notification.service'
@@ -20,6 +21,19 @@ export class BlogPostController {
     private readonly blogPostService: BlogPostService,
     private readonly postNotificationService: PostNotificationService
   ) {}
+
+  @ApiResponse({
+    type: [PostRdo],
+    status: HttpStatus.OK,
+    description: 'Posts found by title'
+  })
+  @Get('search')
+  public async searchByTitle(@Query('title') title: string) {
+    const postEntities = await this.blogPostService.searchByTitle(title)
+    const posts = postEntities.map((entity) => entity.toPOJO())
+    return fillDto(PostSearchRdo, { content: posts })
+  }
+
   @ApiResponse({
     type: PostRdo,
     status: HttpStatus.CREATED,

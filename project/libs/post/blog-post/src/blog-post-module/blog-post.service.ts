@@ -143,4 +143,8 @@ export class BlogPostService {
   public async getUserPost(userId: string, query?: BlogPostQuery) {
     return this.commonPostRepository.findUserPosts(userId, query)
   }
+
+  public async searchByTitle(title: string) {
+    return this.commonPostRepository.searchByTitle(title)
+  }
 }
