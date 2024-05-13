@@ -15,19 +15,17 @@ import { UploadedFileRdo } from 'libs/upload-library/uploader/src/uploader-modul
 export class UsersController {
   constructor(private readonly httpService: HttpService) {}
 
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('avatar'))
   @Post('register')
-  public async register(@Body() createUserDto: CreateUserDto, @UploadedFile() file: Express.Multer.File) {
-    console.log('work')
+  public async register(@Body() createUserDto: CreateUserDto, @UploadedFile() avatar: Express.Multer.File) {
     const formData = new FormData()
 
     formData.append('createUserDto', JSON.stringify(createUserDto))
 
-    const fileBlob = new Blob([file.buffer], { type: file.mimetype })
+    const fileBlob = new Blob([avatar.buffer], { type: avatar.mimetype })
 
-    formData.append('file', fileBlob, file.originalname)
+    formData.append('file', fileBlob, avatar.originalname)
 
-    console.log(formData)
     const { data: uploadedAvatar } = await this.httpService.axiosRef.post<UploadedFileRdo>(
       `${ApplicationServiceURL.Upload}/upload`,
       formData

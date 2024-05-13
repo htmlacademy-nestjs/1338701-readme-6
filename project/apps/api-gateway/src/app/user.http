@@ -1,0 +1,23 @@
+POST /api/users/register HTTP/1.1
+Host: localhost:3000
+Content-Length: 484
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="./mock-images/22-600x400.jpg"
+Content-Type: image/jpeg
+
+(data)
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+Smith
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+05-some-email@some-domain.ru
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="password"
+
+123456
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

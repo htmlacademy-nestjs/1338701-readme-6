@@ -35,11 +35,12 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
-    const { email, username, password } = dto
+    const { email, username, password, avatarId } = dto
 
     const blogUser: IAuthUser = {
       email,
-      username
+      username,
+      avatarId
     }
 
     const existUser = await this.blogUserRepository.findByEmail(email)
