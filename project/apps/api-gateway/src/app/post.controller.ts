@@ -24,6 +24,7 @@ import { ApplicationServiceURL } from './app.config'
 
 import { AxiosExceptionFilter } from './filters/axios-exception.filter'
 import { CheckAuthGuard } from './guards/check-auth.guard'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 @Controller('posts')
 @UseFilters(AxiosExceptionFilter)
@@ -74,7 +75,7 @@ export class PostController {
       `${ApplicationServiceURL.Posts}`,
       {
         params: query
-      }
+      } as { params: BlogPostQuery }
     )
 
     if (posts.content.length === 0) {
@@ -91,7 +92,7 @@ export class PostController {
       `${ApplicationServiceURL.Posts}/user/${userId}`,
       {
         params: query
-      }
+      } as { params: BlogPostQuery }
     )
     return this.postService.getPostsInfoWithAuthors(posts)
   }
@@ -103,7 +104,7 @@ export class PostController {
       `${ApplicationServiceURL.Posts}/user/${req.user.sub}`,
       {
         params: { filterByStatus: PostStatus.Draft }
-      }
+      } as { params: BlogPostQuery }
     )
     return this.postService.getPostsInfoWithAuthors(posts)
   }
