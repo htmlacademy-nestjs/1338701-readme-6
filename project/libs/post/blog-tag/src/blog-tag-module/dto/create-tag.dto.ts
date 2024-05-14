@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { validationRule } from 'apps/api-gateway/src/app/tag.constant'
 import { IsNotEmpty, Length, Matches } from 'class-validator'
+import { validationRule } from 'libs/post/blog-tag/src/blog-tag-module/blog-tag.constant'
 
 export class CreateTagDto {
   @ApiProperty({

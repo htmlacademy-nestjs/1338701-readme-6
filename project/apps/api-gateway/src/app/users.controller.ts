@@ -4,6 +4,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Param,
   Post,
   Req,
@@ -13,8 +14,8 @@ import {
   UseInterceptors
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { CreateUserDto, LoginUserDto } from '@project/authentication'
-import { MongoIdValidationPipe } from '@project/pipes'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiResponseDescription, CreateUserDto, LoginUserDto } from '@project/authentication'
 import { IAuthUser } from '@project/shared/core'
 import { ApplicationServiceURL } from 'apps/api-gateway/src/app/app.config'
 import { AxiosExceptionFilter } from 'apps/api-gateway/src/app/filters/axios-exception.filter'
@@ -22,13 +23,23 @@ import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard
 import { CheckNoAuthGuard } from 'apps/api-gateway/src/app/guards/check-no-auth.guard'
 import { Request, Express } from 'express'
 import { UploadedFileRdo } from 'libs/upload-library/uploader/src/uploader-module/rdo/upload-file.rdo'
+import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
 
+@ApiTags('Users')
 @Controller('users')
-@UseFilters(AxiosExceptionFilter)
 @UseFilters(AxiosExceptionFilter)
 export class UsersController {
   constructor(private readonly httpService: HttpService) {}
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.CREATED,
+    description: ApiResponseDescription.UserCreated
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: ApiResponseDescription.UserExists
+  })
   @UseGuards(CheckNoAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   @Post('register')
@@ -54,6 +65,19 @@ export class UsersController {
     return authUser
   }
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: ApiResponseDescription.UserLogged
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: ApiResponseDescription.UserNotFound
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: ApiResponseDescription.PasswordWrong
+  })
   @UseGuards(CheckNoAuthGuard)
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
@@ -61,6 +85,10 @@ export class UsersController {
     return data
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ApiResponseDescription.RefreshTokenReceived
+  })
   @Post('refresh')
   public async refreshToken(@Req() req: Request) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/refresh`, null, {
@@ -72,6 +100,11 @@ export class UsersController {
     return data
   }
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'User found'
+  })
   @UseGuards(CheckAuthGuard)
   @Get('/:userId')
   async show(@Param('userId') userId: string) {
