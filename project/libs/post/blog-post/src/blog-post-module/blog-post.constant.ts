@@ -10,6 +10,7 @@ export const DEFAULT_POST_COUNT_LIMIT = 25
 export const DEFAULT_SORT_DIRECTION = SortDirection.Desc
 export const DEFAULT_PAGE_COUNT = 1
 export const DEFAULT_SORT_BY_FIELD = SortField.PublishedAt
+export const DEFAULT_SEARCH_LIMIT = 20
 
 export const ApiPropertyDescription = {
   Title: 'Post title',
@@ -60,3 +61,21 @@ export const validationRule = {
     }
   }
 } as const
+
+export const PostApiDescriptions = {
+  SearchByTitle: 'Search posts by title',
+  CreatePost: 'Create a new post',
+  Show: 'Get a specific post by ID',
+  ShowAll: 'Get all posts',
+  Destroy: 'Delete a post by ID',
+  Update: 'Update a post by ID',
+  CreateComment: 'Create a new comment for a post',
+  DestroyComment: 'Delete a comment by ID',
+  NotifyAboutNewPosts: 'Notify about new posts',
+  LikePost: 'Like a post',
+  DislikePost: 'Dislike a post',
+  RepostPost: 'Repost a post',
+  GetUserPosts: 'Get posts of a specific user',
+  FoundPost: 'The post has benn successfully founded',
+  FoundDrafts: 'Get user drafts'
+}

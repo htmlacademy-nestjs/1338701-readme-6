@@ -1,2 +1,6 @@
 export { BlogPostModule } from './blog-post-module/blog-post.module'
 export { CreatePostDto } from './blog-post-module/dto/create-post.dto'
+export { ActionWithUserDto } from './blog-post-module/dto/action-with-user.dto'
+export { BlogPostQuery } from './blog-post-module/blog-post.query'
+export { PostSearchRdo } from './blog-post-module/rdo/post-search.rdo'
+export { UpdatePostDto } from './blog-post-module/dto/update-post.dto'

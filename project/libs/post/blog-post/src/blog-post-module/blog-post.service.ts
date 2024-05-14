@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { BlogCommentEntity, BlogCommentFactory, CreateCommentDto } from '@project/blog-comment'
 import { BlogTagEntity } from '@project/blog-tag'
-import { IPost, PaginationResult } from '@project/shared/core'
+import { IPost, PaginationResult, PostStatus } from '@project/shared/core'
 import { BlogCommentRepository } from 'libs/post/blog-comment/src/blog-comment-module/blog-comment.repository'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'
 import { CreatePostDto } from 'libs/post/blog-post/src/blog-post-module/dto/create-post.dto'
@@ -44,11 +44,11 @@ export class BlogPostService {
     return await this.commonPostRepository.findAll(query)
   }
 
-  public async deleteCategory(id: string): Promise<void> {
+  public async deletePost(id: string): Promise<void> {
     try {
       await this.commonPostRepository.deleteById(id)
     } catch {
-      throw new NotFoundException(`Category with ID ${id} not found`)
+      throw new NotFoundException(`Post with ID ${id} not found`)
     }
   }
 
@@ -75,5 +75,76 @@ export class BlogPostService {
     await this.blogCommentRepository.save(newComment)
 
     return newComment
+  }
+
+  public async deleteComment(commentId: string) {
+    try {
+      await this.blogCommentRepository.deleteById(commentId)
+    } catch {
+      throw new NotFoundException(`Comment with ID ${commentId} not found`)
+    }
+  }
+
+  public async likePost(postId: string, userId: string) {
+    const existsPost = await this.commonPostRepository.findById(postId)
+    if (!existsPost) {
+      throw new NotFoundException(`Post with ID ${postId} not found`)
+    }
+
+    const userAlreadyLiked = existsPost.likes.includes(userId)
+    if (userAlreadyLiked) {
+      throw new ConflictException(`User with ID ${userId} already liked this post`)
+    }
+
+    if (PostStatus.Published !== existsPost.status) {
+      throw new ForbiddenException('Post is not published')
+    }
+
+    await this.commonPostRepository.likePost(postId, userId)
+
+    return { message: 'Post liked successfully' }
+  }
+
+  public async dislikePost(postId: string, userId: string) {
+    const existsPost = await this.commonPostRepository.findById(postId)
+
+    if (!existsPost) {
+      throw new NotFoundException(`Post with ID ${postId} not found`)
+    }
+    const userAlreadyLiked = existsPost.likes.includes(userId)
+
+    if (!userAlreadyLiked) {
+      throw new ConflictException(`User with ID ${userId} has not liked this post`)
+    }
+
+    const updatedLikes = existsPost.likes.filter((id) => id !== userId)
+
+    await this.commonPostRepository.dislikePost(postId, updatedLikes)
+
+    return { message: 'Post disliked successfully' }
+  }
+
+  public async repostPost(postId: string, userId: string) {
+    const foundPost = await this.commonPostRepository.findById(postId)
+
+    if (!foundPost) {
+      throw new NotFoundException(`Original post with id ${postId} not found.`)
+    }
+
+    const isAlreadyReposted = foundPost.repostedBy.includes(userId)
+
+    if (isAlreadyReposted) {
+      throw new ConflictException(`You have already reposted post with id ${postId}.`)
+    }
+
+    return await this.commonPostRepository.repostPost(foundPost, userId)
+  }
+
+  public async getUserPost(userId: string, query?: BlogPostQuery) {
+    return this.commonPostRepository.findUserPosts(userId, query)
+  }
+
+  public async searchByTitle(title: string) {
+    return this.commonPostRepository.searchByTitle(title)
   }
 }

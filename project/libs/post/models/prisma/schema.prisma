@@ -70,28 +70,35 @@ model PostText {
 }
 
 model Post {
-  id          String     @id @default(uuid())
-  type        PostType
-  title       String
-  status      PostStatus @default(PUBLISHED)
-  tags        Tag[]
-  authorId    String     @map("author_id")
-  likes       String[]
-  comments    Comment[]
-  postVideo   PostVideo? @relation(fields: [postVideoId], references: [id])
-  postVideoId String?    @unique @map("post_video_id")
-  postLink    PostLink?  @relation(fields: [postLinkId], references: [id])
-  postLinkId  String?    @unique @map("post_link_id")
-  postQuote   PostQuote? @relation(fields: [postQuoteId], references: [id])
-  postQuoteId String?    @unique @map("post_quote_id")
-  postPhoto   PostPhoto? @relation(fields: [postPhotoId], references: [id])
-  postPhotoId String?    @unique @map("post_photo_id")
-  postText    PostText?  @relation(fields: [postTextId], references: [id])
-  postTextId  String?    @unique @map("post_text_id")
-  createdAt   DateTime   @default(now()) @map("created_at")
-  publishedAt DateTime   @default(now()) @map("published_at")
-  updatedAt   DateTime   @updatedAt @map("updated_at")
+  id               String     @id @default(uuid())
+  type             PostType
+  title            String
+  status           PostStatus @default(PUBLISHED)
+  tags             Tag[]
+  authorId         String     @map("author_id")
+  originalAuthorId String?    @map("original_author_id")
+  originalPostId   String?    @map("original_post_id")
+  isRepost         Boolean    @default(false) @map("is_repost")
+  repostedBy       String[]   @map("reposted_by")
+  likes            String[]
+  comments         Comment[]
+  likesCount       Int        @default(0)
+  commentsCount    Int        @default(0)
+  postVideo        PostVideo? @relation(fields: [postVideoId], references: [id])
+  postVideoId      String?    @unique @map("post_video_id")
+  postLink         PostLink?  @relation(fields: [postLinkId], references: [id])
+  postLinkId       String?    @unique @map("post_link_id")
+  postQuote        PostQuote? @relation(fields: [postQuoteId], references: [id])
+  postQuoteId      String?    @unique @map("post_quote_id")
+  postPhoto        PostPhoto? @relation(fields: [postPhotoId], references: [id])
+  postPhotoId      String?    @unique @map("post_photo_id")
+  postText         PostText?  @relation(fields: [postTextId], references: [id])
+  postTextId       String?    @unique @map("post_text_id")
+  createdAt        DateTime   @default(now()) @map("created_at")
+  publishedAt      DateTime   @default(now()) @map("published_at")
+  updatedAt        DateTime   @updatedAt @map("updated_at")
 
+  @@index([title], name: "idx_post_title")
   @@map("posts")
 }
 

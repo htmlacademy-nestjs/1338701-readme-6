@@ -1,5 +1,6 @@
+import { UsePipes } from '@nestjs/common'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { PostType } from '@project/shared/core'
+import { PostStatus, PostType } from '@project/shared/core'
 import { Type } from 'class-transformer'
 import {
   IsArray,
@@ -19,9 +20,12 @@ import { PostPhotoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-
 import { PostQuoteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-quote.dto'
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
+import { RemoveDuplicateTagsPipe } from 'libs/post/blog-post/src/blog-post-module/pipes/remove-duplicate-tags.pipe'
 import { IsValidPostContent } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-content'
 import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-props'
+import { TagArrayValidator } from 'libs/post/blog-post/src/blog-post-module/validators/tag-array-validator'
 
+@UsePipes(RemoveDuplicateTagsPipe)
 export class CreatePostDto {
   @ApiProperty({
     description: ApiPropertyDescription.Title,
@@ -51,11 +55,23 @@ export class CreatePostDto {
   public authorId: string
 
   @ApiProperty({
+    description: 'Status',
+    example: 'DRAFT',
+    enum: PostStatus
+  })
+  @IsEnum(PostStatus)
+  @IsNotEmpty()
+  @IsOptional()
+  public status: PostStatus
+
+  @ApiProperty({
     description: ApiPropertyDescription.Tag,
     example: []
   })
   @IsUUID('all', { each: true })
   @IsArray()
+  @IsOptional()
+  @Validate(TagArrayValidator)
   public tags: string[]
 
   @Validate(IsValidPostProps)

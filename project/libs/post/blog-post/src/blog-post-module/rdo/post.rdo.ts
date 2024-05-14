@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IPostLink, IPostPhoto, IPostQuote, IPostText, PostStatus, PostType } from '@project/shared/core'
+import { PostStatus, PostType } from '@project/shared/core'
 import { Expose, Type } from 'class-transformer'
 import { PostLinkRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-link.rdo'
 import { PostPhotoRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-photo.rdo'
@@ -45,6 +45,24 @@ export class PostRdo {
   })
   @Expose()
   public authorId: string
+
+  @Expose()
+  originalAuthorId?: string
+
+  @Expose()
+  originalPostId?: string
+
+  @Expose()
+  public isRepost?: boolean
+
+  @Expose()
+  public repostedBy: string[]
+
+  @Expose()
+  public likesCount: number
+
+  @Expose()
+  public commentsCount: number
 
   @ApiProperty({
     description: 'List of IDs who liked it',

@@ -26,7 +26,6 @@ export class EmailSubscriberController {
     queue: RabbitQueue.SendPosts
   })
   public async sendPostNotifications(posts: IPost[]) {
-    console.log('WORK2')
     const subscribers = await this.subscriberService.getAllSubscribers()
     for (const subscriber of subscribers) {
       await this.mailService.sendPostNotification(subscriber, posts)
