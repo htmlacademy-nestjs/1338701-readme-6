@@ -162,4 +162,9 @@ export class PostController {
   public async destroyComment(@Param('postId') postId: string, @Param('commentId') commentId: string) {
     await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Posts}/${postId}/comments/${commentId}`)
   }
+
+  @Post('/notify')
+  public async notifyAboutNewPosts() {
+    await this.httpService.axiosRef.post(`${ApplicationServiceURL.Posts}/notify`)
+  }
 }
