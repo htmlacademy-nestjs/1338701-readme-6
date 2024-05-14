@@ -15,9 +15,11 @@ import {
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
+import { CommentRdo, CreateCommentDto } from '@project/blog-comment'
 import { ActionWithUserDto, BlogPostQuery, CreatePostDto, PostSearchRdo, UpdatePostDto } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
 import { IPost, IRequestWithPayload, PostStatus } from '@project/shared/core'
+import { fillDto } from '@project/shared/helpers'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { ApplicationServiceURL } from './app.config'
@@ -140,5 +142,21 @@ export class PostController {
     const { data: post } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Posts}/${postId}`, dto)
     console.log(post)
     return post
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectAuthorIdInterceptor)
+  @Post('/:postId/comments')
+  public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
+    const { data: comment } = await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.Posts}/${postId}/comments`,
+      dto
+    )
+    return comment
+  }
+
+  @Delete('/:postId/comments/:commentId')
+  public async destroyComment(@Param('postId') postId: string, @Param('commentId') commentId: string) {
+    await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Posts}/${postId}/comments/${commentId}`)
   }
 }
