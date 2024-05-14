@@ -15,7 +15,7 @@ import {
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
-import { ActionWithUserDto, BlogPostQuery, CreatePostDto, PostSearchRdo } from '@project/blog-post'
+import { ActionWithUserDto, BlogPostQuery, CreatePostDto, PostSearchRdo, UpdatePostDto } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
 import { IPost, IRequestWithPayload, PostStatus } from '@project/shared/core'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
@@ -133,5 +133,12 @@ export class PostController {
     }
 
     await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Posts}/${postId}`)
+  }
+
+  @Patch('/:postId')
+  async updatePost(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
+    const { data: post } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Posts}/${postId}`, dto)
+    console.log(post)
+    return post
   }
 }

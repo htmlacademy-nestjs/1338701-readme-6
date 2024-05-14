@@ -1,11 +1,12 @@
 import 'multer'
 import { HttpService } from '@nestjs/axios'
-import { Body, Controller, Post, Req, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Post, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { CreateUserDto, LoginUserDto } from '@project/authentication'
 import { IAuthUser } from '@project/shared/core'
 import { ApplicationServiceURL } from 'apps/api-gateway/src/app/app.config'
 import { AxiosExceptionFilter } from 'apps/api-gateway/src/app/filters/axios-exception.filter'
+import { CheckNoAuthGuard } from 'apps/api-gateway/src/app/guards/check-no-auth.guard'
 import { Request, Express } from 'express'
 import { UploadedFileRdo } from 'libs/upload-library/uploader/src/uploader-module/rdo/upload-file.rdo'
 
@@ -15,6 +16,7 @@ import { UploadedFileRdo } from 'libs/upload-library/uploader/src/uploader-modul
 export class UsersController {
   constructor(private readonly httpService: HttpService) {}
 
+  @UseGuards(CheckNoAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   @Post('register')
   public async register(@Body() createUserDto: CreateUserDto, @UploadedFile() avatar: Express.Multer.File) {
@@ -39,6 +41,7 @@ export class UsersController {
     return authUser
   }
 
+  @UseGuards(CheckNoAuthGuard)
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/login`, loginUserDto)
