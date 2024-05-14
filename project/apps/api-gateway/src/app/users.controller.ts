@@ -1,11 +1,24 @@
 import 'multer'
 import { HttpService } from '@nestjs/axios'
-import { Body, Controller, Post, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UploadedFile,
+  UseFilters,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { CreateUserDto, LoginUserDto } from '@project/authentication'
+import { MongoIdValidationPipe } from '@project/pipes'
 import { IAuthUser } from '@project/shared/core'
 import { ApplicationServiceURL } from 'apps/api-gateway/src/app/app.config'
 import { AxiosExceptionFilter } from 'apps/api-gateway/src/app/filters/axios-exception.filter'
+import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard'
 import { CheckNoAuthGuard } from 'apps/api-gateway/src/app/guards/check-no-auth.guard'
 import { Request, Express } from 'express'
 import { UploadedFileRdo } from 'libs/upload-library/uploader/src/uploader-module/rdo/upload-file.rdo'
@@ -56,6 +69,13 @@ export class UsersController {
       }
     })
 
+    return data
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @Get('/:userId')
+  async show(@Param('userId') userId: string) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${userId}`)
     return data
   }
 }
