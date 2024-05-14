@@ -61,3 +61,21 @@ export const validationRule = {
     }
   }
 } as const
+
+export const PostApiDescriptions = {
+  SearchByTitle: 'Search posts by title',
+  CreatePost: 'Create a new post',
+  Show: 'Get a specific post by ID',
+  ShowAll: 'Get all posts',
+  Destroy: 'Delete a post by ID',
+  Update: 'Update a post by ID',
+  CreateComment: 'Create a new comment for a post',
+  DestroyComment: 'Delete a comment by ID',
+  NotifyAboutNewPosts: 'Notify about new posts',
+  LikePost: 'Like a post',
+  DislikePost: 'Dislike a post',
+  RepostPost: 'Repost a post',
+  GetUserPosts: 'Get posts of a specific user',
+  FoundPost: 'The post has benn successfully founded',
+  FoundDrafts: 'Get user drafts'
+}
