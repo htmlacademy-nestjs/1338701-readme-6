@@ -32,6 +32,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<IAuthUser> 
       email: this.email,
       username: this.username,
       avatarId: this.avatarId,
+      passwordHash: this.passwordHash,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

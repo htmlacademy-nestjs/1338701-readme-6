@@ -40,6 +40,8 @@ export abstract class BaseMongoRepository<
       .findByIdAndUpdate(entity.id, entity.toPOJO() as UpdateQuery<DocumentType>, { new: true, runValidators: true })
       .exec()
 
+    console.log('updatedDocument', updatedDocument)
+
     if (!updatedDocument) {
       throw new NotFoundException(`Entity with id ${entity.id} not found`)
     }

@@ -1,9 +1,22 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards
+} from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { MongoIdValidationPipe } from '@project/pipes'
 import { fillDto } from '@project/shared/helpers'
 import { ApiResponseDescription } from 'libs/user/authentication/src/authentication-module/authentication.constant'
 import { AuthenticationService } from 'libs/user/authentication/src/authentication-module/authentication.service'
+import { ChagePasswordDto } from 'libs/user/authentication/src/authentication-module/dto/chage-password.dto'
 import { CreateUserDto } from 'libs/user/authentication/src/authentication-module/dto/create-user.dto'
 import { JwtAuthGuard } from 'libs/user/authentication/src/authentication-module/guards/jwt-auth.guard'
 import { JwtRefreshGuard } from 'libs/user/authentication/src/authentication-module/guards/jwt-refresh.guard'
@@ -86,5 +99,16 @@ export class AuthenticationController {
   @Post('check')
   public async checkToken(@Req() { user: payload }: IRequestWithTokenPayload) {
     return payload
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ApiResponseDescription.ChangePassword
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch('/changePassword')
+  public async changePassword(@Req() { user: payload }: IRequestWithTokenPayload, @Body() dto: ChagePasswordDto) {
+    await this.authService.changePassword(dto.currentPassword, dto.newPassword, payload?.sub)
+    return { message: 'Password changed successfully' }
   }
 }

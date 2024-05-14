@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   HttpException,
   HttpStatus,
@@ -110,5 +111,27 @@ export class AuthenticationService {
     }
 
     return existUser
+  }
+
+  public async changePassword(currentPassword: string, newPassword: string, userId?: string): Promise<void> {
+    if (!userId) {
+      throw new BadRequestException('User not defined')
+    }
+    const user = await this.getUser(userId)
+    if (!user.passwordHash) {
+      return
+    }
+
+    const isCorrectPassword = await this.hasher.compareHash(currentPassword, user.passwordHash)
+
+    if (!isCorrectPassword) {
+      throw new UnauthorizedException(ApiResponseDescription.PasswordWrong)
+    }
+
+    const newPasswordHash = await this.hasher.hash(newPassword)
+    const newUserEntity = await user.setPassword(newPasswordHash)
+    console.log(newUserEntity)
+
+    await this.blogUserRepository.update(newUserEntity)
   }
 }

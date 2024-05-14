@@ -6,6 +6,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Req,
   UploadedFile,
@@ -23,6 +24,7 @@ import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard
 import { CheckNoAuthGuard } from 'apps/api-gateway/src/app/guards/check-no-auth.guard'
 import { Request, Express } from 'express'
 import { UploadedFileRdo } from 'libs/upload-library/uploader/src/uploader-module/rdo/upload-file.rdo'
+import { ChagePasswordDto } from 'libs/user/authentication/src/authentication-module/dto/chage-password.dto'
 import { UserRdo } from 'libs/user/blog-user/src/blog-user-module/rdo/user.rdo'
 
 @ApiTags('Users')
@@ -109,6 +111,21 @@ export class UsersController {
   @Get('/:userId')
   async show(@Param('userId') userId: string) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${userId}`)
+    return data
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ApiResponseDescription.ChangePassword
+  })
+  @UseGuards(CheckAuthGuard)
+  @Patch('changePassword')
+  public async changePassword(@Req() req: Request, @Body() dto: ChagePasswordDto) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Auth}/changePassword`, dto, {
+      headers: {
+        Authorization: req.headers['authorization']
+      }
+    })
     return data
   }
 }
