@@ -17,12 +17,13 @@ export class BlogTagService {
   }
 
   public async createTag(dto: CreateTagDto): Promise<BlogTagEntity> {
-    const existsCategory = (await this.blogTagRepository.find({ name: dto.name })).at(0)
+    const { name } = dto
+    const existsCategory = (await this.blogTagRepository.find({ name: name.toLowerCase() })).at(0)
     if (existsCategory) {
       throw new ConflictException('A tag with the name already exists')
     }
 
-    const newTag = new BlogTagEntity(dto)
+    const newTag = new BlogTagEntity({ name: name.toLowerCase() })
     await this.blogTagRepository.save(newTag)
 
     return newTag

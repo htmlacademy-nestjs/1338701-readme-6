@@ -20,6 +20,7 @@ import { PostQuoteDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-
 import { PostTextDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-text.dto'
 import { PostVideoDto } from 'libs/post/blog-post/src/blog-post-module/dto/post-video.dto'
 import { IsValidPostProps } from 'libs/post/blog-post/src/blog-post-module/validators/is-valid-post-props'
+import { TagArrayValidator } from 'libs/post/blog-post/src/blog-post-module/validators/tag-array-validator'
 
 export class UpdatePostDto {
   @ApiProperty({
@@ -68,6 +69,7 @@ export class UpdatePostDto {
   @IsArray()
   @ArrayNotEmpty()
   @IsOptional()
+  @Validate(TagArrayValidator)
   public tags?: string[]
 
   @IsObject()
