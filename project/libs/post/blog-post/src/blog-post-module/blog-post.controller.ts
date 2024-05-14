@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment'
-import { PostStatus } from '@project/shared/core'
 import { fillDto } from '@project/shared/helpers'
 import { POST_NOT_FOUND } from 'libs/post/blog-post/src/blog-post-module/blog-post.constant'
 import { BlogPostQuery } from 'libs/post/blog-post/src/blog-post-module/blog-post.query'

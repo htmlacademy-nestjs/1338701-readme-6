@@ -5,6 +5,8 @@ import {
   Delete,
   ForbiddenException,
   Get,
+  HttpCode,
+  HttpStatus,
   NotFoundException,
   Param,
   Patch,
@@ -15,11 +17,10 @@ import {
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
-import { CommentRdo, CreateCommentDto } from '@project/blog-comment'
+import { CreateCommentDto } from '@project/blog-comment'
 import { ActionWithUserDto, BlogPostQuery, CreatePostDto, PostSearchRdo, UpdatePostDto } from '@project/blog-post'
 import { InjectAuthorIdInterceptor, InjectUserIdInterceptor } from '@project/interceptors'
 import { IPost, IRequestWithPayload, PostStatus } from '@project/shared/core'
-import { fillDto } from '@project/shared/helpers'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
 import { PostWithPaginationRdo } from 'libs/post/blog-post/src/blog-post-module/rdo/post-with-pagination.rdo'
 import { ApplicationServiceURL } from './app.config'
@@ -125,6 +126,7 @@ export class PostController {
 
   @UseGuards(CheckAuthGuard)
   @Delete(':postId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deletePost(@Param('postId') postId: string, @Req() req: IRequestWithPayload) {
     const post = await this.show(postId)
     const userId = req.user.sub
@@ -156,6 +158,7 @@ export class PostController {
   }
 
   @Delete('/:postId/comments/:commentId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   public async destroyComment(@Param('postId') postId: string, @Param('commentId') commentId: string) {
     await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Posts}/${postId}/comments/${commentId}`)
   }

@@ -5,6 +5,7 @@ import { CheckNoAuthGuard } from 'apps/api-gateway/src/app/guards/check-no-auth.
 import { PostController } from 'apps/api-gateway/src/app/post.controller'
 import { CheckAuthGuard } from 'apps/api-gateway/src/app/guards/check-auth.guard'
 import { PostService } from 'apps/api-gateway/src/app/post.service'
+import { TagController } from 'apps/api-gateway/src/app/tag.controller'
 import { UsersController } from 'apps/api-gateway/src/app/users.controller'
 
 @Module({
@@ -14,7 +15,7 @@ import { UsersController } from 'apps/api-gateway/src/app/users.controller'
       maxRedirects: HTTP_CLIENT_MAX_REDIRECTS
     })
   ],
-  controllers: [UsersController, PostController],
+  controllers: [UsersController, PostController, TagController],
   providers: [CheckAuthGuard, PostService, CheckNoAuthGuard]
 })
 export class AppModule {}
